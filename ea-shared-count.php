@@ -2,7 +2,7 @@
 /**
  * Plugin Name: EA Share Count
  * Plugin URI:  https://github.com/jaredatch/EA-Share-Count
- * Description: 
+ * Description: A lean plugin that leverages SharedCount.com API to quickly retrieve, cache, and display various social sharing counts.
  * Author:      Bill Erickson & Jared Atchison
  * Version:     1.0.0
  *
@@ -71,7 +71,7 @@ final class EA_Share_Count {
 
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof EA_Share_Count ) ) {
 			self::$instance = new EA_Share_Count;
-			$this->init();
+			self::$instance->init();
 		}
 		return self::$instance;
 	}
@@ -97,7 +97,7 @@ final class EA_Share_Count {
 	 */
 	public function counts( $id = false, $array = false ) {
 
-		if ( 'site' == $site ) {
+		if ( 'site' == $id ) {
 			$post_date    = true;
 			$post_url     = home_url();
 			$share_count  = get_option( 'ea_share_count' );
@@ -105,7 +105,7 @@ final class EA_Share_Count {
 			
 		} else {
 			$post_id      = $id ? $id : get_the_ID();
-			$post_date    = false;
+			$post_date    = get_the_date( 'U', $post_id );
 			$post_url     = get_permalink( $post_id );
 			$share_count  = get_post_meta( $post_id, 'ea_share_count', true );
 			$last_updated = get_post_meta( $post_id, 'ea_share_count_datetime', true );
@@ -114,7 +114,7 @@ final class EA_Share_Count {
 		// Rebuild and update meta if necessary
 		if ( ! $share_count || ! $last_updated || $this->needs_updating( $last_updated, $post_date ) ) {
 			
-			$share_count = $this->query_api( $post_url ) );
+			$share_count = $this->query_api( $post_url );
 
 			if ( $share_count && 'site' == $id ) {
 				update_option( 'ea_share_count', $share_count );
@@ -125,7 +125,7 @@ final class EA_Share_Count {
 			}
 		}
 
-		if ( ! $share_count && $array == true ) {
+		if ( $share_count && $array == true ) {
 			$share_count = json_decode( $share_count, true );
 		}
 
@@ -197,14 +197,10 @@ final class EA_Share_Count {
 	 * @param int $post_date, unix timestamp
 	 * @return bool $needs_updating
 	 */
-	function needs_updating( $last_updated = false, $post_date = false ) {
+	function needs_updating( $last_updated = false, $post_date ) {
 	
 		if ( ! $last_updated ) {
 			return true;
-		}
-			
-		if ( ! $post_date ) {
-			$post_date = get_the_date( 'U', $post_id );
 		}
 	
 		$update_increments = array(
@@ -221,6 +217,7 @@ final class EA_Share_Count {
 				'increment' => strtotime( '-2 days' ),
 			)
 		);
+		$update_increments = apply_filters( 'ea_share_count_update_increments', $update_increments, $post_date );
 		
 		$increment = false;
 		foreach ( $update_increments as $i ) {
@@ -259,14 +256,14 @@ final class EA_Share_Count {
 	}
 
 	/**
-	 * Generate sharing links
+	 * Generate sharing links.
 	 *
 	 * For styling: https://gist.github.com/billerickson/a67bf451675296b144ea
 	 *
 	 * @since 1.0.0
-	 * @param string $type, button type
+	 * @param string $types, button type
 	 * @param int/string $id, pass 'site' for full site stats
-	 * @return string $button_output
+	 * @param boolean $echo
 	 */
 	function link( $types = 'facebook', $id = false, $echo = true ) {
 
@@ -340,10 +337,14 @@ final class EA_Share_Count {
 					break;
 			}
 
-			$link = apply_filters( 'ea_share_count_link', $data );
+			$link = apply_filters( 'ea_share_count_link', $link );
 
-			$output .= '<a href="' . $link['link'] . '" target="_blank" class="ea-share-count ' . sanitize_html_class( $link['type'] ) . '">';
-
+			$output .= '<a href="' . $link['link'] . '" target="_blank" class="ea-share-count-button ' . sanitize_html_class( $link['type'] ) . '">';
+				$output .= '<span class="ea-share-count-icon-label">';
+					$output .= '<i class="ea-share-count-icon ' . $link['icon'] . '"></i>';
+					$output .= '<span class="ea-share-count-label">' . $link['label'] . '</span>';
+				$output .= '</span>';
+				$output .= '<span class="ea-share-count">' . $link['count'] . '</span>'; 
 			$output .= '</a>';
 		}
 
@@ -352,17 +353,6 @@ final class EA_Share_Count {
 		} else {
 			return $output;
 		}
-		
-		/*
-		if( 'fb-like' == $type && isset( $count->Facebook->like_count ) )
-			return '<a class="social-count facebook-like-button" href=" . '"><span class="blue"><i class="icon-social-facebook"></i>Like</span> <span class="count">' . $count->Facebook->like_count . '</span></a>';
-			
-		if( 'fb-share' == $type && isset( $count->Facebook->share_count ) )
-			return '<a class="social-count facebook-share-button" href="http://www.facebook.com/plugins/share_button.php?href=' . urlencode( $url ) . '"><span class="blue"><i class="icon-social-facebook"></i>Share</span> <span class="count">' . $count->Facebook->share_count . '</span></a>';
-			
-		if( 'twitter' == $type && isset( $count->Twitter ) )
-			return '<a class="social-count twitter-button" href=""><span class="tweet"><i class="icon-twitter"></i><span class="label">Tweet</span></span><span class="count">' . $count->Twitter . '</span></a>';
-		*/
 	}
 }
 
