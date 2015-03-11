@@ -46,12 +46,20 @@ final class EA_Share_Count {
 	private static $instance;
 
 	/**
+	 * Plugin version.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	private $version = '1.0.0';
+
+	/**
 	 * Domain for accessing SharedCount API.
 	 *
 	 * @since 1.0.0
 	 * @var string
 	 */
-	private $api_domain;
+	public $api_domain;
 	
 	/**
 	 * API Key for SharedCount.
@@ -59,7 +67,14 @@ final class EA_Share_Count {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	private $api_key;
+	public $api_key;
+
+	/**
+	 * Holds if a share link as been output.
+	 *
+	 * @since  1.0.0
+	 */
+	public $share_link = false;
 	
 	/** 
 	 * Share Count Instance.
@@ -82,6 +97,17 @@ final class EA_Share_Count {
 	 * @since 1.0.0
 	 */
 	public function init() {
+
+		add_action( 'init',      array( $this, 'load'          )    );
+		add_action( 'wp_footer', array( $this, 'footer_assets' ), 1 );
+	}
+
+	/**
+	 * Load properties
+	 *
+	 * @since 1.0.0
+	 */
+	public function load() {
 
 		$this->api_key    = apply_filters( 'ea_share_count_key', '' );
 		$this->api_domain = apply_filters( 'ea_share_count_domain', 'http://free.sharedcount.com' );
@@ -182,6 +208,10 @@ final class EA_Share_Count {
 			}
 		}
 
+		if ( empty( $share_count ) ) {
+			$share_count = '0';
+		}
+
 		if ( $echo ) {
 			echo $share_count;
 		} else {
@@ -271,12 +301,14 @@ final class EA_Share_Count {
 			$id = get_the_ID();
 		}
 
+		$this->share_link = true;
 		$types  = (array) $types;
 		$output = '';
 
 		foreach ( $types as $type ) {
-			$link         = array();
-			$link['type'] = $type;
+			$link          = array();
+			$link['type']  = $type;
+			$link['class'] = 'generic';
 
 			if ( 'site' == $id ) {
 				$link['url']   = home_url();
@@ -339,7 +371,7 @@ final class EA_Share_Count {
 
 			$link = apply_filters( 'ea_share_count_link', $link );
 
-			$output .= '<a href="' . $link['link'] . '" target="_blank" class="ea-share-count-button ' . sanitize_html_class( $link['type'] ) . '">';
+			$output .= '<a href="' . $link['link'] . '" target="_blank" class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '">';
 				$output .= '<span class="ea-share-count-icon-label">';
 					$output .= '<i class="ea-share-count-icon ' . $link['icon'] . '"></i>';
 					$output .= '<span class="ea-share-count-label">' . $link['label'] . '</span>';
@@ -348,12 +380,67 @@ final class EA_Share_Count {
 			$output .= '</a>';
 		}
 
+		
+
 		if ( $echo == true ) {
 			echo $output;
 		} else {
 			return $output;
 		}
 	}
+
+	/**
+	 * Determines if assets need to be loaded in the footer.
+	 *
+	 * @since 1.0.0
+	 */
+	public function footer_assets() {
+
+		// Only continue if a share link was previously used in the page.
+		if ( ! $this->share_link ) {
+			return;
+		}
+
+		// Load CSS
+		if ( apply_filters( 'ea_share_count_load_css', true ) ) {
+			wp_enqueue_style( 'ea-share-count', plugins_url( 'share-count.css', __FILE__ ), array(), $this->version );
+		}
+
+		// Load JS
+		if ( apply_filters( 'ea_share_count_load_js', true ) ) {
+			wp_enqueue_script( 'jquery' );
+			?>
+			<script type="text/javascript">
+			jQuery(document).ready(function($){
+				$('.ea-share-count-button').click(function(event){
+					event.preventDefault();
+					var window_size = '';
+					var url = this.href;
+					var domain = url.split("/")[2];
+					switch(domain) {
+						case "www.facebook.com":
+							window_size = "width=585,height=368";
+							break;
+						case "twitter.com":
+							window_size = "width=585,height=261";
+							break;
+						case "plus.google.com":
+							window_size = "width=517,height=511";
+							break;
+						case "pinterest.com":
+							window_size = "width=700,height=300";
+							break;
+						default:
+							window_size = "width=585,height=515";
+					}
+					window.open(url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,' + window_size);
+				});
+			});
+			</script>
+			<?php
+		}
+	}
+
 }
 
 /**
