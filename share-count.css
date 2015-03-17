@@ -73,3 +73,39 @@
 	line-height: 12px;
 	vertical-align: middle;
 }
+
+/* Twitter
+--------------------------------------------- */
+
+.ea-share-count-button.twitter.style-bubble {
+	display: inline-block;
+}
+ 
+.ea-share-count-button.twitter.style-bubble .ea-share-count-icon-label {
+	position: relative;
+	background-color: #eee;
+	background-image: -webkit-linear-gradient(#fff,#dedede);
+	background-image: linear-gradient(#fff,#dedede);
+	border: #ccc solid 1px;
+	border-radius: 3px;
+	color: #333;
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	text-shadow: 0 1px 0 rgba(255,255,255,.5);
+	cursor: pointer;
+	height: 20px;
+	line-height: 16px;
+	max-width: 100%;
+	overflow: hidden;
+	padding: 1px 3px 1px 1px;
+	display: block;
+	float: left;
+}
+ 
+.ea-share-count-button.twitter.style-bubble .ea-share-count-icon-label i {
+	color: #55ACEE;
+	line-height: 1;
+	font-size: 16px;
+	vertical-align: middle;
+}
