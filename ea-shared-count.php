@@ -247,7 +247,7 @@ final class EA_Share_Count {
 				'increment' => strtotime( '-2 days' ),
 			)
 		);
-		$update_increments = apply_filters( 'ea_share_count_update_increments', $update_increments, $post_date );
+		$update_increments = apply_filters( 'ea_share_count_update_increments', $update_increments );
 		
 		$increment = false;
 		foreach ( $update_increments as $i ) {
