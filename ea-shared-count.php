@@ -295,7 +295,7 @@ final class EA_Share_Count {
 	 * @param int/string $id, pass 'site' for full site stats
 	 * @param boolean $echo
 	 */
-	function link( $types = 'facebook', $id = false, $echo = true ) {
+	function link( $types = 'facebook', $id = false, $echo = true, $style = 'generic' ) {
 
 		if ( !$id ) {
 			$id = get_the_ID();
@@ -308,7 +308,7 @@ final class EA_Share_Count {
 		foreach ( $types as $type ) {
 			$link          = array();
 			$link['type']  = $type;
-			$link['class'] = 'generic';
+			$link['class'] = esc_attr( 'style-' . $style );
 
 			if ( 'site' == $id ) {
 				$link['url']   = home_url();
