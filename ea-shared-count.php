@@ -444,7 +444,7 @@ final class EA_Share_Count {
 }
 
 /**
- * The function which returns the one WP_Forms instance.
+ * The function provides access to the sharing methods.
  *
  * Use this function like you would a global variable, except without needing
  * to declare the global.
