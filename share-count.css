@@ -47,14 +47,20 @@
 /* Facebook
 --------------------------------------------- */
 
-.ea-share-count-button.facebook_likes.style-bubble {
+.ea-share-count-button.style-bubble.facebook,
+.ea-share-count-button.style-bubble.facebook_likes,
+.ea-share-count-button.style-bubble.facebook_shares,
+.ea-share-count-button.style-bubble.facebook_comments {
 	line-height: 1;
 	font-size: 11px;
 	font-family: 'Lucida Grande', 'Tahoma', sans-serif;
 	display: inline-block;
 }
 
-.ea-share-count-button.facebook_likes.style-bubble .ea-share-count-icon-label {
+.ea-share-count-button.style-bubble.facebook .ea-share-count-icon-label,
+.ea-share-count-button.style-bubble.facebook_likes .ea-share-count-icon-label,
+.ea-share-count-button.style-bubble.facebook_shares .ea-share-count-icon-label,
+.ea-share-count-button.style-bubble.facebook_comments .ea-share-count-icon-label {
 	background: #5661b5;
 	border-radius: 2px;
 	color: #fff;
@@ -64,11 +70,17 @@
 	padding: 4px 4px 3px;
 }
 
-.ea-share-count-button.facebook_likes.style-bubble:hover .ea-share-count-icon-label {
+.ea-share-count-button.style-bubble.facebook:hover .ea-share-count-icon-label,
+.ea-share-count-button.style-bubble.facebook_likes:hover .ea-share-count-icon-label,
+.ea-share-count-button.style-bubble.facebook_shares:hover .ea-share-count-icon-label,
+.ea-share-count-button.style-bubble.facebook_comments:hover .ea-share-count-icon-label {
 	background: #506dc0;
 }
 
-.ea-share-count-button.facebook_likes.style-bubble i {
+.ea-share-count-button.style-bubble.facebook i,
+.ea-share-count-button.style-bubble.facebook_likes i,
+.ea-share-count-button.style-bubble.facebook_shares i,
+.ea-share-count-button.style-bubble.facebook_comments i  {
 	font-size: 16px;
 	line-height: 12px;
 	vertical-align: middle;
