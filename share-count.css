@@ -1,0 +1,75 @@
+/* Bubble Style
+---------------------------------------------------------------------------------------------------- */
+
+.ea-share-count-button.style-bubble .ea-share-count {
+	background: #fff;
+	border-radius: 2px;
+	color: #6c7080;
+	display: block;
+	font-family: 'Lucida Grande', 'Tahoma', sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	line-height: 18px;
+	float: left;
+	line-height: 18px;
+	padding: 0 4px 0;
+	margin-left: 6px;
+	position: relative;
+	border: 1px solid #333;
+}
+ 
+.ea-share-count-button.style-bubble .ea-share-count:after,
+.ea-share-count-button.style-bubble .ea-share-count:before {
+	right: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+ 
+.ea-share-count-button.style-bubble .ea-share-count:after {
+	border-color: rgba(255, 255, 255, 0);
+	border-right-color: #ffffff;
+	border-width: 4px;
+	margin-top: -4px;
+}
+ 
+.ea-share-count-button.style-bubble .ea-share-count:before {
+	border-color: rgba(51, 51, 51, 0);
+	border-right-color: #333333;
+	border-width: 5px;
+	margin-top: -5px;
+}
+
+/* Facebook
+--------------------------------------------- */
+
+.ea-share-count-button.facebook_likes.style-bubble {
+	line-height: 1;
+	font-size: 11px;
+	font-family: 'Lucida Grande', 'Tahoma', sans-serif;
+	display: inline-block;
+}
+
+.ea-share-count-button.facebook_likes.style-bubble .ea-share-count-icon-label {
+	background: #5661b5;
+	border-radius: 2px;
+	color: #fff;
+	display: block;
+	float: left;
+	font-weight: 400;
+	padding: 4px 4px 3px;
+}
+
+.ea-share-count-button.facebook_likes.style-bubble:hover .ea-share-count-icon-label {
+	background: #506dc0;
+}
+
+.ea-share-count-button.facebook_likes.style-bubble i {
+	font-size: 16px;
+	line-height: 12px;
+	vertical-align: middle;
+}
