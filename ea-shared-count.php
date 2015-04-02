@@ -415,21 +415,6 @@ final class EA_Share_Count {
 		return $output;
 	}
 	
-	 /*
-	public static double roundToSignificantFigures( $num, $n) {
-	    if($num == 0) {
-	        return 0;
-	    }
-	
-		$d = Math.ceil(Math.log10($num < 0 ? -$num: $num));
-		$power = $n - (int) $d;
-	
-		$magnitude = Math.pow(10, $power);
-		$shifted = Math.round($num*$magnitude);
-	    return $shifted/$magnitude;
-	}
-	 */
-
 	/**
 	 * Determines if assets need to be loaded in the footer.
 	 *
