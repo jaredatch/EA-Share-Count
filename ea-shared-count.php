@@ -370,13 +370,14 @@ final class EA_Share_Count {
 			}
 
 			$link = apply_filters( 'ea_share_count_link', $link );
+			$count = $this->round_count( $link['count'], 2 );
 
 			$output .= '<a href="' . $link['link'] . '" target="_blank" class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '">';
 				$output .= '<span class="ea-share-count-icon-label">';
 					$output .= '<i class="ea-share-count-icon ' . $link['icon'] . '"></i>';
 					$output .= '<span class="ea-share-count-label">' . $link['label'] . '</span>';
 				$output .= '</span>';
-				$output .= '<span class="ea-share-count">' . $link['count'] . '</span>'; 
+				$output .= '<span class="ea-share-count">' . $count . '</span>'; 
 			$output .= '</a>';
 		}
 
@@ -388,6 +389,46 @@ final class EA_Share_Count {
 			return $output;
 		}
 	}
+	
+	/**
+	 * Round to Significant Figures
+	 *
+	 * @param int $num, actual number
+	 * @param int $n, significant digits to round to
+	 * @return $num, rounded number
+	 */
+	function round_count( $num = 0, $n = 0 ) {
+		if( $num == 0 )
+			return 0;
+		
+		$d = ceil( log( $num < 0 ? -$num : $num, 10 ) );
+		$power = $n - $d;
+		$magnitude = pow( 10, $power );
+		$shifted = round( $num * $magnitude );
+		$output = $shifted/$magnitude;
+		
+		if( $output > 1000000 )
+			$output = $output / 1000000 . 'm';
+		elseif( $output > 1000 )
+			$output = $output / 1000 . 'k';
+		
+		return $output;
+	}
+	
+	 /*
+	public static double roundToSignificantFigures( $num, $n) {
+	    if($num == 0) {
+	        return 0;
+	    }
+	
+		$d = Math.ceil(Math.log10($num < 0 ? -$num: $num));
+		$power = $n - (int) $d;
+	
+		$magnitude = Math.pow(10, $power);
+		$shifted = Math.round($num*$magnitude);
+	    return $shifted/$magnitude;
+	}
+	 */
 
 	/**
 	 * Determines if assets need to be loaded in the footer.
