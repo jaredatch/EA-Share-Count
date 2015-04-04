@@ -165,6 +165,7 @@ final class EA_Share_Count {
 	 * @param int/string $id, pass 'site' for full site stats
 	 * @param string $type
 	 * @param boolean $echo
+	 * @param int $round, how many significant digits on count
 	 * @return int
 	 */
 	public function count( $id = false, $type = 'facebook', $echo = false, $round = 2 ) {
@@ -297,6 +298,8 @@ final class EA_Share_Count {
 	 * @param string $types, button type
 	 * @param int/string $id, pass 'site' for full site stats
 	 * @param boolean $echo
+	 * @param string $style
+	 * @param int $round, how many significant digits on count
 	 */
 	function link( $types = 'facebook', $id = false, $echo = true, $style = 'generic', $round = 2 ) {
 
