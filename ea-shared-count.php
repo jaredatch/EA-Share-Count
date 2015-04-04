@@ -298,7 +298,7 @@ final class EA_Share_Count {
 	 * @param int/string $id, pass 'site' for full site stats
 	 * @param boolean $echo
 	 */
-	function link( $types = 'facebook', $id = false, $echo = true, $style = 'generic' ) {
+	function link( $types = 'facebook', $id = false, $echo = true, $style = 'generic', $round = 2 ) {
 
 		if ( !$id ) {
 			$id = get_the_ID();
@@ -327,7 +327,7 @@ final class EA_Share_Count {
 					$link['img'] = apply_filters( 'ea_share_count_default_image', '' );
 				}
 			}
-			$link['count'] = $this->count( $id, $type );
+			$link['count'] = $this->count( $id, $type, false, $count );
 
 			switch ( $type ) {
 				case 'facebook':
