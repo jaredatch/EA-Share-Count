@@ -167,7 +167,7 @@ final class EA_Share_Count {
 	 * @param boolean $echo
 	 * @return int
 	 */
-	public function count( $id = false, $type = 'facebook', $echo = false ) {
+	public function count( $id = false, $type = 'facebook', $echo = false, $round = 2 ) {
 
 		$counts = $this->counts( $id, true );
 
@@ -211,6 +211,9 @@ final class EA_Share_Count {
 		if ( empty( $share_count ) ) {
 			$share_count = '0';
 		}
+		
+		if( $round )
+			$share_count = $this->round_count( $share_count, $round );
 
 		if ( $echo ) {
 			echo $share_count;
@@ -378,7 +381,6 @@ final class EA_Share_Count {
 			}
 
 			$link = apply_filters( 'ea_share_count_link', $link );
-			$count = $this->round_count( $link['count'], 2 );
 			$target = !empty( $link['target'] ) ? ' target="' . esc_attr( $link['target'] ) . '" ' : '';
 
 			$output .= '<a href="' . $link['link'] . '"' . $target . 'class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '">';
