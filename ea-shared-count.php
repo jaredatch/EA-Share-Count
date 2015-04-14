@@ -391,7 +391,7 @@ final class EA_Share_Count {
 					$output .= '<i class="ea-share-count-icon ' . $link['icon'] . '"></i>';
 					$output .= '<span class="ea-share-count-label">' . $link['label'] . '</span>';
 				$output .= '</span>';
-				$output .= '<span class="ea-share-count">' . $count . '</span>'; 
+				$output .= '<span class="ea-share-count">' . $link['count'] . '</span>'; 
 			$output .= '</a>';
 		}
 
