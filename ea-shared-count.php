@@ -330,7 +330,7 @@ final class EA_Share_Count {
 					$link['img'] = apply_filters( 'ea_share_count_default_image', '' );
 				}
 			}
-			$link['count'] = $this->count( $id, $type, false, $count );
+			$link['count'] = $this->count( $id, $type, false, $round );
 
 			switch ( $type ) {
 				case 'facebook':
