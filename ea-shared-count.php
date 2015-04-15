@@ -415,6 +415,7 @@ final class EA_Share_Count {
 		if( $num == 0 )
 			return 0;
 		
+		$num = (int) $num;
 		$d = ceil( log( $num < 0 ? -$num : $num, 10 ) );
 		$power = $n - $d;
 		$magnitude = pow( 10, $power );
