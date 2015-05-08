@@ -145,9 +145,15 @@ final class EA_Share_Count {
 			if ( $share_count && 'site' == $id ) {
 				update_option( 'ea_share_count', $share_count );
 				update_option( 'ea_share_count_datetime', time() );
+				$total = $this->total_count( $share_count );
+				if( $total )
+					update_option( 'ea_share_count_total', $total );
 			} elseif ( $share_count ) {
 				update_post_meta( $post_id, 'ea_share_count', $share_count );
 				update_post_meta( $post_id, 'ea_share_count_datetime', time() );
+				$total = $this->total_count( $share_count );
+				if( $total )
+					update_post_meta( $post_id, 'ea_share_count_total', $total );
 			}
 		}
 
@@ -156,6 +162,30 @@ final class EA_Share_Count {
 		}
 
 		return $share_count;
+	}
+	
+	/**
+	 * Calculate total shares across all services
+	 *
+	 * @since 1.0.2
+	 * @param array $share_count
+	 * @return int $total_shares
+	 */
+	public function total_count( $share_count ) {
+
+		if( empty( $share_count ) || ! is_array( $share_count ) )
+			return 0;
+			
+		$total = 0;
+		foreach( $shares as $service => $count ) {
+			if( is_int( $count ) )
+				$total += (int) $count;
+			elseif( is_array( $count ) && isset( $count['total_count'] ) )
+				$total += (int) $count['total_count'];
+		}
+		
+		return $total;
+			
 	}
 
 	/**
