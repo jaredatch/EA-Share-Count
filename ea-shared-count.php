@@ -201,6 +201,7 @@ final class EA_Share_Count {
 	public function count( $id = false, $type = 'facebook', $echo = false, $round = 2 ) {
 
 		$counts = $this->counts( $id, true );
+		$total  = $this->total_count( $counts );
 
 		if ( $counts == false ) {
 			$share_count == '0';
@@ -232,6 +233,9 @@ final class EA_Share_Count {
 					break;
 				case 'stumbleupon':
 					$share_count = $counts['StumbleUpon'];
+					break;
+				case 'total':
+					$share_count = $total;
 					break;
 				default:
 					$share_count = apply_filters( 'ea_share_count_single', '0', $counts );
