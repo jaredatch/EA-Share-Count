@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [1.0.2] - 2015-05-08
+### Added
+- Total count parameter, accessible in count() method
+- Total count is also stored in 'ea_share_count_total' key for query sorting
+
 ## [1.0.1] - 2015-03-17
 ### Added
 - Parameter for specifying the link style
