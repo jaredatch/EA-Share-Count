@@ -151,7 +151,7 @@ final class EA_Share_Count {
 			} elseif ( $share_count ) {
 				update_post_meta( $post_id, 'ea_share_count', $share_count );
 				update_post_meta( $post_id, 'ea_share_count_datetime', time() );
-				$total = $this->total_count( $share_count );
+				$total = $this->total_count( json_decode( $share_count, true ) );
 				if( $total )
 					update_post_meta( $post_id, 'ea_share_count_total', $total );
 			}
