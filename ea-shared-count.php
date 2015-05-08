@@ -177,7 +177,7 @@ final class EA_Share_Count {
 			return 0;
 			
 		$total = 0;
-		foreach( $shares as $service => $count ) {
+		foreach( $share_count as $service => $count ) {
 			if( is_int( $count ) )
 				$total += (int) $count;
 			elseif( is_array( $count ) && isset( $count['total_count'] ) )
