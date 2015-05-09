@@ -204,7 +204,7 @@ final class EA_Share_Count {
 		$total  = $this->total_count( $counts );
 
 		if ( $counts == false ) {
-			$share_count == '0';
+			$share_count = '0';
 		} else {
 			switch ( $type ) {
 				case 'facebook':
