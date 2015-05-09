@@ -316,7 +316,7 @@ final class EA_Share_Count {
 		$query      = add_query_arg( $query_args, $this->api_domain . '/url' );
 		$results    = wp_remote_get( $query );
 
-		if ( 200 == $results['response']['code'] ) {
+		if ( ! is_wp_error( $results) && 200 == $results['response']['code'] ) {
 			return $results['body'];
 		} else {
 			return false;
