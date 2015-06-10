@@ -125,7 +125,7 @@ final class EA_Share_Count {
 
 		if ( 'site' == $id ) {
 			$post_date    = true;
-			$post_url     = home_url();
+			$post_url     = apply_filters( 'ea_share_count_site_url', home_url() );
 			$share_count  = get_option( 'ea_share_count' );
 			$last_updated = get_option( 'ea_share_count_datetime' );
 			
