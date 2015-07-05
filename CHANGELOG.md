@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [1.0.3] - 2015-07-4
+### Fixed
+- Update share button js to correctly look for target="_blank"
+
 ## [1.0.2] - 2015-05-08
 ### Added
 - Total count parameter, accessible in count() method
