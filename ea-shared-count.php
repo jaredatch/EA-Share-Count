@@ -4,7 +4,7 @@
  * Plugin URI:  https://github.com/jaredatch/EA-Share-Count
  * Description: A lean plugin that leverages SharedCount.com API to quickly retrieve, cache, and display various social sharing counts.
  * Author:      Bill Erickson & Jared Atchison
- * Version:     1.0.3
+ * Version:     1.0.4
  *
  * EA Share Count is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -122,12 +122,20 @@ final class EA_Share_Count {
 	 * @return object $share_count
 	 */
 	public function counts( $id = false, $array = false ) {
-
+		
 		if ( 'site' == $id ) {
 			$post_date    = true;
 			$post_url     = apply_filters( 'ea_share_count_site_url', home_url() );
 			$share_count  = get_option( 'ea_share_count' );
 			$last_updated = get_option( 'ea_share_count_datetime' );
+			
+		} elseif( 0 === strpos( $id, 'http' ) ) {
+
+			delete_option( 'ea_share_count_' . md5( $id ) );
+			$post_date    = true;
+			$post_url     = esc_url( $id );
+			$share_count  = get_option( 'ea_share_count_' . md5( $id ) );
+			$last_updated = get_option( 'ea_share_count_datetime_' . md5( $id ) );
 			
 		} else {
 			$post_id      = $id ? $id : get_the_ID();
@@ -148,6 +156,13 @@ final class EA_Share_Count {
 				$total = $this->total_count( $share_count );
 				if( $total )
 					update_option( 'ea_share_count_total', $total );
+			} elseif( $share_count && 0 === strpos( $id, 'http' ) ) {			
+				update_option( 'ea_share_count_' . md5( $id ), $share_count );
+				update_option( 'ea_share_count_datetime_' . md5( $id ), time() );
+				$total = $this->total_count( $share_count );
+				if( $total )
+					update_option( 'ea_share_count_total_' . md5( $id ), $total );
+			
 			} elseif ( $share_count ) {
 				update_post_meta( $post_id, 'ea_share_count', $share_count );
 				update_post_meta( $post_id, 'ea_share_count_datetime', time() );
@@ -266,7 +281,7 @@ final class EA_Share_Count {
 	 * @return bool $needs_updating
 	 */
 	function needs_updating( $last_updated = false, $post_date ) {
-	
+
 		if ( ! $last_updated ) {
 			return true;
 		}
@@ -311,7 +326,7 @@ final class EA_Share_Count {
 		if ( ! $url || empty( $this->api_key ) ) {
 			return;
 		}
-
+		
 		$query_args = apply_filters( 'ea_share_count_api_params', array( 'url' => $url, 'apikey' => $this->api_key ) );
 		$query      = add_query_arg( $query_args, $this->api_domain . '/url' );
 		$results    = wp_remote_get( $query );
@@ -353,6 +368,10 @@ final class EA_Share_Count {
 			if ( 'site' == $id ) {
 				$link['url']   = home_url();
 				$link['title'] = get_bloginfo( 'name' );
+				$link['img']   = apply_filters( 'ea_share_count_default_image', '' );
+			} elseif( 0 === strpos( $id, 'http' ) ) {
+				$link['url']   = esc_url( $id );
+				$link['title'] = '';
 				$link['img']   = apply_filters( 'ea_share_count_default_image', '' );
 			} else {
 				$link['url']   = get_permalink( $id );

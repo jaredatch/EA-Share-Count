@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [1.0.4] - 2015-07-24
+### Fixed
+- Use correct variable name for Pinterest image
+### Added
+- Support for arbitrary URLs as ID
+
 ## [1.0.3] - 2015-07-4
 ### Fixed
 - Update share button js to correctly look for target="_blank"
