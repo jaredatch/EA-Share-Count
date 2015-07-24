@@ -121,3 +121,151 @@
 	font-size: 12px;
 	margin-right: 3px;
 }
+
+/* Pinterest
+--------------------------------------------- */
+
+.ea-share-count-button.pinterest.style-bubble {
+	display: inline-block;
+}
+ 
+.ea-share-count-button.pinterest.style-bubble .ea-share-count-icon-label {
+	position: relative;
+	background-color: #fa0029;
+	border: #cd0015 solid 1px;
+	border-radius: 3px;
+	color: #fff;
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	cursor: pointer;
+	height: 20px;
+	line-height: 16px;
+	max-width: 100%;
+	overflow: hidden;
+	padding: 1px 3px 1px 1px;
+	display: block;
+	float: left;
+}
+ 
+.ea-share-count-button.pinterest.style-bubble .ea-share-count-icon-label:hover {
+	background: #cd0015;
+}
+
+.ea-share-count-button.pinterest.style-bubble .ea-share-count-icon-label i {
+	color: #55ACEE;
+	line-height: 1;
+	font-size: 12px;
+	margin-right: 3px;
+}
+
+/* LinkedIn
+--------------------------------------------- */
+
+.ea-share-count-button.linkedin.style-bubble {
+	display: inline-block;
+}
+ 
+.ea-share-count-button.linkedin.style-bubble .ea-share-count-icon-label {
+	position: relative;
+	background-color: #008bbf;
+	border: none;
+	border-radius: 3px;
+	color: #fff;
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	cursor: pointer;
+	height: 20px;
+	line-height: 18px;
+	max-width: 100%;
+	overflow: hidden;
+	padding: 1px 3px 1px 1px;
+	display: block;
+	float: left;
+}
+
+.ea-share-count-button.linkedin.style-bubble .ea-share-count-icon-label:hover {
+	background: #0077b4;
+}
+ 
+.ea-share-count-button.linkedin.style-bubble .ea-share-count-icon-label i {
+	color: #55ACEE;
+	line-height: 1;
+	font-size: 12px;
+	margin-right: 3px;
+}
+
+/* Google Plus
+--------------------------------------------- */
+
+.ea-share-count-button.google.style-bubble {
+	display: inline-block;
+}
+ 
+.ea-share-count-button.google.style-bubble .ea-share-count-icon-label {
+	position: relative;
+	background-color: #fff;
+	border: #d4d4d4 solid 1px;
+	border-radius: 3px;
+	color: #f44336;
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	text-shadow: 0 1px 0 rgba(255,255,255,.5);
+	cursor: pointer;
+	height: 20px;
+	line-height: 16px;
+	max-width: 100%;
+	overflow: hidden;
+	padding: 1px 3px 1px 1px;
+	display: block;
+	float: left;
+}
+
+.ea-share-count-button.google.style-bubble .ea-share-count-icon-label:hover {
+	border-color: #ccc;
+}
+ 
+.ea-share-count-button.google.style-bubble .ea-share-count-icon-label i {
+	color: #55ACEE;
+	line-height: 1;
+	font-size: 12px;
+	margin-right: 3px;
+}
+
+
+/* Stumble Upon
+--------------------------------------------- */
+
+.ea-share-count-button.stumbleupon.style-bubble {
+	display: inline-block;
+}
+ 
+.ea-share-count-button.stumbleupon.style-bubble .ea-share-count-icon-label {
+	position: relative;
+	background-color: #eee;
+	background-image: -webkit-linear-gradient(#fff,#dedede);
+	background-image: linear-gradient(#fff,#dedede);
+	border: #ccc solid 1px;
+	border-radius: 3px;
+	color: #333;
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	text-shadow: 0 1px 0 rgba(255,255,255,.5);
+	cursor: pointer;
+	height: 20px;
+	line-height: 16px;
+	max-width: 100%;
+	overflow: hidden;
+	padding: 1px 3px 1px 1px;
+	display: block;
+	float: left;
+}
+ 
+.ea-share-count-button.stumbleupon.style-bubble .ea-share-count-icon-label i {
+	color: #55ACEE;
+	line-height: 1;
+	font-size: 12px;
+	margin-right: 3px;
+}
