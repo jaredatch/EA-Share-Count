@@ -392,7 +392,7 @@ final class EA_Share_Count {
 					$link['target'] = 'blank';
 					break;
 				case 'pinterest':
-					$link['link']  = 'http://pinterest.com/pin/create/button/?url=' . $link['url'] . '&media=' . $img . ' &description=' . $link['title'];
+					$link['link']  = 'http://pinterest.com/pin/create/button/?url=' . $link['url'] . '&media=' . $link['img'] . ' &description=' . $link['title'];
 					$link['label'] = 'Pin';
 					$link['icon']  = 'fa fa-pinterest-p';
 					$link['target'] = 'blank';
