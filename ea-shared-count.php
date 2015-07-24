@@ -131,7 +131,6 @@ final class EA_Share_Count {
 			
 		} elseif( 0 === strpos( $id, 'http' ) ) {
 
-			delete_option( 'ea_share_count_' . md5( $id ) );
 			$post_date    = true;
 			$post_url     = esc_url( $id );
 			$share_count  = get_option( 'ea_share_count_' . md5( $id ) );
