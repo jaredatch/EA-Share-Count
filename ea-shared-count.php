@@ -474,9 +474,9 @@ final class EA_Share_Count {
 		$shifted = round( $num * $magnitude );
 		$output = $shifted/$magnitude;
 		
-		if( $output > 1000000 )
+		if( $output >= 1000000 )
 			$output = $output / 1000000 . 'm';
-		elseif( $output > 1000 )
+		elseif( $output >= 1000 )
 			$output = $output / 1000 . 'k';
 		
 		return $output;
