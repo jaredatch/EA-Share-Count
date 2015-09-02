@@ -527,6 +527,7 @@ final class EA_Share_Count {
 							window_size = "width=585,height=515";
 					}
 					window.open(url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,' + window_size);
+					$(this).trigger("ea-share-click");
 				});
 			});
 			</script>
