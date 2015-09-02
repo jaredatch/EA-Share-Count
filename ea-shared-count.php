@@ -389,49 +389,49 @@ final class EA_Share_Count {
 					$link['link']  = 'http://www.facebook.com/plugins/like.php?href=' . $link['url'];
 					$link['label'] = 'Facebook';
 					$link['icon']  = 'fa fa-facebook';
-					$link['target'] = 'blank';
+					$link['target'] = '_blank';
 					break;
 				case 'facebook_likes':
 					$link['link']  = 'http://www.facebook.com/plugins/like.php?href=' . $link['url'];
 					$link['label'] = 'Like';
 					$link['icon']  = 'fa fa-facebook';
-					$link['target'] = 'blank';
+					$link['target'] = '_blank';
 					break;
 				case 'facebook_shares':
 					$link['link']  = 'https://www.facebook.com/sharer/sharer.php?u=' . $link['url'] . '&display=popup&ref=plugin&src=share_button';
 					$link['label'] = 'Share';
 					$link['icon']  = 'fa fa-facebook';
-					$link['target'] = 'blank';
+					$link['target'] = '_blank';
 					break;
 				case 'twitter':
 					$link['link']  = 'https://twitter.com/share?url=' . $link['url'] . '&text=' . $link['title'];
 					$link['label'] = 'Tweet';
 					$link['icon']  = 'fa fa-twitter';
-					$link['target'] = 'blank';
+					$link['target'] = '_blank';
 					break;
 				case 'pinterest':
 					$link['link']  = 'http://pinterest.com/pin/create/button/?url=' . $link['url'] . '&media=' . $link['img'] . ' &description=' . $link['title'];
 					$link['label'] = 'Pin';
 					$link['icon']  = 'fa fa-pinterest-p';
-					$link['target'] = 'blank';
+					$link['target'] = '_blank';
 					break;
 				case 'linkedin':
 					$link['link']  = 'http://www.linkedin.com/shareArticle?mini=true&url=' . $link['url'];
 					$link['label'] = 'LinkedIn';
 					$link['icon']  = 'fa fa-linkedin';
-					$link['target'] = 'blank';
+					$link['target'] = '_blank';
 					break;
 				case 'google':
 					$link['link']  = 'http://plus.google.com/share?url=' . $link['url'];
 					$link['label'] = 'Google+';
 					$link['icon']  = 'fa fa-google-plus';
-					$link['target'] = 'blank';
+					$link['target'] = '_blank';
 					break;
 				case 'stumbleupon':
 					$link['link']  = 'http://www.stumbleupon.com/submit?url=' . $link['url'] . '&title=' . $link['title'];
 					$link['label'] = 'StumbleUpon';
 					$link['icon']  = 'fa fa-stumbleupon';
-					$link['target'] = 'blank';
+					$link['target'] = '_blank';
 					break;
 			}
 
