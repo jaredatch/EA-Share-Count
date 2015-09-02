@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [1.0.5] - 2015-09-02
+### Fixed
+- Incorrect target="_blank" assignment
+### Added
+- Filter for  single post images
+- Javascript event for share clicks
+- Fancy button styles
+
 ## [1.0.4] - 2015-07-24
 ### Fixed
 - Use correct variable name for Pinterest image
