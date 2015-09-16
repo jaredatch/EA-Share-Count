@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file, formatted v
 ## [1.0.6] - 2015-09-16
 ### Fixed
 - Default Facebook like opens share dialog box
+- Single post image filter bug
 ### Added
 - "GSS" style option to mimic the Genesis Simple Share plugin
 
@@ -11,7 +12,7 @@ All notable changes to this project will be documented in this file, formatted v
 ### Fixed
 - Incorrect target="_blank" assignment
 ### Added
-- Filter for  single post images
+- Filter for single post images
 - Javascript event for share clicks
 - Fancy button styles
 

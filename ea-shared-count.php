@@ -375,12 +375,13 @@ final class EA_Share_Count {
 			} else {
 				$link['url']   = get_permalink( $id );
 				$link['title'] = get_the_title( $id );
-				$img           = apply_filters( 'ea_share_count_single_image', wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'full' ), $id );
+				$img           = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'full' );
 				if ( isset( $img[0] ) ) {
 					$link['img'] = $img[0];
 				} else {
 					$link['img'] = apply_filters( 'ea_share_count_default_image', '' );
 				}
+				$link['img'] = apply_filters( 'ea_share_count_single_image', $link['img'], $id );
 			}
 			$link['count'] = $this->count( $id, $type, false, $round );
 
