@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [1.0.6] - 2015-09-16
+### Fixed
+- Default Facebook like opens share dialog box
+### Added
+- "GSS" style option to mimic the Genesis Simple Share plugin
+
 ## [1.0.5] - 2015-09-02
 ### Fixed
 - Incorrect target="_blank" assignment

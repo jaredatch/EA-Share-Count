@@ -442,3 +442,225 @@
 .ea-share-count-button.style-fancy.linkedin .ea-share-count {
 	border-color: #0077b5;
 }
+
+
+/* GSS Style
+---------------------------------------------------------------------------------------------------- */
+
+.ea-share-count-button.style-gss {
+	display: inline-block;
+	color: #fff;
+	border-radius: 2px;
+	margin: 0 10px 10px 0;
+	font-size: 13px;
+	height: 25px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	line-height: 25px;
+	text-decoration: none;
+	font-weight: normal;
+	position: relative;
+	background-color: #ccc;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+.ea-share-count-button.style-gss:hover {
+	text-decoration: none;
+}
+
+.ea-share-count-button.style-gss .fa {
+	display: inline-block;
+	height: 25px;
+	line-height: 25px;
+	font-size: 14px;
+	margin: 0 8px 0 8px;
+	width:1.28571429em;
+	text-align:center;
+	vertical-align: middle;
+}
+
+.ea-share-count-button.style-gss .ea-share-count-label {
+	display: inline-block;
+	vertical-align: top;
+	height: 25px;
+	line-height: 25px;
+	font-size: 13px;
+	font-weight: 700;
+	padding-right: 0;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+	width: 1px;
+	overflow: hidden;
+	opacity: 0;
+}
+
+.ea-share-count-button.style-gss:hover .ea-share-count-label {
+	width: 100px;
+	opacity: 1;
+}
+
+.ea-share-count-button.style-gss .ea-share-count {
+	display: inline-block;
+	vertical-align: top;
+	height: 25px;
+	line-height: 25px;
+	font-size: 13px;
+	position: relative;
+	background-color: #fff;
+	padding: 0 8px;
+	margin-right: -2px;
+	color: #555;
+	border-radius: 0 2px 2px 0;
+	border: 1px solid #ececec;
+	font-weight: 700;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+/* Facebook
+--------------------------------------------- */
+
+.ea-share-count-button.style-gss.facebook,
+.ea-share-count-button.style-gss.facebook_likes,
+.ea-share-count-button.style-gss.facebook_shares,
+.ea-share-count-button.style-gss.facebook_comments {
+	background-color: #3b5998;
+}
+
+.ea-share-count-button.style-gss.facebook:hover .ea-share-count,
+.ea-share-count-button.style-gss.facebook_likes:hover .ea-share-count,
+.ea-share-count-button.style-gss.facebook_shares:hover .ea-share-count,
+.ea-share-count-button.style-gss.facebook_comments:hover .ea-share-count {
+	background-color: #3b5998;
+	color: #fff;
+}
+
+.ea-share-count-button.style-gss.facebook:hover .ea-share-count-label,
+.ea-share-count-button.style-gss.facebook_likes:hover .ea-share-count-label,
+.ea-share-count-button.style-gss.facebook_shares:hover .ea-share-count-label,
+.ea-share-count-button.style-gss.facebook_comments:hover .ea-share-count-label {
+	width: 66px;
+}
+
+.ea-share-count-button.style-gss.facebook .ea-share-count,
+.ea-share-count-button.style-gss.facebook_likes .ea-share-count,
+.ea-share-count-button.style-gss.facebook_shares .ea-share-count,
+.ea-share-count-button.style-gss.facebook_comments .ea-share-count {
+	border-color: #3b5998;
+	color: #3b5998;
+}
+
+/* Twitter
+--------------------------------------------- */
+
+.ea-share-count-button.style-gss.twitter {
+	background-color: #00aced;
+}
+
+.ea-share-count-button.style-gss.twitter:hover .ea-share-count {
+	background-color: #00aced;
+	color: #fff;
+}
+
+.ea-share-count-button.style-gss.twitter:hover .ea-share-count-label {
+	width: 46px;
+}
+
+.ea-share-count-button.style-gss.twitter .ea-share-count {
+	border-color: #00aced;
+	color: #00aced;
+}
+
+/* Pinterest
+--------------------------------------------- */
+
+.ea-share-count-button.style-gss.pinterest {
+	background-color: #cb2027;
+}
+
+.ea-share-count-button.style-gss.pinterest:hover .ea-share-count {
+	background-color: #cb2027;
+	color: #fff
+}
+
+.ea-share-count-button.style-gss.pinterest .ea-share-count {
+	border-color: #cb2027;
+	color: #cb2027;
+}
+
+.ea-share-count-button.style-gss.pinterest:hover .ea-share-count-label {
+	width: 28px;
+}
+
+/* Google
+--------------------------------------------- */
+
+.ea-share-count-button.style-gss.google {
+	background-color: #dd4b39;
+}
+
+.ea-share-count-button.style-gss.google:hover .ea-share-count {
+	background-color: #dd4b39;
+	color: #fff;
+}
+
+.ea-share-count-button.style-gss.google:hover .ea-share-count-label {
+	width: 58px;
+}
+
+.ea-share-count-button.style-gss.google .ea-share-count {
+	border-color: #dd4b39;
+	color: #dd4b39;
+}
+
+/* Stumble Upon
+--------------------------------------------- */
+
+.ea-share-count-button.style-gss.stumbleupon {
+	background-color: #eb4924;
+}
+
+.ea-share-count-button.style-gss.stumbleupon:hover .ea-share-count {
+	background-color: #eb4924;
+	color: #fff;
+}
+
+.ea-share-count-button.style-gss.stumbleupon:hover .ea-share-count-label {
+	width: 90px;
+}
+
+.ea-share-count-button.style-gss.stumbleupon .ea-share-count {
+	border-color: #eb4924;
+	color: #eb4924;
+}
+
+/* LinkedIn
+--------------------------------------------- */
+
+.ea-share-count-button.style-gss.linkedin {
+	background-color: #0077b5;
+}
+
+.ea-share-count-button.style-gss.linkedin:hover .ea-share-count  {
+	background-color: #0077b5;
+	color: #fff;
+}
+
+.ea-share-count-button.style-gss.linkedin:hover .ea-share-count-label {
+	width: 60px;
+	color: #fff;
+}
+
+.ea-share-count-button.style-gss.linkedin .ea-share-count {
+	border-color: #0077b5;
+	color: #0077b5;
+}
