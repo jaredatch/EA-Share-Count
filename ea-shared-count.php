@@ -386,7 +386,7 @@ final class EA_Share_Count {
 
 			switch ( $type ) {
 				case 'facebook':
-					$link['link']  = 'http://www.facebook.com/plugins/like.php?href=' . $link['url'];
+					$link['link']  = 'https://www.facebook.com/sharer/sharer.php?u=' . $link['url'] . '&display=popup&ref=plugin&src=share_button';
 					$link['label'] = 'Facebook';
 					$link['icon']  = 'fa fa-facebook';
 					$link['target'] = '_blank';
