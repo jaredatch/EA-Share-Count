@@ -112,9 +112,11 @@ final class EA_Share_Count {
 	 * @since 1.0.0
 	 */
 	public function load() {
-
-		$this->api_key    = apply_filters( 'ea_share_count_key', '' );
-		$this->api_domain = apply_filters( 'ea_share_count_domain', 'http://free.sharedcount.com' );
+		
+		$options = get_option( 'ea_share_count_options', $this->default_options() ); 
+		$this->api_key    = apply_filters( 'ea_share_count_key', $options['api_key'] );
+		$this->api_domain = apply_filters( 'ea_share_count_domain', $options['api_domain'] );
+		
 	}
 	
 	/**
