@@ -100,6 +100,10 @@ final class EA_Share_Count {
 
 		add_action( 'init',      array( $this, 'load'          )    );
 		add_action( 'wp_footer', array( $this, 'footer_assets' ), 1 );
+		
+		// Settings Page
+		add_action( 'admin_init', array( $this, 'settings_page_init' ) );
+		add_action( 'admin_menu', array( $this, 'add_settings_page'  ) );
 	}
 
 	/**
@@ -530,6 +534,79 @@ final class EA_Share_Count {
 			</script>
 			<?php
 		}
+	}
+	
+	/**
+	 * Initialize the settings page options
+	 *
+	 */
+	function settings_page_init() {
+		register_setting( 'ea_share_count_options', 'ea_share_count_options', array( $this, 'ea_share_count_validate' ) );
+	}
+	
+	/**
+	 * Add Settings Page
+	 *
+	 */
+	function add_settings_page() {
+		add_options_page( __( 'Share Count Settings', 'ea-share-count' ), __( 'Share Count Settings', 'ea-share-count' ), 'manage_options', 'ea_share_count_options', array( $this, 'settings_page' ) );
+	}
+	
+	/**
+	 * Build the Settings Page 
+	 *
+	 */
+	function settings_page() {
+		?>
+		<div class="wrap">
+			<h2><?php _e( 'Share Count Settings', 'ea-share-count' );?></h2>
+			<form method="post" action="options.php">
+				<?php 
+				settings_fields( 'ea_share_count_options' );
+				$options = get_option( 'ea_share_count_options', $this->default_options() ); 
+				?>
+				<table class="form-table">
+					<tr valign="top"><th scope="row"><?php _e( 'SharedCount API Key', 'ea-share-count' );?></th>
+						<td><input type="text" name="ea_share_count_options[api_key]" value="<?php echo $options['api_key'];?>" /><br /><a href="http://www.sharedcount.com" target="_blank">Register for one here</a></td>
+					</tr>
+					<tr valign="top"><th scope="row"><?php _e( 'SharedCount API Domain', 'ea-share-count' );?></th>
+						<td><select name="ea_share_count_options[api_domain]">
+						<?php
+						$domains = array( 'https://free.sharedcount.com', 'https://plus.sharedcount.com', 'https://business.sharedcount.com' );
+						foreach( $domains as $domain )
+							echo '<option value="' . $domain . '" ' . selected( $domain, $options['api_domain'], false ) . '>' . $domain . '</option>';
+						?>
+						</select></td>
+					</tr>
+
+				</table>
+				<p class="submit">
+				<input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'ea-share-count' ); ?>" />
+				</p>
+			</form>
+		</div>
+		<?php		
+	}
+	
+	/**
+	 * Default Option Values
+	 *
+	 */
+	function default_options() {
+		return array( 
+			'api_key' => '',
+			'api_domain' => 'http://free.sharedcount.com',
+		);
+	}
+	
+	/**
+	 * Validate Options
+	 *
+	 */
+	function ea_share_count_validate( $input ) {
+		$input['api_key'] = esc_attr( $input['api_key'] );
+		$input['api_domain'] = esc_url( $input['api_domain'] );
+		return $input;
 	}
 
 }
