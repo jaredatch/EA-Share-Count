@@ -569,7 +569,7 @@ final class EA_Share_Count {
 				?>
 				<table class="form-table">
 					<tr valign="top"><th scope="row"><?php _e( 'SharedCount API Key', 'ea-share-count' );?></th>
-						<td><input type="text" name="ea_share_count_options[api_key]" value="<?php echo $options['api_key'];?>" class="regular-text" /><br /><a href="http://www.sharedcount.com" target="_blank">Register for one here</a></td>
+						<td><input type="text" name="ea_share_count_options[api_key]" value="<?php echo $options['api_key'];?>" class="regular-text" /><br /><a href="http://www.sharedcount.com" target="_blank"><?php _e( 'Register for one here', 'ea-share-count' );?></a></td>
 					</tr>
 					<tr valign="top"><th scope="row"><?php _e( 'SharedCount API Domain', 'ea-share-count' );?></th>
 						<td><select name="ea_share_count_options[api_domain]">
@@ -603,6 +603,9 @@ final class EA_Share_Count {
 						echo '</tr>';
 					}
 					?>
+					<tr valign="top"><th scope="row"><?php _e( 'Included Services', 'ea-share-count' );?></th>
+						<td><input type="text" name="ea_share_count_options[included_services]" value="<?php echo $options['included_services'];?>" class="regular-text" /><br /><em><?php _e( '(comma separated)', 'ea-share-count' );?></em></td>
+					</tr>
 
 				</table>
 				<p class="submit">
@@ -619,8 +622,11 @@ final class EA_Share_Count {
 	 */
 	function default_options() {
 		return array( 
-			'api_key' => '',
-			'api_domain' => 'http://free.sharedcount.com',
+			'api_key'           => '',
+			'api_domain'        => 'http://free.sharedcount.com',
+			'style'             => '',
+			'theme_location'    => '',
+			'included_services' => '',
 		);
 	}
 	
@@ -633,7 +639,7 @@ final class EA_Share_Count {
 		$input['api_domain'] = esc_url( $input['api_domain'] );
 		return $input;
 	}
-
+	
 }
 
 /**
