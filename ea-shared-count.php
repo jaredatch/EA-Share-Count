@@ -580,6 +580,16 @@ final class EA_Share_Count {
 						?>
 						</select></td>
 					</tr>
+					<tr valign="top"><th scope="row"><?php _e( 'Share Count Style', 'ea-share-count' );?></th>
+						<td><select name="ea_share_count_options[style]">
+						<?php
+						$styles = array( 'bubble' => 'Bubble', 'fancy' => 'Fancy', 'gss' => 'Genesis Simple Share' );
+						foreach( $styles as $key => $label ) {
+							echo '<option value="' . $key . '" ' . selected( $key, $options['style'], false ) . '>' . $label . '</option>';
+						}
+						?>
+						</select></td>
+					</tr>
 
 				</table>
 				<p class="submit">
