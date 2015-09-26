@@ -104,6 +104,10 @@ final class EA_Share_Count {
 		// Settings Page
 		add_action( 'admin_init', array( $this, 'settings_page_init' ) );
 		add_action( 'admin_menu', array( $this, 'add_settings_page'  ) );
+		
+		// Display in Genesis theme
+		add_action( 'genesis_entry_header', array( $this, 'display_before_content' ), 13 );
+		add_action( 'genesis_entry_footer', array( $this, 'display_after_content'  ), 8  );
 	}
 
 	/**
@@ -472,6 +476,26 @@ final class EA_Share_Count {
 		foreach( $services as $service )
 			$output .= $this->link( $service, false, false, $style );
 		echo '<div class="ea-share-count">' . $output . '</div>';
+	}
+	
+	/**
+	 * Display Before Content
+	 *
+	 */
+	function display_before_content() {
+		$options = get_option( 'ea_share_count_options', $this->default_options() );
+		if( 'before_content' == $options['theme_location'] )
+			$this->display();
+	}
+	
+	/**
+	 * Display After Content
+	 *
+	 */
+	function display_after_content() {
+		$options = get_option( 'ea_share_count_options', $this->default_options() );
+		if( 'after_content' == $options['theme_location'] )
+			$this->display();
 	}
 	
 	/**
