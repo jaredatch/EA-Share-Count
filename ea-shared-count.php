@@ -569,7 +569,7 @@ final class EA_Share_Count {
 				?>
 				<table class="form-table">
 					<tr valign="top"><th scope="row"><?php _e( 'SharedCount API Key', 'ea-share-count' );?></th>
-						<td><input type="text" name="ea_share_count_options[api_key]" value="<?php echo $options['api_key'];?>" /><br /><a href="http://www.sharedcount.com" target="_blank">Register for one here</a></td>
+						<td><input type="text" name="ea_share_count_options[api_key]" value="<?php echo $options['api_key'];?>" class="regular-text" /><br /><a href="http://www.sharedcount.com" target="_blank">Register for one here</a></td>
 					</tr>
 					<tr valign="top"><th scope="row"><?php _e( 'SharedCount API Domain', 'ea-share-count' );?></th>
 						<td><select name="ea_share_count_options[api_domain]">
