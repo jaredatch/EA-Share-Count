@@ -591,6 +591,19 @@ final class EA_Share_Count {
 						</select></td>
 					</tr>
 
+					<?php if( 'genesis' == basename( TEMPLATEPATH ) ) {
+					
+						echo '<tr valign="top"><th scope="row">' . __( 'Theme Location', 'ea-share-count' ) . '</th>';
+						echo '<td><select name="ea_share_count_options[theme_location]">';
+						$locations = array( '' => 'None', 'before_content' => 'Before Content', 'after_content' => 'After Content' );
+						foreach( $locations as $key => $label ) {
+							echo '<option value="' . $key . '" ' . selected( $key, $options['theme_location'], false ) . '>' . $label . '</option>';
+						}
+						echo '</select></td>';
+						echo '</tr>';
+					}
+					?>
+
 				</table>
 				<p class="submit">
 				<input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'ea-share-count' ); ?>" />
