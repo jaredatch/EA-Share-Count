@@ -679,6 +679,56 @@ final class EA_Share_Count {
 		return $input;
 	}
 	
+	/**
+	 * Prime the pump
+	 *
+	 * Ensure we have share count data for at least 100 posts. 
+	 * Useful when querying based on share count data.
+	 * @link https://gist.github.com/billerickson/0f316f75430f3fd3a87c
+	 *
+	 * @param int $count, how many posts should have sharing data
+	 * @param int $interval, how many should be updated at once
+	 *
+	 */
+	function prime_the_pump( $count = 100, $interval = 20 ) {
+	
+		$current = new WP_Query( array( 
+			'fields' => 'ids',
+			'posts_per_page' => $count,
+			'meta_query' => array( 
+				array(
+					'key' => 'ea_share_count',
+					'compare' => 'EXISTS',
+				)
+			)
+		) );
+		$current = count( $loop->posts );
+	
+		if( $current < $count ) {
+
+			$update = new WP_Query( array(
+				'fields' => 'ids',
+				'posts_per_page' => ( $count - $current ),
+				'meta_query' => array(
+					array(
+						'key' => 'ea_share_count',
+						'value' => 1,
+						'compare' => 'NOT EXISTS',
+					)
+				)
+			) );
+			if( $update->have_posts() ) {
+				foreach( $update->posts as $i => $post_id ) {
+					if( $interval > $i ) {
+						$this->count( $post_id );
+						do_action( 'ea_share_count_primed', $post_id );
+					}
+				}
+			}
+		}
+	
+	}
+	
 }
 
 /**
