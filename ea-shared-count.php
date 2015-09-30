@@ -702,7 +702,7 @@ final class EA_Share_Count {
 				)
 			)
 		) );
-		$current = count( $loop->posts );
+		$current = count( $current->posts );
 	
 		if( $current < $count ) {
 
