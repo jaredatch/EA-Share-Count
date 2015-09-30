@@ -4,7 +4,7 @@
  * Plugin URI:  https://github.com/jaredatch/EA-Share-Count
  * Description: A lean plugin that leverages SharedCount.com API to quickly retrieve, cache, and display various social sharing counts.
  * Author:      Bill Erickson & Jared Atchison
- * Version:     1.0.5
+ * Version:     1.1.0
  *
  * EA Share Count is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -466,7 +466,7 @@ final class EA_Share_Count {
 	/**
 	 * Display Share Count 
 	 * Based on Plugin Options
-	 *
+	 * @since 1.1.0
 	 */
 	function display() {
 		$options = get_option( 'ea_share_count_options', $this->default_options() );
@@ -480,7 +480,7 @@ final class EA_Share_Count {
 	
 	/**
 	 * Display Before Content
-	 *
+	 * @since 1.1.0
 	 */
 	function display_before_content() {
 		$options = get_option( 'ea_share_count_options', $this->default_options() );
@@ -490,7 +490,7 @@ final class EA_Share_Count {
 	
 	/**
 	 * Display After Content
-	 *
+	 * @since 1.1.0
 	 */
 	function display_after_content() {
 		$options = get_option( 'ea_share_count_options', $this->default_options() );
@@ -501,6 +501,7 @@ final class EA_Share_Count {
 	/**
 	 * Round to Significant Figures
 	 *
+	 * @since 1.0.0
 	 * @param int $num, actual number
 	 * @param int $n, significant digits to round to
 	 * @return $num, rounded number
@@ -579,7 +580,7 @@ final class EA_Share_Count {
 	
 	/**
 	 * Initialize the settings page options
-	 *
+	 * @since 1.1.0
 	 */
 	function settings_page_init() {
 		register_setting( 'ea_share_count_options', 'ea_share_count_options', array( $this, 'ea_share_count_validate' ) );
@@ -587,7 +588,7 @@ final class EA_Share_Count {
 	
 	/**
 	 * Add Settings Page
-	 *
+	 * @since 1.1.0
 	 */
 	function add_settings_page() {
 		add_options_page( __( 'Share Count Settings', 'ea-share-count' ), __( 'Share Count Settings', 'ea-share-count' ), 'manage_options', 'ea_share_count_options', array( $this, 'settings_page' ) );
@@ -595,7 +596,7 @@ final class EA_Share_Count {
 	
 	/**
 	 * Build the Settings Page 
-	 *
+	 * @since 1.1.0
 	 */
 	function settings_page() {
 		?>
@@ -657,7 +658,7 @@ final class EA_Share_Count {
 	
 	/**
 	 * Default Option Values
-	 *
+	 * @since 1.1.0
 	 */
 	function default_options() {
 		return array( 
@@ -671,7 +672,7 @@ final class EA_Share_Count {
 	
 	/**
 	 * Validate Options
-	 *
+	 * @since 1.1.0
 	 */
 	function ea_share_count_validate( $input ) {
 		$input['api_key'] = esc_attr( $input['api_key'] );
@@ -686,6 +687,7 @@ final class EA_Share_Count {
 	 * Useful when querying based on share count data.
 	 * @link https://gist.github.com/billerickson/0f316f75430f3fd3a87c
 	 *
+	 * @since 1.1.0
 	 * @param int $count, how many posts should have sharing data
 	 * @param int $interval, how many should be updated at once
 	 *

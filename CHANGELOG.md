@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [1.1.0] - 2015-09-30
+### Added
+- Settings page for managing API Details and Theme Display
+- A prime_the_pump() function for ensuring there is share data for a certain number of posts
+- 'ea_share_count_total' filter for modifying the total count. Useful when wanting to query based on specific metric (eg: facebook likes)
+
 ## [1.0.6] - 2015-09-16
 ### Fixed
 - Default Facebook like opens share dialog box
