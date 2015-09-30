@@ -665,7 +665,7 @@ final class EA_Share_Count {
 			'api_domain'        => 'https://free.sharedcount.com',
 			'style'             => '',
 			'theme_location'    => '',
-			'included_services' => '',
+			'included_services' => 'facebook, twitter, pinterest, google',
 		);
 	}
 	
