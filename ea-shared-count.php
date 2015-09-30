@@ -208,7 +208,7 @@ final class EA_Share_Count {
 				$total += (int) $count['total_count'];
 		}
 		
-		return $total;
+		return apply_filters( 'ea_share_count_total', $total, $share_count );
 			
 	}
 
