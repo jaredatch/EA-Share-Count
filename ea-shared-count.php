@@ -468,14 +468,17 @@ final class EA_Share_Count {
 	 * Based on Plugin Options
 	 * @since 1.1.0
 	 */
-	function display() {
+	function display( $location = false ) {
 		$options = get_option( 'ea_share_count_options', $this->default_options() );
 		$output = '';
 		$style = isset( $options['style'] ) ? esc_attr( $options['style'] ) : 'generic';
 		$services = explode( ', ', $options['included_services'] );
 		foreach( $services as $service )
 			$output .= $this->link( $service, false, false, $style );
-		echo '<div class="ea-share-count">' . $output . '</div>';
+
+		echo '<div class="ea-share-count">';
+		echo apply_filters( 'ea_share_count_display', $output, $location );
+		echo '</div>';
 	}
 	
 	/**
@@ -485,7 +488,7 @@ final class EA_Share_Count {
 	function display_before_content() {
 		$options = get_option( 'ea_share_count_options', $this->default_options() );
 		if( 'before_content' == $options['theme_location'] )
-			$this->display();
+			$this->display( 'before_content' );
 	}
 	
 	/**
@@ -495,7 +498,7 @@ final class EA_Share_Count {
 	function display_after_content() {
 		$options = get_option( 'ea_share_count_options', $this->default_options() );
 		if( 'after_content' == $options['theme_location'] )
-			$this->display();
+			$this->display( 'after_content' );
 	}
 	
 	/**
