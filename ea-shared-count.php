@@ -486,7 +486,7 @@ final class EA_Share_Count {
 	 * @since 1.1.0
 	 */
 	function display_before_content() {
-		$options = get_option( 'ea_share_count_options', $this->default_options() );		
+		$options = get_option( 'ea_share_count_options', $this->default_options() );
 		if( 'before_content' == $options['theme_location'] && is_singular( 'post' ) )
 			$this->display( 'before_content' );
 	}
