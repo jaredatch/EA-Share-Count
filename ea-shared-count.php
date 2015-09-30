@@ -693,9 +693,10 @@ final class EA_Share_Count {
 	 * @since 1.1.0
 	 * @param int $count, how many posts should have sharing data
 	 * @param int $interval, how many should be updated at once
+	 * @param bool $messages, whether to display messages during the update
 	 *
 	 */
-	function prime_the_pump( $count = 100, $interval = 20 ) {
+	function prime_the_pump( $count = 100, $interval = 20, $messages = false ) {
 	
 		$current = new WP_Query( array( 
 			'fields' => 'ids',
@@ -708,6 +709,9 @@ final class EA_Share_Count {
 			)
 		) );
 		$current = count( $current->posts );
+
+		if( $messages && function_exists( 'ea_pp' ) )
+			ea_pp( 'Currently ' . $current . ' posts with share counts' );
 	
 		if( $current < $count ) {
 
@@ -728,6 +732,11 @@ final class EA_Share_Count {
 						$this->count( $post_id );
 						do_action( 'ea_share_count_primed', $post_id );
 					}
+				}
+				
+				if( $messages && function_exists( 'ea_pp' ) ) {
+					$total_updated = $interval > count( $update->posts ) ? count( $update->posts ) : $interval;
+					ea_pp( 'Updated ' . $total_updated . ' posts with share counts' );
 				}
 			}
 		}
