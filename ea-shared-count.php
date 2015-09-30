@@ -662,7 +662,7 @@ final class EA_Share_Count {
 	function default_options() {
 		return array( 
 			'api_key'           => '',
-			'api_domain'        => 'http://free.sharedcount.com',
+			'api_domain'        => 'https://free.sharedcount.com',
 			'style'             => '',
 			'theme_location'    => '',
 			'included_services' => '',
