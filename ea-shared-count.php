@@ -51,7 +51,7 @@ final class EA_Share_Count {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	private $version = '1.0.1';
+	private $version = '1.1.0';
 
 	/**
 	 * Domain for accessing SharedCount API.
@@ -542,42 +542,12 @@ final class EA_Share_Count {
 
 		// Load CSS
 		if ( apply_filters( 'ea_share_count_load_css', true ) ) {
-			wp_enqueue_style( 'ea-share-count', plugins_url( 'share-count.css', __FILE__ ), array(), $this->version );
+			wp_enqueue_style( 'ea-share-count', plugins_url( 'assets/css/share-count.css', __FILE__ ), array(), $this->version );
 		}
 
 		// Load JS
 		if ( apply_filters( 'ea_share_count_load_js', true ) ) {
-			wp_enqueue_script( 'jquery' );
-			?>
-			<script type="text/javascript">
-			jQuery(document).ready(function($){
-				$('.ea-share-count-button[target="_blank"]').click(function(event){
-					event.preventDefault();
-					var window_size = '';
-					var url = this.href;
-					var domain = url.split("/")[2];
-					switch(domain) {
-						case "www.facebook.com":
-							window_size = "width=585,height=368";
-							break;
-						case "twitter.com":
-							window_size = "width=585,height=261";
-							break;
-						case "plus.google.com":
-							window_size = "width=517,height=511";
-							break;
-						case "pinterest.com":
-							window_size = "width=700,height=300";
-							break;
-						default:
-							window_size = "width=585,height=515";
-					}
-					window.open(url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,' + window_size);
-					$(this).trigger("ea-share-click");
-				});
-			});
-			</script>
-			<?php
+			wp_enqueue_script( 'ea-share-count', plugins_url( 'assets/js/share-count.js', __FILE__ ), array( 'jquery' ), $this->version, true );
 		}
 	}
 	
