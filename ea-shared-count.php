@@ -487,7 +487,7 @@ final class EA_Share_Count {
 	 */
 	function display_before_content() {
 		$options = get_option( 'ea_share_count_options', $this->default_options() );
-		if( 'before_content' == $options['theme_location'] && is_singular( 'post' ) )
+		if( ( 'before_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && is_singular( 'post' ) )
 			$this->display( 'before_content' );
 	}
 	
@@ -497,7 +497,7 @@ final class EA_Share_Count {
 	 */
 	function display_after_content() {
 		$options = get_option( 'ea_share_count_options', $this->default_options() );
-		if( 'after_content' == $options['theme_location'] && is_singular( 'post' ) )
+		if( ( 'after_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && is_singular( 'post' ) )
 			$this->display( 'after_content' );
 	}
 	
@@ -608,7 +608,7 @@ final class EA_Share_Count {
 					
 						echo '<tr valign="top"><th scope="row">' . __( 'Theme Location', 'ea-share-count' ) . '</th>';
 						echo '<td><select name="ea_share_count_options[theme_location]">';
-						$locations = array( '' => 'None', 'before_content' => 'Before Content', 'after_content' => 'After Content' );
+						$locations = array( '' => 'None', 'before_content' => 'Before Content', 'after_content' => 'After Content', 'before_after_content' => 'Before and After Content' );
 						foreach( $locations as $key => $label ) {
 							echo '<option value="' . $key . '" ' . selected( $key, $options['theme_location'], false ) . '>' . $label . '</option>';
 						}
