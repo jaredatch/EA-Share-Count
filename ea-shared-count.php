@@ -476,7 +476,7 @@ final class EA_Share_Count {
 		foreach( $services as $service )
 			$output .= $this->link( $service, false, false, $style );
 
-		echo '<div class="ea-share-count">';
+		echo '<div class="ea-share-count-wrap ' . sanitize_html_class( $location ) . '">';
 		echo apply_filters( 'ea_share_count_display', $output, $location );
 		echo '</div>';
 	}
