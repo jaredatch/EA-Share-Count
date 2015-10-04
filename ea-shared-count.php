@@ -487,7 +487,7 @@ final class EA_Share_Count {
 	 */
 	function display_before_content() {
 		$options = get_option( 'ea_share_count_options', $this->default_options() );
-		if( ( 'before_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && is_singular( 'post' ) )
+		if( ( 'before_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && is_singular( $options['post_type'] ) )
 			$this->display( 'before_content' );
 	}
 	
@@ -497,7 +497,7 @@ final class EA_Share_Count {
 	 */
 	function display_after_content() {
 		$options = get_option( 'ea_share_count_options', $this->default_options() );
-		if( ( 'after_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && is_singular( 'post' ) )
+		if( ( 'after_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && is_singular( $options['post_type'] ) )
 			$this->display( 'after_content' );
 	}
 	
@@ -603,6 +603,25 @@ final class EA_Share_Count {
 						?>
 						</select></td>
 					</tr>
+					<tr valign="top"><th scope="row"><?php _e( 'Supported Post Types', 'ea-share-count' );?></th>
+						<td><fieldset>
+						<?php 
+						$post_types = get_post_types( array( 'public' => true, '_builtin' => true ), 'names' );
+						if ( isset( $post_types['attachment'] ) ) {
+							unset( $post_types['attachment'] );
+						}
+						echo '<fieldset>';
+						foreach( $post_types as $post_type ) {
+							echo '<label for="ea-cpt-' . sanitize_html_class( $post_type['post_type'] )  . '">';
+								echo '<input type="checkbox" name="ea_share_count_options[post_type][]" value="' . esc_attr( $post_type ). '" id="ea-cpt-' . sanitize_html_class( $post_type ) . '" ' . checked( in_array( $post_type, $options['post_type'] ), true, false ) . '>';
+								echo esc_html( $post_type );
+							echo '</label>';
+							echo '<br>';
+						}
+						?>
+						</fieldset></td>
+					</tr>
+					
 
 					<?php if( 'genesis' == basename( TEMPLATEPATH ) ) {
 					
@@ -627,6 +646,7 @@ final class EA_Share_Count {
 			</form>
 		</div>
 		<?php		
+		print_r( $options );
 	}
 	
 	/**
@@ -638,6 +658,7 @@ final class EA_Share_Count {
 			'api_key'           => '',
 			'api_domain'        => 'https://free.sharedcount.com',
 			'style'             => '',
+			'post_type'         => array(),
 			'theme_location'    => '',
 			'included_services' => 'facebook, twitter, pinterest, google',
 		);
@@ -645,11 +666,16 @@ final class EA_Share_Count {
 	
 	/**
 	 * Validate Options
+	 * 
 	 * @since 1.1.0
 	 */
 	function ea_share_count_validate( $input ) {
-		$input['api_key'] = esc_attr( $input['api_key'] );
-		$input['api_domain'] = esc_url( $input['api_domain'] );
+
+		$input['api_key']        = esc_attr( $input['api_key'] );
+		$input['api_domain']     = esc_url( $input['api_domain'] );
+		$input['style']          = esc_attr( $input['style'] );
+		$input['post_type']      = array_map( 'esc_attr', $input['post_type'] );
+		$input['theme_location'] = esc_attr( $input['theme_location'] );
 		return $input;
 	}
 	
