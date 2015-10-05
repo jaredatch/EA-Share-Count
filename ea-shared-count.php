@@ -471,8 +471,7 @@ final class EA_Share_Count {
 		$options = get_option( 'ea_share_count_options', $this->default_options() );
 		$output = '';
 		$style = isset( $options['style'] ) ? esc_attr( $options['style'] ) : 'generic';
-		$services = explode( ', ', $options['included_services'] );
-		foreach( $services as $service )
+		foreach( $options['included_services'] as $service )
 			$output .= $this->link( $service, false, false, $style );
 
 		echo '<div class="ea-share-count-wrap ' . sanitize_html_class( $location ) . '">';
