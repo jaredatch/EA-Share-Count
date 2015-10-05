@@ -98,16 +98,15 @@ final class EA_Share_Count {
 	 */
 	public function init() {
 
-		add_action( 'init',      array( $this, 'load'          )    );
-		add_action( 'wp_footer', array( $this, 'footer_assets' ), 1 );
-		
+		add_action( 'init',                  array( $this, 'load'                   )     );
+		add_action( 'wp_footer',             array( $this, 'footer_assets'          ), 1  );
 		// Settings Page
-		add_action( 'admin_init', array( $this, 'settings_page_init' ) );
-		add_action( 'admin_menu', array( $this, 'add_settings_page'  ) );
-		
+		add_action( 'admin_init',            array( $this, 'settings_page_init'     )     );
+		add_action( 'admin_menu',            array( $this, 'add_settings_page'      )     );
+		add_action( 'admin_enqueue_scripts', array( $this, 'settings_assets'        )     );
 		// Display in Genesis theme
-		add_action( 'genesis_entry_header', array( $this, 'display_before_content' ), 13 );
-		add_action( 'genesis_entry_footer', array( $this, 'display_after_content'  ), 8  );
+		add_action( 'genesis_entry_header',  array( $this, 'display_before_content' ), 13 );
+		add_action( 'genesis_entry_footer',  array( $this, 'display_after_content'  ), 8  );
 	}
 
 	/**
@@ -610,7 +609,6 @@ final class EA_Share_Count {
 						if ( isset( $post_types['attachment'] ) ) {
 							unset( $post_types['attachment'] );
 						}
-						echo '<fieldset>';
 						foreach( $post_types as $post_type ) {
 							echo '<label for="ea-cpt-' . sanitize_html_class( $post_type['post_type'] )  . '">';
 								echo '<input type="checkbox" name="ea_share_count_options[post_type][]" value="' . esc_attr( $post_type ). '" id="ea-cpt-' . sanitize_html_class( $post_type ) . '" ' . checked( in_array( $post_type, $options['post_type'] ), true, false ) . '>';
@@ -636,17 +634,48 @@ final class EA_Share_Count {
 					}
 					?>
 					<tr valign="top"><th scope="row"><?php _e( 'Included Services', 'ea-share-count' );?></th>
-						<td><input type="text" name="ea_share_count_options[included_services]" value="<?php echo $options['included_services'];?>" class="regular-text" /><br /><em><?php _e( '(comma separated)', 'ea-share-count' );?></em></td>
+						<td>
+						<select name="ea_share_count_options[included_services][]" class="share-count-services" multiple="multiple" style="min-width:350px;">
+						<?php
+						$services = array(
+							'facebook'        => 'Facebook',
+							'facebook_likes'  => 'Facebook Like',
+							'facebook_shares' => 'Facebook Share',
+							'twitter'         => 'Twitter',
+							'pinterest'       => 'Pinterest',
+							'linkedin'        => 'LinkedIn',
+							'google'          => 'Google+',
+							'stumbleupon'     => 'Stumble Upon',
+						);
+						foreach( $services as $key => $service ) {
+							echo '<option value="' . $key . '" ' . selected( in_array( $key, $options['included_services'] ), true, false ) . '>' . $service . '</option>';
+						}
+						?>
+						</select>
+						</td>
 					</tr>
-
 				</table>
 				<p class="submit">
 				<input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'ea-share-count' ); ?>" />
 				</p>
 			</form>
 		</div>
-		<?php		
-		print_r( $options );
+		<?php	
+	}
+
+	/**
+	 * Load settings page assets
+	 *
+	 * @since 1.0.0
+	 * @param string $hook
+	 */
+	function settings_assets( $hook ) {
+
+		if ( 'settings_page_ea_share_count_options' == $hook ) {
+			wp_enqueue_style( 'select2', plugins_url( 'assets/css/select2.min.css', __FILE__ ), array(), $this->version );
+			wp_enqueue_script( 'select2', plugins_url( 'assets/js/select2.min.js', __FILE__ ), array( 'jquery' ), $this->version, $false );
+			wp_enqueue_script( 'share-count-settings', plugins_url( 'assets/js/settings.js', __FILE__ ), array( 'jquery' ), $this->version, $false );
+		}
 	}
 	
 	/**
@@ -658,9 +687,9 @@ final class EA_Share_Count {
 			'api_key'           => '',
 			'api_domain'        => 'https://free.sharedcount.com',
 			'style'             => '',
-			'post_type'         => array(),
+			'post_type'         => array( 'post' ),
 			'theme_location'    => '',
-			'included_services' => 'facebook, twitter, pinterest, google',
+			'included_services' => array( 'facebook', 'twitter', 'pinterest' ),
 		);
 	}
 	
@@ -670,12 +699,12 @@ final class EA_Share_Count {
 	 * @since 1.1.0
 	 */
 	function ea_share_count_validate( $input ) {
-
-		$input['api_key']        = esc_attr( $input['api_key'] );
-		$input['api_domain']     = esc_url( $input['api_domain'] );
-		$input['style']          = esc_attr( $input['style'] );
-		$input['post_type']      = array_map( 'esc_attr', $input['post_type'] );
-		$input['theme_location'] = esc_attr( $input['theme_location'] );
+		$input['api_key']           = esc_attr( $input['api_key'] );
+		$input['api_domain']        = esc_url( $input['api_domain'] );
+		$input['style']             = esc_attr( $input['style'] );
+		$input['post_type']         = array_map( 'esc_attr', $input['post_type'] );
+		$input['theme_location']    = esc_attr( $input['theme_location'] );
+		$input['included_services'] = array_map( 'esc_attr', $input['included_services'] );
 		return $input;
 	}
 	
