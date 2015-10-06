@@ -1,6 +1,19 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [1.2.0] - 2015-10-06
+### Added
+- Setting for post types supported
+- Setting for hiding empty counts
+- Uninstall functionality
+
+### Changed
+- Setting format for included services
+- Setting theme location to support before AND after
+- Share bar display markup and CSS
+- Reorganized file structure
+- Assets enqueue earlier if possible
+
 ## [1.1.0] - 2015-09-30
 ### Added
 - Settings page for managing API Details and Theme Display
