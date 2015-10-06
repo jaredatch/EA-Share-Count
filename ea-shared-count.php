@@ -358,7 +358,7 @@ final class EA_Share_Count {
 	 * @param string $style
 	 * @param int $round, how many significant digits on count
 	 */
-	function link( $types = 'facebook', $id = false, $echo = true, $style = 'generic', $round = 2 ) {
+	function link( $types = 'facebook', $id = false, $echo = true, $style = 'generic', $round = 2, $show_empty = '' ) {
 
 		if ( !$id ) {
 			$id = get_the_ID();
@@ -367,6 +367,11 @@ final class EA_Share_Count {
 		$this->share_link = true;
 		$types  = (array) $types;
 		$output = '';
+
+		if ( empty( $show_empty ) ) {
+			$options = get_option( 'ea_share_count_options', $this->default_options() );
+			$show_empty = $options['show_empty'];
+		}
 
 		foreach ( $types as $type ) {
 			$link          = array();
@@ -444,16 +449,22 @@ final class EA_Share_Count {
 			$link = apply_filters( 'ea_share_count_link', $link );
 			$target = !empty( $link['target'] ) ? ' target="' . esc_attr( $link['target'] ) . '" ' : '';
 
+			// Add class to buttons with 0 share count for CSS targeting
+			if ( '0' == $link['count'] ) {
+				$link['class'] .= ' ea-share-count-empty';
+			}
+
+			// Build button output
 			$output .= '<a href="' . $link['link'] . '"' . $target . 'class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '">';
 				$output .= '<span class="ea-share-count-icon-label">';
 					$output .= '<i class="ea-share-count-icon ' . $link['icon'] . '"></i>';
 					$output .= '<span class="ea-share-count-label">' . $link['label'] . '</span>';
 				$output .= '</span>';
-				$output .= '<span class="ea-share-count">' . $link['count'] . '</span>'; 
+				if ( 'true' == $show_empty  || ( 'true' != $show_empty && $link['count'] != '0' ) ) {
+					$output .= '<span class="ea-share-count">' . $link['count'] . '</span>'; 
+				}
 			$output .= '</a>';
 		}
-
-		
 
 		if ( $echo == true ) {
 			echo $output;
@@ -601,6 +612,16 @@ final class EA_Share_Count {
 						?>
 						</select></td>
 					</tr>
+					<tr valign="top"><th scope="row"><?php _e( 'Show Empty Counts', 'ea-share-count' );?></th>
+						<td><select name="ea_share_count_options[show_empty]">
+						<?php
+						$show_empty = array( 'true' => 'Yes', 'false' => 'No' );
+						foreach( $show_empty as $key => $label ) {
+							echo '<option value="' . $key . '" ' . selected( $key, $options['show_empty'], false ) . '>' . $label . '</option>';
+						}
+						?>
+						</select></td>
+					</tr>
 					<tr valign="top"><th scope="row"><?php _e( 'Supported Post Types', 'ea-share-count' );?></th>
 						<td><fieldset>
 						<?php 
@@ -618,8 +639,6 @@ final class EA_Share_Count {
 						?>
 						</fieldset></td>
 					</tr>
-					
-
 					<?php if( 'genesis' == basename( TEMPLATEPATH ) ) {
 					
 						echo '<tr valign="top"><th scope="row">' . __( 'Theme Location', 'ea-share-count' ) . '</th>';
@@ -686,6 +705,7 @@ final class EA_Share_Count {
 			'api_key'           => '',
 			'api_domain'        => 'https://free.sharedcount.com',
 			'style'             => '',
+			'show_empty'        => 'true',
 			'post_type'         => array( 'post' ),
 			'theme_location'    => '',
 			'included_services' => array( 'facebook', 'twitter', 'pinterest' ),
@@ -701,6 +721,7 @@ final class EA_Share_Count {
 		$input['api_key']           = esc_attr( $input['api_key'] );
 		$input['api_domain']        = esc_url( $input['api_domain'] );
 		$input['style']             = esc_attr( $input['style'] );
+		$input['style']             = esc_attr( $input['show_empty'] );
 		$input['post_type']         = array_map( 'esc_attr', $input['post_type'] );
 		$input['theme_location']    = esc_attr( $input['theme_location'] );
 		$input['included_services'] = array_map( 'esc_attr', $input['included_services'] );
