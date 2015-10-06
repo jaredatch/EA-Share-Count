@@ -99,7 +99,8 @@ final class EA_Share_Count {
 	public function init() {
 
 		add_action( 'init',                  array( $this, 'load'                   )     );
-		add_action( 'wp_footer',             array( $this, 'footer_assets'          ), 1  );
+		add_action( 'wp_enqueue_scripts',    array( $this, 'header_assets'          )     );
+		add_action( 'wp_footer',             array( $this, 'load_assets'            ), 1  );
 		// Settings Page
 		add_action( 'admin_init',            array( $this, 'settings_page_init'     )     );
 		add_action( 'admin_menu',            array( $this, 'add_settings_page'      )     );
@@ -536,13 +537,29 @@ final class EA_Share_Count {
 		
 		return $output;
 	}
+
+	/**
+	 * Enqueue the assets earlier if possible.
+	 *
+	 * @since 1.2.0
+	 */
+	public function header_assets() {
+
+		$options = get_option( 'ea_share_count_options', $this->default_options() );
+
+		if ( !empty( $options['theme_location'] ) && is_singular( $options['post_type'] ) ) {
+
+			$this->share_link = true;
+			$this->load_assets();
+		}
+	}
 	
 	/**
-	 * Determines if assets need to be loaded in the footer.
+	 * Determines if assets need to be loaded.
 	 *
 	 * @since 1.0.0
 	 */
-	public function footer_assets() {
+	public function load_assets() {
 
 		// Only continue if a share link was previously used in the page.
 		if ( ! $this->share_link ) {
