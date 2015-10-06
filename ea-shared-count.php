@@ -497,7 +497,7 @@ final class EA_Share_Count {
 	 */
 	function display_before_content() {
 		$options = get_option( 'ea_share_count_options', $this->default_options() );
-		if( ( 'before_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && is_singular( $options['post_type'] ) )
+		if( ( 'before_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) )
 			$this->display( 'before_content' );
 	}
 	
@@ -507,7 +507,7 @@ final class EA_Share_Count {
 	 */
 	function display_after_content() {
 		$options = get_option( 'ea_share_count_options', $this->default_options() );
-		if( ( 'after_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && is_singular( $options['post_type'] ) )
+		if( ( 'after_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) )
 			$this->display( 'after_content' );
 	}
 	
@@ -547,7 +547,7 @@ final class EA_Share_Count {
 
 		$options = get_option( 'ea_share_count_options', $this->default_options() );
 
-		if ( !empty( $options['theme_location'] ) && is_singular( $options['post_type'] ) ) {
+		if ( !empty( $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) ) {
 
 			$this->share_link = true;
 			$this->load_assets();
