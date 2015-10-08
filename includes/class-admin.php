@@ -19,9 +19,15 @@ class EA_Share_Count_Admin {
 	 */
 	public function __construct() {
 
-		add_action( 'admin_init',            array( $this, 'settings_init'   )     );
-		add_action( 'admin_menu',            array( $this, 'settings_add'    )     );
-		add_action( 'admin_enqueue_scripts', array( $this, 'settings_assets' )     );
+		// Settings
+		add_action( 'admin_init',               array( $this, 'settings_init'   )     );
+		add_action( 'admin_menu',               array( $this, 'settings_add'    )     );
+		add_action( 'admin_enqueue_scripts',    array( $this, 'settings_assets' )     );
+
+		// Metabox
+		add_action( 'admin_init',               array( $this, 'metabox_add'     )     );
+		add_action( 'wp_ajax_ea_share_refresh', array( $this, 'metabox_ajax'    )     );
+		add_action( 'admin_enqueue_scripts',    array( $this, 'metabox_assets'  )     );
 	}
 
 	/**
@@ -201,7 +207,7 @@ class EA_Share_Count_Admin {
 
 			wp_enqueue_style( 'select2', EA_SHARE_COUNT_URL . 'assets/css/select2.min.css', array(), EA_SHARE_COUNT_VERSION );
 			wp_enqueue_script( 'select2', EA_SHARE_COUNT_URL  . 'assets/js/select2.min.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, $false );
-			wp_enqueue_script( 'share-count-settings', EA_SHARE_COUNT_URL . 'assets/js/settings.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, $false );
+			wp_enqueue_script( 'share-count-settings', EA_SHARE_COUNT_URL . 'assets/js/admin-settings.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, $false );
 		}
 	}
 
@@ -241,7 +247,129 @@ class EA_Share_Count_Admin {
 	}
 
 	/**
+	 * Initialize the metabox for supported post types.
+	 *
+	 * @since 1.3.0
+	 */
+	public function metabox_add() {
+
+		$options = $this->options();
+		if ( !empty( $options['post_type'] ) ) {
+			$post_types = (array) $options['post_type'];
+			foreach( $post_types as $post_type ) {
+				add_meta_box( 'ea-share-count-metabox', __( 'Share Counts', 'ea-share-count' ), array( $this, 'metabox' ), $post_type, 'side', 'low' );
+			}
+		}
+	}
+
+	/**
+	 * Output the metabox.
+	 * 
+	 * @since 1.3.0
+	 */
+	public function metabox() {
+
+		global $post;
+
+		if ( 'publish' != $post->post_status ) {
+			echo '<p>' . __( 'Entry must be published to view share counts.', 'ea-share-count' ) . '</p>';
+			return;
+		}
+
+		$counts = get_post_meta( $post->ID, 'ea_share_count', true );
+
+		if ( !empty( $counts ) ) {
+			$counts = json_decode( $counts, true );
+			echo '<ul id="ea-share-count-list">';
+				echo $this->metabox_counts( $counts );
+			echo '</ul>';
+			$date = get_post_meta( $post->ID, 'ea_share_count_datetime', true );
+			$date = $date+( get_option( 'gmt_offset' ) * 3600 );
+			echo '<p id="ea-share-count-date">Last updated ' . date( 'M j, Y g:ia', $date ) . '</span></p>';
+		} else {
+			echo '<p id="ea-share-count-empty">' . __( 'No share counts downloaded for this entry', 'ea-share-count' ) . '</p>';
+		}
+
+		echo '<a href="#" class="button" id="ea-share-count-refresh" data-nonce="' . wp_create_nonce( 'ea-share-count-refresh-' . $post->ID ) . '" data-postid="' . $post->ID . '">'. __( 'Refresh Share Counts', 'ea-share-count' ) . '</a>';
+	}
+
+	/**
+	 * Build the metabox list item counts.
+	 *
+	 * @since 1.3.0
+	 * @param array $counts
+	 * @return string
+	 */
+	public function metabox_counts( $counts ) {
+
+		if ( empty( $counts) || !is_array( $counts ) )
+			return;
+
+		$ouput   = '';
+		$output .= '<li>Facebook Likes: <strong>' . ( !empty( $counts['Facebook']['like_count'] ) ? absint( $counts['Facebook']['like_count'] ) : '0'  ) . '</strong></li>';
+		$output .= '<li>Facebook Shares: <strong>' . ( !empty( $counts['Facebook']['share_count'] ) ? absint( $counts['Facebook']['share_count'] ) : '0'  ) . '</strong></li>';
+		$output .= '<li>Facebook Comments: <strong>' . ( !empty( $counts['Facebook']['comment_count'] ) ? absint( $counts['Facebook']['comment_count'] ) : '0'  ) . '</strong></li>';
+		$output .= '<li>Twitter: <strong>' . ( !empty( $counts['Twitter'] ) ? absint( $counts['Twitter'] ) : '0'  ) . '</strong></li>';
+		$output .= '<li>Pinterest: <strong>' . ( !empty( $counts['Pinterest'] ) ? absint( $counts['Pinterest'] ) : '0'  ) . '</strong></li>';
+		$output .= '<li>LinkedIn: <strong>' . ( !empty( $counts['LinkedIn'] ) ? absint( $counts['LinkedIn'] ) : '0'  ) . '</strong></li>';
+		$output .= '<li>StumbleUpon: <strong>' . ( !empty( $counts['StumbleUpon'] ) ? absint( $counts['StumbleUpon'] ) : '0'  ) . '</strong></li>';
+		
+		return $output;
+	}
+
+	/**
+	 * Metabox AJAX functionality.
+	 *
+	 * @since 1.3.0
+	 */
+	function metabox_ajax() {
+
+		// Run a security check
+		if ( ! wp_verify_nonce( $_POST['nonce'], 'ea-share-count-refresh-' . $_POST['post_id'] ) ) {
+			wp_send_json_error( array( 'msg' => __( 'Failed security', 'ea-share-count' ), 'class' => 'error' ) );
+		}
+
+		// Check for permissions
+		if ( !current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'msg' => __( 'You do not have permission', 'ea-share-count' ), 'class' => 'error' ) );
+		}
+
+		$id     = absint( $_POST['post_id'] );
+		$counts = ea_share()->core->counts( $id, true, true );
+		$date   = '<p id="ea-share-count-date">Last updated ' . date( 'M j, Y g:ia', time()+( get_option( 'gmt_offset' ) * 3600 ) ) . '</span></p>';
+		$list   = '<ul id="ea-share-count-list">' . $this->metabox_counts( $counts ) . '<ul>';
+
+		wp_send_json_success( array( 
+			'msg'   => __( 'Share counts updated.', 'ea-share-count' ), 
+			'class' => 'success',
+			'date'  => $date,
+			'list'  => $list,
+		) );
+	}
+
+	/**
+	 * Load metabox assets
+	 *
+	 * @since 1.0.0
+	 * @param string $hook
+	 */
+	public function metabox_assets( $hook ) {
+
+		global $post;
+		$options = $this->options();
+
+		if ( empty( $options['post_type'] ) )
+			return;
+
+		if ( 'post.php' == $hook && in_array( $post->post_type, $options['post_type'] )  ) {
+			wp_enqueue_script( 'share-count-settings', EA_SHARE_COUNT_URL . 'assets/js/admin-metabox.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, $false );
+		}
+	}
+
+	/**
 	 * Return the settings options values.
+	 *
+	 * Used globally. Options are filterable.
 	 *
 	 * @since 1.3.0
 	 */

@@ -26,9 +26,10 @@ class EA_Share_Count_Core{
 	 * @since 1.0.0
 	 * @param int/string $id, pass 'site' for full site stats
 	 * @param boolean $array, return json o
+	 * @param boolean $force, force refresh
 	 * @return object $share_count
 	 */
-	public function counts( $id = false, $array = false ) {
+	public function counts( $id = false, $array = false, $force = false ) {
 		
 		// Primary site URL
 		if ( 'site' == $id ) {
@@ -57,7 +58,7 @@ class EA_Share_Count_Core{
 		}
 
 		// Rebuild and update meta if necessary
-		if ( ! $share_count || ! $last_updated || $this->needs_updating( $last_updated, $post_date ) ) {
+		if ( ! $share_count || ! $last_updated || $this->needs_updating( $last_updated, $post_date ) || $force ) {
 			
 			$share_count = $this->query_api( $post_url );
 
@@ -282,7 +283,7 @@ class EA_Share_Count_Core{
 		if ( ! $url || empty( $options['api_key'] ) ) {
 			return;
 		}
-		//@todo
+
 		$query_args = apply_filters( 'ea_share_count_api_params', array( 'url' => $url, 'apikey' => $options['api_key'] ) );
 		$query      = add_query_arg( $query_args, $options['api_domain'] . '/url' );
 		$results    = wp_remote_get( $query );
