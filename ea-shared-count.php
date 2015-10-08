@@ -54,14 +54,6 @@ final class EA_Share_Count {
 	private $version = '1.3.0';
 
 	/**
-	 * Plugin settings
-	 *
-	 * @since  1.0.0
-	 * @var array
-	 */
-	public $options;
-
-	/**
 	 * Core instance
 	 *
 	 * @since 1.3.0
