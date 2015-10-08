@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [1.4.0] - 2015-10-XX
+### Added
+
+### Changed
+- Refactored plugin structure
+
 ## [1.2.0] - 2015-10-06
 ### Added
 - Setting for post types supported
@@ -30,6 +36,7 @@ All notable changes to this project will be documented in this file, formatted v
 ## [1.0.5] - 2015-09-02
 ### Fixed
 - Incorrect target="_blank" assignment
+
 ### Added
 - Filter for single post images
 - Javascript event for share clicks
