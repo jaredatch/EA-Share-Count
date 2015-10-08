@@ -31,21 +31,15 @@ class EA_Share_Count_Core{
 	 */
 	public function counts( $id = false, $array = false, $force = false ) {
 		
-		// Primary site URL
-		if ( 'site' == $id ) {
+		// Primary site URL or Offsite/non post URL
+		if ( 'site' == $id || 0 === strpos( $id, 'http') ) {
 
 			$post_date    = true;
-			$post_url     = apply_filters( 'ea_share_count_site_url', home_url() );
-			$share_count  = get_option( 'ea_share_count' );
-			$last_updated = get_option( 'ea_share_count_datetime' );
-			
-		// Offsite or non post URL
-		} elseif( 0 === strpos( $id, 'http' ) ) {
-	
-			$post_date    = true;
-			$post_url     = esc_url( $id );
-			$share_count  = get_option( 'ea_share_count_' . md5( $id ) );
-			$last_updated = get_option( 'ea_share_count_datetime_' . md5( $id ) );
+			$post_url     = 'site' == $id ? apply_filters( 'ea_share_count_site_url', home_url() ) : esc_url( $id );
+			$hash         = md5( $post_url );
+			$share_option = get_option( 'ea_share_count_urls', array() );
+			$share_count  = !empty( $share_option[$hash]['count'] ) ? $share_option[$hash]['count'] : false;
+			$last_updated = !empty( $share_option[$hash]['datetime'] ) ? $share_option[$hash]['datetime'] : false;
 			
 		// Post type URL
 		} else {
@@ -62,25 +56,17 @@ class EA_Share_Count_Core{
 			
 			$share_count = $this->query_api( $post_url );
 
-			if ( $share_count && 'site' == $id ) {
+			if ( $share_count && ( 'site' == $id || 0 === strpos( $id, 'http' ) ) ) {
 
-				update_option( 'ea_share_count', $share_count );
-				update_option( 'ea_share_count_datetime', time() );
+				$share_option[$hash]['count'] = $share_count;
+				$share_option[$hash]['datetime'] = time();
 
 				$total = $this->total_count( $share_count );
 				if ( $total ) {
-					update_option( 'ea_share_count_total', $total );
+					$share_option[$hash]['total'] = $share_count;
 				}
 
-			} elseif( $share_count && 0 === strpos( $id, 'http' ) ) {		
-
-				update_option( 'ea_share_count_' . md5( $id ), $share_count );
-				update_option( 'ea_share_count_datetime_' . md5( $id ), time() );
-				
-				$total = $this->total_count( $share_count );
-				if ( $total ) {
-					update_option( 'ea_share_count_total_' . md5( $id ), $total );
-				}
+				update_option( 'ea_share_count_urls', $share_option );
 			
 			} elseif ( $share_count ) {
 

@@ -1,11 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
-## [1.4.0] - 2015-10-XX
+## [1.3.0] - 2015-10-XX
 ### Added
+- Metabox to supported post types for viewing/updating share counts
 
 ### Changed
 - Refactored plugin structure
+- Non-post URLs are now stored in a single option
 
 ## [1.2.0] - 2015-10-06
 ### Added
