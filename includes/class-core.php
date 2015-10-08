@@ -60,6 +60,7 @@ class EA_Share_Count_Core{
 
 				$share_option[$hash]['count'] = $share_count;
 				$share_option[$hash]['datetime'] = time();
+				$share_option[$hash]['url'] = $post_url;
 
 				$total = $this->total_count( $share_count );
 				if ( $total ) {
