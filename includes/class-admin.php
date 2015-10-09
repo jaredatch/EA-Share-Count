@@ -20,14 +20,14 @@ class EA_Share_Count_Admin {
 	public function __construct() {
 
 		// Settings
-		add_action( 'admin_init',               array( $this, 'settings_init'   )     );
-		add_action( 'admin_menu',               array( $this, 'settings_add'    )     );
-		add_action( 'admin_enqueue_scripts',    array( $this, 'settings_assets' )     );
-
+		add_action( 'admin_init',                                 array( $this, 'settings_init'   )     );
+		add_action( 'admin_menu',                                 array( $this, 'settings_add'    )     );
+		add_action( 'admin_enqueue_scripts',                      array( $this, 'settings_assets' )     );
+		add_filter( 'plugin_action_links_' . EA_SHARE_COUNT_BASE, array( $this, 'settings_link'   )     );
 		// Metabox
-		add_action( 'admin_init',               array( $this, 'metabox_add'     )     );
-		add_action( 'wp_ajax_ea_share_refresh', array( $this, 'metabox_ajax'    )     );
-		add_action( 'admin_enqueue_scripts',    array( $this, 'metabox_assets'  )     );
+		add_action( 'admin_init',                                 array( $this, 'metabox_add'     )     );
+		add_action( 'wp_ajax_ea_share_refresh',                   array( $this, 'metabox_ajax'    )     );
+		add_action( 'admin_enqueue_scripts',                      array( $this, 'metabox_assets'  )     );
 	}
 
 	/**
@@ -244,6 +244,20 @@ class EA_Share_Count_Admin {
 		$input['theme_location']    = esc_attr( $input['theme_location'] );
 		$input['included_services'] = array_map( 'esc_attr', $input['included_services'] );
 		return $input;
+	}
+
+	/**
+	 * Add settings link to the Plugins page.
+	 *
+	 * @since 1.3.0
+	 * @param array $links
+	 * @return array $links
+	 */
+	public function settings_link( $links ) {
+
+		$setting_link = sprintf( '<a href="%s">%s</a>', add_query_arg( array( 'page' => 'ea_share_count_options' ), admin_url( 'options-general.php' ) ), __( 'Settings', 'ea-share-count' ) );
+		array_unshift( $links, $setting_link );
+		return $links;
 	}
 
 	/**

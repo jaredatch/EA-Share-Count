@@ -111,6 +111,9 @@ final class EA_Share_Count {
 
 		// Directory URL
 		define( 'EA_SHARE_COUNT_URL', plugin_dir_url( __FILE__ ) );
+
+		// Base name
+		define( 'EA_SHARE_COUNT_BASE', plugin_basename( __FILE__ ) );
 	}
 
 	/**
