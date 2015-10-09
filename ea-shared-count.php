@@ -91,7 +91,7 @@ final class EA_Share_Count {
 			self::$instance->constants();
 			self::$instance->includes();
 
-			add_action( 'plugins_loaded', array( self::$instance, 'init' ) );
+			add_action( 'init', array( self::$instance, 'init' ) );
 		}
 		return self::$instance;
 	}
