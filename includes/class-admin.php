@@ -140,7 +140,7 @@ class EA_Share_Count_Admin {
 					<?php 
 					// If the Genesis Framework is used then provide a setting for
 					// automated button placement.
-					if( 'genesis' == basename( TEMPLATEPATH ) ) {
+					if( 'genesis' == basename( TEMPLATEPATH ) || apply_filters( 'ea_share_count_theme_location', false ) ) {
 						echo '<tr valign="top">';
 							echo '<th scope="row">' . __( 'Theme Location', 'ea-share-count' ) . '</th>';
 							echo '<td>';
