@@ -27,10 +27,23 @@ class EA_Share_Count_Front {
 	 */
 	public function __construct() {
 
-		add_action( 'wp_enqueue_scripts',    array( $this, 'header_assets'          )     );
-		add_action( 'wp_footer',             array( $this, 'load_assets'            ), 1  );		
-		add_action( 'genesis_entry_header',  array( $this, 'display_before_content' ), 13 );
-		add_action( 'genesis_entry_footer',  array( $this, 'display_after_content'  ), 8  );
+		// Make theme locations filterable
+		$locations = array(
+			'before' => array(
+				'hook'     => 'genesis_entry_header',
+				'priority' => 13,
+			),
+			'after' => array(
+				'hook'     => 'genesis_entry_footer',
+				'priority' => 8,
+			),
+		);
+		$locations = apply_filters( 'ea_share_count_theme_locations', $locations );
+
+		add_action( 'wp_enqueue_scripts',         array( $this, 'header_assets'          )     );
+		add_action( 'wp_footer',                  array( $this, 'load_assets'            ), 1  );		
+		add_action( $locations['before']['hook'], array( $this, 'display_before_content' ), $locations['before']['priority'] );
+		add_action( $locations['after']['hook'],  array( $this, 'display_after_content'  ), $locations['after']['priority']  );
 	}
 
 	/**
