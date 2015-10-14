@@ -1,13 +1,19 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
-## [1.3.0] - 2015-10-XX
+## [1.3.0] - 2015-10-14
 ### Added
 - Metabox to supported post types for viewing/updating share counts
+- Filter for theme locations
+- Settings link to plugin page
 
 ### Changed
 - Refactored plugin structure
 - Non-post URLs are now stored in a single option
+
+### Fixed
+- Pinterest js library bug
+- Select2 v4 issue, reverted to v3.5.x
 
 ## [1.2.0] - 2015-10-06
 ### Added
