@@ -40,7 +40,7 @@ class EA_Share_Count_Front {
 		);
 		$locations = apply_filters( 'ea_share_count_theme_locations', $locations );
 
-		add_action( 'wp_enqueue_scripts',         array( $this, 'header_assets'          )     );
+		add_action( 'wp_enqueue_scripts',         array( $this, 'header_assets'          ), 9  );
 		add_action( 'wp_footer',                  array( $this, 'load_assets'            ), 1  );		
 		add_action( $locations['before']['hook'], array( $this, 'display_before_content' ), $locations['before']['priority'] );
 		add_action( $locations['after']['hook'],  array( $this, 'display_after_content'  ), $locations['after']['priority']  );
@@ -53,6 +53,10 @@ class EA_Share_Count_Front {
 	 */
 	public function header_assets() {
 
+		// Register assets
+		wp_register_style( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/css/share-count.css', array(), EA_SHARE_COUNT_VERSION );
+		wp_register_script( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/js/share-count.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, true );
+		
 		$options = ea_share()->admin->options();
 
 		if ( !empty( $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) ) {
@@ -69,10 +73,6 @@ class EA_Share_Count_Front {
 	 */
 	public function load_assets() {
 	
-		// Register assets
-		wp_register_style( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/css/share-count.css', array(), EA_SHARE_COUNT_VERSION );
-		wp_register_script( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/js/share-count.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, true );
-
 		// Only continue if a share link was previously used in the page.
 		if ( ! $this->share_link ) {
 			return;
