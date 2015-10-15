@@ -68,6 +68,10 @@ class EA_Share_Count_Front {
 	 * @since 1.0.0
 	 */
 	public function load_assets() {
+	
+		// Register assets
+		wp_register_style( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/css/share-count.css', array(), EA_SHARE_COUNT_VERSION );
+		wp_register_script( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/js/share-count.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, true );
 
 		// Only continue if a share link was previously used in the page.
 		if ( ! $this->share_link ) {
@@ -76,12 +80,12 @@ class EA_Share_Count_Front {
 
 		// Load CSS
 		if ( apply_filters( 'ea_share_count_load_css', true ) ) {
-			wp_enqueue_style( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/css/share-count.css', array(), EA_SHARE_COUNT_VERSION );
+			wp_enqueue_style( 'ea-share-count' );
 		}
 
 		// Load JS
 		if ( apply_filters( 'ea_share_count_load_js', true ) ) {
-			wp_enqueue_script( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/js/share-count.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, true );
+			wp_enqueue_script( 'ea-share-count' );
 		}
 	}
 
