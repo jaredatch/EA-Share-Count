@@ -134,6 +134,18 @@ class EA_Share_Count_Core{
 				case 'stumbleupon':
 					$share_count = $counts['StumbleUpon'];
 					break;
+				case 'included_total':
+					$share_count = '0';
+					$options = ea_share()->admin->options();
+					// Service total only applies to services we are displaying
+					if ( !empty( $options['included_services'] ) ) {
+						foreach ( $options['included_services'] as $service ) {
+							if ( 'included_total' != $service ) {
+								$share_count = $share_count + $this->count( $id, $service );
+							}
+						}
+					}
+					break;
 				case 'total':
 					$share_count = $total;
 					break;
@@ -147,7 +159,7 @@ class EA_Share_Count_Core{
 			$share_count = '0';
 		}
 		
-		if ( $round ) {
+		if ( $round && $share_count >= 1000 ) {
 			$share_count = $this->round_count( $share_count, $round );
 		}
 

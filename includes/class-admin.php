@@ -104,6 +104,20 @@ class EA_Share_Count_Admin {
 					</tr>
 
 					<tr valign="top">
+						<th scope="row"><?php _e( 'Share Count Number', 'ea-share-count' );?></th>
+						<td>
+							<select name="ea_share_count_options[number]">
+							<?php
+							$number = array( 'all' => 'All Services', 'total' => 'Total Only' );
+							foreach( $number as $key => $label ) {
+								echo '<option value="' . $key . '" ' . selected( $key, $options['number'], false ) . '>' . $label . '</option>';
+							}
+							?>
+							</select>
+						</td>
+					</tr>
+
+					<tr valign="top">
 						<th scope="row"><?php _e( 'Show Empty Counts', 'ea-share-count' );?></th>
 						<td>
 							<select name="ea_share_count_options[show_empty]">
@@ -163,6 +177,7 @@ class EA_Share_Count_Admin {
 					<tr valign="top">
 						<th scope="row"><?php _e( 'Included Services', 'ea-share-count' );?></th>
 						<td>
+							<input type="hidden" name="ea_share_count_options[included_services_raw]" value="<?php echo $options['included_services_raw'];?>" class="share-count-services-raw">
 							<select name="ea_share_count_options[included_services][]" class="share-count-services" multiple="multiple" style="min-width:350px;">
 							<?php
 							$services = array(
@@ -174,7 +189,9 @@ class EA_Share_Count_Admin {
 								'linkedin'        => 'LinkedIn',
 								'google'          => 'Google+',
 								'stumbleupon'     => 'Stumble Upon',
+								'included_total'  => 'Total Counts'
 							);
+							$services = array_merge( array_flip( $options['included_services'] ), $services );
 							foreach( $services as $key => $service ) {
 								echo '<option value="' . $key . '" ' . selected( in_array( $key, $options['included_services'] ), true, false ) . '>' . $service . '</option>';
 							}
@@ -192,7 +209,7 @@ class EA_Share_Count_Admin {
 			</form>
 
 		</div>
-		<?php	
+		<?php
 	}
 
 	/**
@@ -219,13 +236,15 @@ class EA_Share_Count_Admin {
 	public function settings_default() {
 
 		return array( 
-			'api_key'           => '',
-			'api_domain'        => 'https://free.sharedcount.com',
-			'style'             => '',
-			'show_empty'        => 'true',
-			'post_type'         => array( 'post' ),
-			'theme_location'    => '',
-			'included_services' => array( 'facebook', 'twitter', 'pinterest' ),
+			'api_key'               => '',
+			'api_domain'            => 'https://free.sharedcount.com',
+			'style'                 => '',
+			'number'                => 'all',
+			'show_empty'            => 'true',
+			'post_type'             => array( 'post' ),
+			'theme_location'        => '',
+			'included_services'     => array( 'facebook', 'twitter', 'pinterest' ),
+			'included_services_raw' => 'facebook,twitter,pinterest',
 		);
 	}
 
@@ -236,13 +255,18 @@ class EA_Share_Count_Admin {
 	 */
 	public function settings_sanitize( $input ) {
 
-		$input['api_key']           = esc_attr( $input['api_key'] );
-		$input['api_domain']        = esc_url( $input['api_domain'] );
-		$input['style']             = esc_attr( $input['style'] );
-		$input['show_empty']        = esc_attr( $input['show_empty'] );
-		$input['post_type']         = array_map( 'esc_attr', $input['post_type'] );
-		$input['theme_location']    = esc_attr( $input['theme_location'] );
-		$input['included_services'] = array_map( 'esc_attr', $input['included_services'] );
+		// Reorder services based on the order they were provided
+		$services = array_merge( array_flip( array( $input['included_services'] ) ), explode(',', $input['included_services_raw'] ) );
+
+		$input['api_key']               = esc_attr( $input['api_key'] );
+		$input['api_domain']            = esc_url( $input['api_domain'] );
+		$input['style']                 = esc_attr( $input['style'] );
+		$input['number']                = esc_attr( $input['number'] );
+		$input['show_empty']            = esc_attr( $input['show_empty'] );
+		$input['post_type']             = array_map( 'esc_attr', $input['post_type'] );
+		$input['theme_location']        = esc_attr( $input['theme_location'] );
+		$input['included_services']     = array_map( 'esc_attr', $services );
+		$input['included_services_raw'] = esc_attr( $input['included_services_raw'] );
 		return $input;
 	}
 

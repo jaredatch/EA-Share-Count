@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [1.4.0] - 2015-10-21
+### Added
+- Total Counts included service option
+- Settings to toggle count number visibility
+
+### Changed
+- Refactored Included Service setting so that the service order is saved
+- Seperate the regisration and enqueuing of assets
+- Enqueue assets earlier
+
 ## [1.3.0] - 2015-10-14
 ### Added
 - Metabox to supported post types for viewing/updating share counts

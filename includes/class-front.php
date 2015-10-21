@@ -155,11 +155,11 @@ class EA_Share_Count_Front {
 		}
 
 		$this->share_link = true;
-		$types  = (array) $types;
-		$output = '';
+		$types   = (array) $types;
+		$output  = '';
+		$options = ea_share()->admin->options();
 
 		if ( empty( $show_empty ) ) {
-			$options    = ea_share()->admin->options();
 			$show_empty = $options['show_empty'];
 		}
 
@@ -235,26 +235,36 @@ class EA_Share_Count_Front {
 					$link['icon']   = 'fa fa-stumbleupon';
 					$link['target'] = '_blank';
 					break;
+				case 'included_total':
+					$link['link']   = '';
+					$link['label']  = 'Total';
+					$link['icon']   = 'fa fa-share-alt';
+					$link['target'] = '';
+					break;
 			}
 
 			$link   = apply_filters( 'ea_share_count_link', $link );
 			$target = !empty( $link['target'] ) ? ' target="' . esc_attr( $link['target'] ) . '" ' : '';
 
-			// Add class to buttons with 0 share count for CSS targeting
-			if ( '0' == $link['count'] ) {
-				$link['class'] .= ' ea-share-count-empty';
+			// Add classes
+			if ( '0' == $link['count'] || ( 'total' == $options['number'] && 'included_total' != $type ) ) {
+				$link['class'] .= ' ea-share-no-count';
 			}
 
 			// Build button output
-			$output .= '<a href="' . $link['link'] . '"' . $target . 'class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '">';
+			if ( $type == 'included_total' ) {
+				$output .= '<span class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '">';
+			} else {
+				$output .= '<a href="' . $link['link'] . '"' . $target . 'class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '">';
+			}
 				$output .= '<span class="ea-share-count-icon-label">';
 					$output .= '<i class="ea-share-count-icon ' . $link['icon'] . '"></i>';
 					$output .= '<span class="ea-share-count-label">' . $link['label'] . '</span>';
 				$output .= '</span>';
-				if ( 'true' == $show_empty  || ( 'true' != $show_empty && $link['count'] != '0' ) ) {
+				if ( ( 'true' == $show_empty && !('total' == $options['number'] && 'included_total' != $type ) )  || ( 'true' != $show_empty && $link['count'] != '0' ) ) {
 					$output .= '<span class="ea-share-count">' . $link['count'] . '</span>'; 
 				}
-			$output .= '</a>';
+			$output .=  $type == 'included_total' ? '</span>' : '</a>';
 		}
 
 		if ( $echo == true ) {
