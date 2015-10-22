@@ -189,7 +189,8 @@ class EA_Share_Count_Admin {
 								'linkedin'        => 'LinkedIn',
 								'google'          => 'Google+',
 								'stumbleupon'     => 'Stumble Upon',
-								'included_total'  => 'Total Counts'
+								'included_total'  => 'Total Counts',
+								'print'           => 'Print',
 							);
 							$services = array_merge( array_flip( $options['included_services'] ), $services );
 							foreach( $services as $key => $service ) {

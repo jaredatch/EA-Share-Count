@@ -146,6 +146,9 @@ class EA_Share_Count_Core{
 						}
 					}
 					break;
+				case 'print':
+					$share_count = 0;
+					break;
 				case 'total':
 					$share_count = $total;
 					break;

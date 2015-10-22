@@ -241,6 +241,11 @@ class EA_Share_Count_Front {
 					$link['icon']   = 'fa fa-share-alt';
 					$link['target'] = '';
 					break;
+				case 'print':
+					$link['link'] = 'javascript:window.print()';
+					$link['label'] = 'Print';
+					$link['icon'] = 'fa fa-print';
+					break;
 			}
 
 			$link   = apply_filters( 'ea_share_count_link', $link );

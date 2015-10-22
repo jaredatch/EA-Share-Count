@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file, formatted v
 
 ## [1.4.0] - 2015-10-21
 ### Added
+- Print included service option
 - Total Counts included service option
 - Settings to toggle count number visibility
 
