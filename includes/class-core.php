@@ -141,7 +141,7 @@ class EA_Share_Count_Core{
 					if ( !empty( $options['included_services'] ) ) {
 						foreach ( $options['included_services'] as $service ) {
 							if ( 'included_total' != $service ) {
-								$share_count = $share_count + $this->count( $id, $service );
+								$share_count = $share_count + $this->count( $id, $service, false, false );
 							}
 						}
 					}
