@@ -192,6 +192,7 @@ class EA_Share_Count_Admin {
 								'included_total'  => 'Total Counts',
 								'print'           => 'Print',
 							);
+							$services = apply_filters( 'ea_share_count_admin_services', $services );
 							$services = array_merge( array_flip( $options['included_services'] ), $services );
 							foreach( $services as $key => $service ) {
 								echo '<option value="' . $key . '" ' . selected( in_array( $key, $options['included_services'] ), true, false ) . '>' . $service . '</option>';
