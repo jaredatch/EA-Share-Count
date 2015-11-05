@@ -1,5 +1,5 @@
 jQuery(document).ready(function($){
-	$(document).on('click', '.ea-share-count-button[target="_blank"]', function(event) {
+	$(document).on('click', '.ea-share-count-button[target="_blank"]:not(.no-js)', function(event) {
 		event.preventDefault();
 		var window_size = '';
 		var url = this.href;
