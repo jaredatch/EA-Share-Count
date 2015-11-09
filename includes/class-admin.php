@@ -402,7 +402,7 @@ class EA_Share_Count_Admin {
 			return;
 
 		if ( 'post.php' == $hook && in_array( $post->post_type, $options['post_type'] )  ) {
-			wp_enqueue_script( 'share-count-settings', EA_SHARE_COUNT_URL . 'assets/js/admin-metabox.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, $false );
+			wp_enqueue_script( 'share-count-settings', EA_SHARE_COUNT_URL . 'assets/js/admin-metabox.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, false );
 		}
 	}
 
