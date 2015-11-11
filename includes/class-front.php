@@ -40,7 +40,7 @@ class EA_Share_Count_Front {
 		);
 		$locations = apply_filters( 'ea_share_count_theme_locations', $locations );
 
-		add_action( 'wp_enqueue_scripts',         array( $this, 'header_assets'          )     );
+		add_action( 'wp_enqueue_scripts',         array( $this, 'header_assets'          ), 9  );
 		add_action( 'wp_footer',                  array( $this, 'load_assets'            ), 1  );		
 		add_action( $locations['before']['hook'], array( $this, 'display_before_content' ), $locations['before']['priority'] );
 		add_action( $locations['after']['hook'],  array( $this, 'display_after_content'  ), $locations['after']['priority']  );
@@ -53,6 +53,10 @@ class EA_Share_Count_Front {
 	 */
 	public function header_assets() {
 
+		// Register assets
+		wp_register_style( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/css/share-count.css', array(), EA_SHARE_COUNT_VERSION );
+		wp_register_script( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/js/share-count.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, true );
+		
 		$options = ea_share()->admin->options();
 
 		if ( !empty( $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) ) {
@@ -68,7 +72,7 @@ class EA_Share_Count_Front {
 	 * @since 1.0.0
 	 */
 	public function load_assets() {
-
+	
 		// Only continue if a share link was previously used in the page.
 		if ( ! $this->share_link ) {
 			return;
@@ -76,12 +80,12 @@ class EA_Share_Count_Front {
 
 		// Load CSS
 		if ( apply_filters( 'ea_share_count_load_css', true ) ) {
-			wp_enqueue_style( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/css/share-count.css', array(), EA_SHARE_COUNT_VERSION );
+			wp_enqueue_style( 'ea-share-count' );
 		}
 
 		// Load JS
 		if ( apply_filters( 'ea_share_count_load_js', true ) ) {
-			wp_enqueue_script( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/js/share-count.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, true );
+			wp_enqueue_script( 'ea-share-count' );
 		}
 	}
 
@@ -151,11 +155,11 @@ class EA_Share_Count_Front {
 		}
 
 		$this->share_link = true;
-		$types  = (array) $types;
-		$output = '';
+		$types   = (array) $types;
+		$output  = '';
+		$options = ea_share()->admin->options();
 
 		if ( empty( $show_empty ) ) {
-			$options    = ea_share()->admin->options();
 			$show_empty = $options['show_empty'];
 		}
 
@@ -231,26 +235,41 @@ class EA_Share_Count_Front {
 					$link['icon']   = 'fa fa-stumbleupon';
 					$link['target'] = '_blank';
 					break;
+				case 'included_total':
+					$link['link']   = '';
+					$link['label']  = 'Total';
+					$link['icon']   = 'fa fa-share-alt';
+					$link['target'] = '';
+					break;
+				case 'print':
+					$link['link'] = 'javascript:window.print()';
+					$link['label'] = 'Print';
+					$link['icon'] = 'fa fa-print';
+					break;
 			}
 
 			$link   = apply_filters( 'ea_share_count_link', $link );
 			$target = !empty( $link['target'] ) ? ' target="' . esc_attr( $link['target'] ) . '" ' : '';
 
-			// Add class to buttons with 0 share count for CSS targeting
-			if ( '0' == $link['count'] ) {
-				$link['class'] .= ' ea-share-count-empty';
+			// Add classes
+			if ( '0' == $link['count'] || ( 'total' == $options['number'] && 'included_total' != $type ) ) {
+				$link['class'] .= ' ea-share-no-count';
 			}
 
 			// Build button output
-			$output .= '<a href="' . $link['link'] . '"' . $target . 'class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '">';
+			if ( $type == 'included_total' ) {
+				$output .= '<span class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '">';
+			} else {
+				$output .= '<a href="' . $link['link'] . '"' . $target . 'class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '">';
+			}
 				$output .= '<span class="ea-share-count-icon-label">';
 					$output .= '<i class="ea-share-count-icon ' . $link['icon'] . '"></i>';
 					$output .= '<span class="ea-share-count-label">' . $link['label'] . '</span>';
 				$output .= '</span>';
-				if ( 'true' == $show_empty  || ( 'true' != $show_empty && $link['count'] != '0' ) ) {
+				if ( ( 'true' == $show_empty && !('total' == $options['number'] && 'included_total' != $type ) )  || ( 'true' != $show_empty && $link['count'] != '0' ) ) {
 					$output .= '<span class="ea-share-count">' . $link['count'] . '</span>'; 
 				}
-			$output .= '</a>';
+			$output .=  $type == 'included_total' ? '</span>' : '</a>';
 		}
 
 		if ( $echo == true ) {
