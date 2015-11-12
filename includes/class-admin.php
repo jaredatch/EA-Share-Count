@@ -215,7 +215,6 @@ class EA_Share_Count_Admin {
 
 		</div>
 		<?php
-		echo '<pre>' . print_r( $options, true ) . '</pre>';
 	}
 
 	/**
