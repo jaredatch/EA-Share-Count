@@ -34,7 +34,7 @@ jQuery(document).ready(function($){
 	$(document).on('click', '#easc-modal-close', function(event) {
 		event.preventDefault();
 		$('#easc-modal-wrap').fadeOut();
-		$('##easc-modal-sent').hide();
+		$('#easc-modal-sent').hide();
 	});
 	$(document).on('click', '#easc-modal-submit', function(event) {
 		var empty = false;
