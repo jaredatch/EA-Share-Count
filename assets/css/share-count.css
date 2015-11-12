@@ -320,6 +320,43 @@
 	margin-right: 3px;
 }
 
+/* Email
+--------------------------------------------- */
+
+.ea-share-count-button.email.style-bubble {
+	display: inline-block;
+}
+ 
+.ea-share-count-button.email.style-bubble .ea-share-count-icon-label {
+	position: relative;
+	background-color: #f1f1f1;
+	border: #ddd solid 1px;
+	border-radius: 3px;
+	color: #999;
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	cursor: pointer;
+	height: 20px;
+	line-height: 16px;
+	max-width: 100%;
+	overflow: hidden;
+	padding: 1px 3px 1px 1px;
+	display: block;
+	float: left;
+}
+ 
+.ea-share-count-button.email.style-bubble .ea-share-count-icon-label:hover {
+	background: #ddd;
+}
+
+.ea-share-count-button.email.style-bubble .ea-share-count-icon-label i {
+	color: #666;
+	line-height: 1;
+	font-size: 12px;
+	margin-right: 3px;
+}
+
 /* Fancy Style
 ---------------------------------------------------------------------------------------------------- */
 
@@ -333,7 +370,7 @@
 	line-height: 22px;
 	text-decoration: none;
 	font-weight: normal;
-	background-color: #999;
+	background-color: #aaa;
 }
 
 .ea-share-count-button.style-fancy .fa {
@@ -367,7 +404,7 @@
 	margin-right: -2px;
 	color: #555;
 	border-radius: 0 2px 2px 0;
-	border: 1px solid #ececec;
+	border: 1px solid #aaa;
 }
 
 .ea-share-count-button.style-fancy .ea-share-count:after,
@@ -506,6 +543,21 @@
 
 .ea-share-count-button.style-fancy.included_total .ea-share-count {
 	border-color: #999;
+}
+
+/* Email
+--------------------------------------------- */
+
+.ea-share-count-button.style-fancy.email {
+	background-color: #aaa;
+}
+
+.ea-share-count-button.style-fancy.email:hover {
+	background-color: #666;
+}
+
+.ea-share-count-button.style-fancy.email .ea-share-count {
+	border-color: #aaa;
 }
 
 
@@ -750,4 +802,149 @@
 .ea-share-count-button.style-gss.included_total .ea-share-count {
 	border-color: #999;
 	color: #666;
+}
+
+/* Included Email
+--------------------------------------------- */
+
+.ea-share-count-button.style-gss.email {
+	background-color: #aaa;
+}
+
+.ea-share-count-button.style-gss.email:hover .ea-share-count  {
+	background-color: #aaa;
+	color: #fff;
+}
+
+.ea-share-count-button.style-gss.email:hover .ea-share-count-label {
+	width: 36px;
+	color: #fff;
+}
+
+.ea-share-count-button.style-gss.email .ea-share-count {
+	border-color: #aaa;
+	color: #999;
+}
+
+
+/* Email Modal
+---------------------------------------------------------------------------------------------------- */
+
+#easc-modal-wrap {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+	background: rgba(255,255,255,0.90);
+	z-index: 999;
+	overflow: hidden;
+}
+
+.easc-modal {
+	box-shadow: -1px 4px 6px rgba(0,0,0,0.09);
+	border: 1px solid #ccc;
+	background-color: #fff;
+	width: 320px;
+	padding: 20px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -160px;
+	margin-top: -160px;
+}
+
+.easc-modal-title {
+	display: block;
+	text-align: center;
+	margin: 0 0 10px 0;
+	font-size: 20px;
+}
+
+.easc-modal p {
+	margin: 0 0 10px 0;
+}
+
+.easc-modal label {
+	display: block;
+	font-size: 14px;
+	color: #333;
+	margin: 0 0 2px 0;
+}
+
+.easc-modal input[type=text] {
+	display: block;
+	margin: 0;
+	width: 100%;
+	border: 1px #e2e2e2 solid;
+	border-radius: 0;
+	background-color: #fff;
+	border-radius: 0;
+	color: #333;
+	font-size: 16px;
+	padding: 6px 10px;
+	box-shadow: none;
+}
+
+p.easc-modal-submit {
+	text-align: center;
+	margin: 14px 0 0;
+}
+
+#easc-modal-submit,
+#easc-modal-submit:hover {
+	border: none;
+	font-weight: 400;
+	font-size: 16px;
+	padding: 10px 20px;
+}
+
+#easc-modal-submit:disabled {
+	opacity: 0.5;
+}
+
+#easc-modal-close .close-icon {
+	display: block;
+	position: absolute;
+	top: -8px;
+	right: -8px;
+	line-height: 22px;
+	box-shadow: 0 0 0 1px #fff,0 0 0 2px #d8d8d8,-1px 1px 2px 3px rgba(0,0,0,0.15);
+	font-size: 14px;
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	background-clip: padding-box;
+	background-color: #999;
+	color: #fff;
+	transition: background-color 0.2s ease-in;
+	text-align: center;
+	z-index: 999;
+	font-weight: 400;
+}
+
+#easc-modal-close:hover {
+	text-decoration: none;
+	background-color: #000;
+}
+
+#easc-modal-sent {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+	background: rgba(255,255,255,0.94);
+	text-align: center;
+	font-size: 32px;
+	font-weight: 700;
+	padding-top: 40%;
+	color: green;
+	display: none;
+}
+
+.easc-modal-validation {
+	display: none;
 }
