@@ -20,14 +20,15 @@ class EA_Share_Count_Admin {
 	public function __construct() {
 
 		// Settings
-		add_action( 'admin_init',                                 array( $this, 'settings_init'   )     );
-		add_action( 'admin_menu',                                 array( $this, 'settings_add'    )     );
-		add_action( 'admin_enqueue_scripts',                      array( $this, 'settings_assets' )     );
-		add_filter( 'plugin_action_links_' . EA_SHARE_COUNT_BASE, array( $this, 'settings_link'   )     );
+		add_action( 'admin_init',                                 array( $this, 'settings_init'   )        );
+		add_action( 'admin_menu',                                 array( $this, 'settings_add'    )        );
+		add_action( 'admin_enqueue_scripts',                      array( $this, 'settings_assets' )        );
+		add_filter( 'plugin_action_links_' . EA_SHARE_COUNT_BASE, array( $this, 'settings_link'   )        );
+		add_filter( 'plugin_row_meta',                            array( $this, 'author_links'    ), 10, 2 );
 		// Metabox
-		add_action( 'admin_init',                                 array( $this, 'metabox_add'     )     );
-		add_action( 'wp_ajax_ea_share_refresh',                   array( $this, 'metabox_ajax'    )     );
-		add_action( 'admin_enqueue_scripts',                      array( $this, 'metabox_assets'  )     );
+		add_action( 'admin_init',                                 array( $this, 'metabox_add'     )        );
+		add_action( 'wp_ajax_ea_share_refresh',                   array( $this, 'metabox_ajax'    )        );
+		add_action( 'admin_enqueue_scripts',                      array( $this, 'metabox_assets'  )        );
 	}
 
 	/**
@@ -291,6 +292,18 @@ class EA_Share_Count_Admin {
 		$setting_link = sprintf( '<a href="%s">%s</a>', add_query_arg( array( 'page' => 'ea_share_count_options' ), admin_url( 'options-general.php' ) ), __( 'Settings', 'ea-share-count' ) );
 		array_unshift( $links, $setting_link );
 		return $links;
+	}
+	
+	/**
+	 * Plugin author name links
+	 *
+	 */
+	function author_links( $links, $file ) {
+
+		if ( strpos( $file, 'ea-shared-count.php' ) !== false ) {
+			$links[1] = 'By <a href="http://www.billerickson.net">Bill Erickson</a> & <a href="http://www.jaredatchison.com">Jared Atchison</a>';
+		}
+		return $links;	
 	}
 
 	/**
