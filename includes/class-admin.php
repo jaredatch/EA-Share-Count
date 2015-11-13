@@ -303,7 +303,7 @@ class EA_Share_Count_Admin {
 	 */
 	function author_links( $links, $file ) {
 
-		if ( strpos( $file, 'ea-shared-count.php' ) !== false ) {
+		if ( strpos( $file, 'ea-share-count.php' ) !== false ) {
 			$links[1] = 'By <a href="http://www.billerickson.net">Bill Erickson</a> & <a href="http://www.jaredatchison.com">Jared Atchison</a>';
 		}
 		return $links;	
