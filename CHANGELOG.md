@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [1.5.2] - 2015-11-13
+### Added
+- Links to author names on plugin page
+
+## [1.5.1] - 2015-11-13
+### Changed
+- Version bump to test plugin updater
+
 ## [1.5.0] - 2015-11-13
 ### Added
 - Email sharing feature

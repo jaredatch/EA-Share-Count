@@ -297,6 +297,9 @@ class EA_Share_Count_Admin {
 	/**
 	 * Plugin author name links
 	 *
+	 * @since 1.5.2
+	 * @param array $link
+	 * @param string $file
 	 */
 	function author_links( $links, $file ) {
 
