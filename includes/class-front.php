@@ -41,7 +41,8 @@ class EA_Share_Count_Front {
 		$locations = apply_filters( 'ea_share_count_theme_locations', $locations );
 
 		add_action( 'wp_enqueue_scripts',         array( $this, 'header_assets'          ), 9  );
-		add_action( 'wp_footer',                  array( $this, 'load_assets'            ), 1  );		
+		add_action( 'wp_footer',                  array( $this, 'load_assets'            ), 1  );	
+		add_action( 'wp_footer',                  array( $this, 'email_modal'            ), 50 );		
 		add_action( $locations['before']['hook'], array( $this, 'display_before_content' ), $locations['before']['priority'] );
 		add_action( $locations['after']['hook'],  array( $this, 'display_after_content'  ), $locations['after']['priority']  );
 	}
@@ -63,6 +64,14 @@ class EA_Share_Count_Front {
 
 			$this->share_link = true;
 			$this->load_assets();
+		}
+
+		// Email sharing js if enabled
+		if ( in_array( 'email', $options['included_services'] ) || apply_filters( 'ea_share_count_email_modal', false ) ) {
+			$args = array(
+				'url' => admin_url( 'admin-ajax.php' ),
+			);
+			wp_localize_script( 'ea-share-count', 'easc', $args );	
 		}
 	}
 
@@ -87,6 +96,69 @@ class EA_Share_Count_Front {
 		if ( apply_filters( 'ea_share_count_load_js', true ) ) {
 			wp_enqueue_script( 'ea-share-count' );
 		}
+	}
+
+	/**
+	 * Email modal pop-up.
+	 *
+	 * This popup is output (and hidden) in the site footer if the Email
+	 * service is configured in the plugin settings.
+	 * 
+	 * @since 1.5.0
+	 */
+	public function email_modal() {
+
+		// Only continue if a share link is on the page.
+		if ( ! $this->share_link ) {
+			return;
+		}
+
+		// Check to see the email button is configured or being overriden. The
+		// filter can be used to enable the modal in use cases where the share
+		// button is manually being called.
+		$options = ea_share()->admin->options();
+		if ( !in_array( 'email', $options['included_services'] ) && ! apply_filters( 'ea_share_count_email_modal', false ) ) {
+			return;
+		}
+
+		// Labels, filterable of course.
+		$labels = apply_filters( 'ea_share_count_email_labels', array(
+				'title'      => 'Share this Article',
+				'recipient'  => 'Friend\'s Email Address',
+				'name'       => 'Your Name',
+				'email'      => 'Your Email Address',
+				'validation' => 'Comments',
+				'submit'     => '<i class="fa fa-envelope"></i> Send Email',
+				'close'      => '<i class="fa fa-times close-icon"></i>',
+		) );
+		?>
+		<div id="easc-modal-wrap" style="display:none;">
+			<div class="easc-modal">
+				<span class="easc-modal-title"><? echo $labels['title']; ?></span>
+				<p>
+					<label for="easc-modal-recipient"><? echo $labels['recipient']; ?></label>
+					<input type="text" id="easc-modal-recipient">
+				</p>
+				<p>
+					<label for="easc-modal-name"><? echo $labels['name']; ?></label>
+					<input type="text" id="easc-modal-name">
+				</p>
+				<p>
+					<label for="easc-modal-email"><? echo $labels['email']; ?></label>
+					<input type="text" id="easc-modal-email">
+				</p>
+				<p class="easc-modal-validation">
+					<label for="easc-modal-validation"><? echo $labels['validation']; ?></label>
+					<input type="text" id="easc-modal-validation" autocomplete="off">
+				</p>
+				<p class="easc-modal-submit">
+					<button id="easc-modal-submit"><? echo $labels['submit']; ?></button>
+				</p>
+				<a href="#" id="easc-modal-close"><? echo $labels['close']; ?></a>
+				<div id="easc-modal-sent">Email sent!</div>
+			</div>
+		</div>
+		<?php
 	}
 
 	/**
@@ -158,6 +230,8 @@ class EA_Share_Count_Front {
 		$types   = (array) $types;
 		$output  = '';
 		$options = ea_share()->admin->options();
+		$attr    = array( 'postid' => $id );
+		$data    = '';
 
 		if ( empty( $show_empty ) ) {
 			$show_empty = $options['show_empty'];
@@ -246,6 +320,13 @@ class EA_Share_Count_Front {
 					$link['label'] = 'Print';
 					$link['icon'] = 'fa fa-print';
 					break;
+				case 'email': 
+					$link['link']   = '#ea-share-count-email';
+					$link['label']  = 'Email';
+					$link['icon']   = 'fa fa-envelope';
+					$link['target'] = '';
+					$attr['nonce']  = wp_create_nonce( 'easc_email_' . $id );
+					break;
 			}
 
 			$link   = apply_filters( 'ea_share_count_link', $link );
@@ -256,11 +337,18 @@ class EA_Share_Count_Front {
 				$link['class'] .= ' ea-share-no-count';
 			}
 
+			// Add data attribues
+			if ( ! empty( $attr ) ) {
+				foreach ( $attr as $key => $val ) {
+					$data .= ' data-' . $key . '="' . $val . '"';
+				}
+			}
+
 			// Build button output
 			if ( $type == 'included_total' ) {
-				$output .= '<span class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '">';
+				$output .= '<span class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '"' . $data . '>';
 			} else {
-				$output .= '<a href="' . $link['link'] . '"' . $target . 'class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '">';
+				$output .= '<a href="' . $link['link'] . '"' . $target . 'class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '"'. $data. '">';
 			}
 				$output .= '<span class="ea-share-count-icon-label">';
 					$output .= '<i class="ea-share-count-icon ' . $link['icon'] . '"></i>';

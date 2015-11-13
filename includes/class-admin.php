@@ -191,9 +191,12 @@ class EA_Share_Count_Admin {
 								'stumbleupon'     => 'Stumble Upon',
 								'included_total'  => 'Total Counts',
 								'print'           => 'Print',
+								'email'           => 'Email',
 							);
 							$services = apply_filters( 'ea_share_count_admin_services', $services );
-							$services = array_merge( array_flip( $options['included_services'] ), $services );
+							if ( !empty( $options['included_services_raw'] ) ) {
+								$services = array_merge( array_flip( $options['included_services'] ), $services );
+							}
 							foreach( $services as $key => $service ) {
 								echo '<option value="' . $key . '" ' . selected( in_array( $key, $options['included_services'] ), true, false ) . '>' . $service . '</option>';
 							}
@@ -258,7 +261,11 @@ class EA_Share_Count_Admin {
 	public function settings_sanitize( $input ) {
 
 		// Reorder services based on the order they were provided
-		$services = array_merge( array_flip( array( $input['included_services'] ) ), explode(',', $input['included_services_raw'] ) );
+		$services_array = array();
+		$services_raw   = explode( ',', $input['included_services_raw'] );
+		foreach( $services_raw as $service ) {
+			$services_array[] = $service;
+		}
 
 		$input['api_key']               = esc_attr( $input['api_key'] );
 		$input['api_domain']            = esc_url( $input['api_domain'] );
@@ -267,7 +274,7 @@ class EA_Share_Count_Admin {
 		$input['show_empty']            = esc_attr( $input['show_empty'] );
 		$input['post_type']             = array_map( 'esc_attr', $input['post_type'] );
 		$input['theme_location']        = esc_attr( $input['theme_location'] );
-		$input['included_services']     = array_map( 'esc_attr', $services );
+		$input['included_services']     = array_map( 'esc_attr', $services_array );
 		$input['included_services_raw'] = esc_attr( $input['included_services_raw'] );
 		return $input;
 	}
@@ -321,7 +328,7 @@ class EA_Share_Count_Admin {
 		if ( !empty( $counts ) ) {
 			$counts = json_decode( $counts, true );
 			echo '<ul id="ea-share-count-list">';
-				echo $this->metabox_counts( $counts );
+				echo $this->metabox_counts( $counts, $post->ID );
 			echo '</ul>';
 			$date = get_post_meta( $post->ID, 'ea_share_count_datetime', true );
 			$date = $date+( get_option( 'gmt_offset' ) * 3600 );
@@ -340,7 +347,7 @@ class EA_Share_Count_Admin {
 	 * @param array $counts
 	 * @return string
 	 */
-	public function metabox_counts( $counts ) {
+	public function metabox_counts( $counts, $post_id ) {
 
 		if ( empty( $counts) || !is_array( $counts ) )
 			return;
@@ -354,6 +361,12 @@ class EA_Share_Count_Admin {
 		$output .= '<li>LinkedIn: <strong>' . ( !empty( $counts['LinkedIn'] ) ? absint( $counts['LinkedIn'] ) : '0'  ) . '</strong></li>';
 		$output .= '<li>StumbleUpon: <strong>' . ( !empty( $counts['StumbleUpon'] ) ? absint( $counts['StumbleUpon'] ) : '0'  ) . '</strong></li>';
 		
+		// Show Email shares if enabled
+		$options = $this->options();
+		if ( in_array( 'email', $options['included_services'] ) ) {
+			$output .= '<li>Email: <strong>' . absint( get_post_meta( $post_id, 'ea_share_count_email', 'true' ) ) . '</strong></li>';
+		}
+
 		return $output;
 	}
 
@@ -377,7 +390,7 @@ class EA_Share_Count_Admin {
 		$id     = absint( $_POST['post_id'] );
 		$counts = ea_share()->core->counts( $id, true, true );
 		$date   = '<p id="ea-share-count-date">Last updated ' . date( 'M j, Y g:ia', time()+( get_option( 'gmt_offset' ) * 3600 ) ) . '</span></p>';
-		$list   = '<ul id="ea-share-count-list">' . $this->metabox_counts( $counts ) . '<ul>';
+		$list   = '<ul id="ea-share-count-list">' . $this->metabox_counts( $counts, $id ) . '<ul>';
 
 		wp_send_json_success( array( 
 			'msg'   => __( 'Share counts updated.', 'ea-share-count' ), 

@@ -18,6 +18,67 @@ class EA_Share_Count_Core{
 	 * @since 1.3.0
 	 */
 	public function __construct() {
+
+		add_action( 'wp_ajax_easc_email',        array( $this, 'email_ajax' ) );
+		add_action( 'wp_ajax_nopriv_easc_email', array( $this, 'email_ajax' ) );
+	}
+
+	/**
+	 * Process and send email share AJAX requests.
+	 *
+	 * @since 1.5.0
+	 */
+	public function email_ajax() {
+
+		// Check nonce
+		if ( ! wp_verify_nonce( $_POST['nonce'], 'easc_email_' . $_POST['postid'] ) ) {
+			wp_send_json_error( 'Invalide nonce' );
+		}
+
+		// Check spam honeypot
+		if ( !empty( $_POST['validation'] ) ) {
+			wp_send_json_error( 'Honeypot triggered' );
+		}
+
+		// Check required fields
+		if ( empty( $_POST['recipient'] ) || empty( $_POST['name'] ) || empty( $_POST['email'] ) ) {
+			wp_send_json_error( 'Required field missing' );
+		}
+
+		// Check email addresses
+		if ( !is_email( $_POST['recipient'] ) || !is_email( $_POST['email'] ) ) {
+			wp_send_json_error( 'Invalid email' );
+		}
+
+		$post_id    = absint( $_POST['postid'] );
+		$recipient  = sanitize_text_field( strip_tags( $_POST['recipient'] ) );
+		$from_email = sanitize_text_field( strip_tags( $_POST['email'] ) );
+		$from_name  = sanitize_text_field( strip_tags( $_POST['name'] ) );
+		$site_name  = sanitize_text_field( get_bloginfo( 'name' ) );
+		$site_root  = strtolower( $_SERVER['SERVER_NAME'] );
+        if ( substr( $site_root, 0, 4 ) == 'www.' ) {
+            $site_root = substr( $site_root, 4 );
+        }
+
+		$headers = array(
+			'From'     => "$site_name <noreply@$site_root>",
+			'Reply-To' => "$from_name <$from_email>"
+		);
+		$subject = "Your friend $from_name has shared an article with you";
+		$body    =  get_the_title( $post_id ) . "\r\n";
+		$body   .=  get_permalink( $post_id ) . "\r\n";
+
+		wp_mail( 
+			$recipient, 
+			apply_filters( 'ea_share_count_email_subject', $subject, $post_id, $recipient, $from_name, $from_email ),
+			apply_filters( 'ea_share_count_email_body',    $body,    $post_id, $recipient, $from_name, $from_email ),
+			apply_filters( 'ea_share_count_email_headers', $headers, $post_id, $recipient, $from_name, $from_email )
+		);
+
+		$count = absint( get_post_meta( $post_id, 'ea_share_count_email'), true );
+		$update = update_post_meta( $post_id, 'ea_share_count_email', $count++ );
+
+		wp_send_json_success();
 	}
 
 	/**
@@ -148,6 +209,9 @@ class EA_Share_Count_Core{
 					break;
 				case 'print':
 					$share_count = 0;
+					break;
+				case 'email':
+					$share_count = absint( get_post_meta( $id, 'ea_share_count_email', true ) );
 					break;
 				case 'total':
 					$share_count = $total;
