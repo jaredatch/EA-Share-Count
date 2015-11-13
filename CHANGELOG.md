@@ -2,8 +2,9 @@
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
 ## [1.5.2] - 2015-11-13
-### Added
+### Changed
 - Links to author names on plugin page
+- Renamed main plugin file to match plugin name
 
 ## [1.5.1] - 2015-11-13
 ### Changed
