@@ -126,6 +126,15 @@ final class EA_Share_Count {
 		require_once EA_SHARE_COUNT_DIR . 'includes/class-core.php';
 		require_once EA_SHARE_COUNT_DIR . 'includes/class-admin.php';
 		require_once EA_SHARE_COUNT_DIR . 'includes/class-front.php';
+
+		// Plugin updater
+		if ( is_admin() ) {
+			require_once EA_SHARE_COUNT_DIR . 'updater/plugin-update-checker.php';
+			$easc_updates = PucFactory::buildUpdateChecker(
+				'http://sharecountplugin.com/plugin.json',
+				__FILE__
+			);
+		}
 	}
 
 	/**

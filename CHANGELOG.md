@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file, formatted v
 ## [1.5.0] - 2015-11-XX
 ### Added
 - Email sharing feature
+- Plugin updater
 
 ## [1.4.0] - 2015-10-21
 ### Added
