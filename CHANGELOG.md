@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
-## [1.5.0] - 2015-11-XX
+## [1.5.0] - 2015-11-13
 ### Added
 - Email sharing feature
 - Plugin updater
