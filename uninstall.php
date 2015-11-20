@@ -15,7 +15,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) exit;
 global $wpdb;
 
 // Remove all plugin options
-$wpdb->query( "DELETE FROM `{$wpdb->options}` WHERE `option_name` LIKE ('ea\_share\_count\_%')" );
+$wpdb->query( "DELETE FROM `{$wpdb->options}` WHERE `option_name` LIKE 'ea_share_count%'" );
 
 // Remove all plugin post_meta keys
-$wpdb->query( "DELETE FROM `{$wpdb->postmeta}` WHERE `meta_key` LIKE ('ea\_share\_count\_%')" );
+$wpdb->query( "DELETE FROM `{$wpdb->postmeta}` WHERE `meta_key` LIKE 'ea_share_count%'" );
