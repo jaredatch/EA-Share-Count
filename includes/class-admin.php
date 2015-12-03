@@ -229,8 +229,8 @@ class EA_Share_Count_Admin {
 		if ( 'settings_page_ea_share_count_options' == $hook ) {
 
 			wp_enqueue_style( 'select2', EA_SHARE_COUNT_URL . 'assets/css/select2.css', array(), EA_SHARE_COUNT_VERSION );
-			wp_enqueue_script( 'select2', EA_SHARE_COUNT_URL  . 'assets/js/select2.min.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, $false );
-			wp_enqueue_script( 'share-count-settings', EA_SHARE_COUNT_URL . 'assets/js/admin-settings.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, $false );
+			wp_enqueue_script( 'select2', EA_SHARE_COUNT_URL  . 'assets/js/select2.min.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, false );
+			wp_enqueue_script( 'share-count-settings', EA_SHARE_COUNT_URL . 'assets/js/admin-settings.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, false );
 		}
 	}
 
