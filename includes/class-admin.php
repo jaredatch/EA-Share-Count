@@ -152,14 +152,11 @@ class EA_Share_Count_Admin {
 						</td>
 					</tr>
 
-					<?php 
-					// If the Genesis Framework is used then provide a setting for
-					// automated button placement.
-					if( 'genesis' == basename( TEMPLATEPATH ) || apply_filters( 'ea_share_count_theme_location', false ) ) {
-						echo '<tr valign="top">';
-							echo '<th scope="row">' . __( 'Theme Location', 'ea-share-count' ) . '</th>';
-							echo '<td>';
-								echo '<select name="ea_share_count_options[theme_location]">';
+					<tr valign="top">
+						<th scope="row"><?php _e( 'Theme Location', 'ea-share-count' );?></th>
+						<td>
+							<select name="ea_share_count_options[theme_location]">
+								<?php
 								$locations = array( 
 									''                     => __( 'None', 'ea-share-count' ), 
 									'before_content'       => __( 'Before Content', 'ea-share-count' ), 
@@ -169,11 +166,10 @@ class EA_Share_Count_Admin {
 								foreach( $locations as $key => $label ) {
 									echo '<option value="' . $key . '" ' . selected( $key, $options['theme_location'], false ) . '>' . $label . '</option>';
 								}
-								echo '</select>';
-							echo '</td>';
-						echo '</tr>';
-					}
-					?>
+								?>
+							</select>
+						</td>
+					</tr>
 
 					<tr valign="top">
 						<th scope="row"><?php _e( 'Included Services', 'ea-share-count' );?></th>
