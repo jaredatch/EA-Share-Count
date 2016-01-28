@@ -27,24 +27,78 @@ class EA_Share_Count_Front {
 	 */
 	public function __construct() {
 
-		// Make theme locations filterable
-		$locations = array(
-			'before' => array(
-				'hook'     => 'genesis_entry_header',
-				'priority' => 13,
-			),
-			'after' => array(
-				'hook'     => 'genesis_entry_footer',
-				'priority' => 8,
-			),
-		);
-		$locations = apply_filters( 'ea_share_count_theme_locations', $locations );
-
+		// Load assets
 		add_action( 'wp_enqueue_scripts',         array( $this, 'header_assets'          ), 9  );
 		add_action( 'wp_footer',                  array( $this, 'load_assets'            ), 1  );	
 		add_action( 'wp_footer',                  array( $this, 'email_modal'            ), 50 );		
-		add_action( $locations['before']['hook'], array( $this, 'display_before_content' ), $locations['before']['priority'] );
-		add_action( $locations['after']['hook'],  array( $this, 'display_after_content'  ), $locations['after']['priority']  );
+
+		// Genesis Hooks
+		if( 'genesis' == basename( TEMPLATEPATH ) ) {
+
+			$locations = array(
+				'before' => array(
+					'hook'     => 'genesis_entry_header',
+					'filter'   => false,
+					'priority' => 13,
+				),
+				'after' => array(
+					'hook'     => 'genesis_entry_footer',
+					'filter'   => false,
+					'priority' => 8,
+				),
+			);
+
+		// Theme Hook Alliance
+		} elseif( current_theme_supports( 'tha_hooks', array( 'entry' ) ) ) {
+
+			$locations = array(
+				'before' => array(
+					'hook'     => 'tha_entry_content_before',
+					'filter'   => false,
+					'priority' => 13,
+				),
+				'after' => array(
+					'hook'     => 'tha_entry_content_after',
+					'filter'   => false,
+					'priority' => 8,
+				),
+			);
+		
+		// Fallback to 'the_content'
+		} else {
+
+			$locations = array(
+				'before' => array(
+					'hook'     => false,
+					'filter'   => 'the_content',
+					'priority' => 8,
+				),
+				'after' => array(
+					'hook'     => false,
+					'filter'   => 'the_content',
+					'priority' => 12,
+				),
+			);
+		
+		}
+
+		// Filter theme locations
+		$locations = apply_filters( 'ea_share_count_theme_locations', $locations );
+		
+		// Display share buttons before content
+		if( $locations['before']['hook'] ) {
+			add_action( $locations['before']['hook'], array( $this, 'display_before_content' ), $locations['before']['priority'] );
+		} elseif( $locations['before']['filter'] ) {
+			add_filter( $locations['before']['filter'], array( $this, 'display_before_content_filter' ), $locations['before']['priority'] );
+		}
+		
+		// Display share buttons after content
+		if( $locations['after']['hook'] ) {
+			add_action( $locations['after']['hook'],  array( $this, 'display_after_content'  ), $locations['after']['priority']  );
+		} elseif( $locations['after']['filter'] ) {
+			add_filter( $locations['after']['filter'],  array( $this, 'display_after_content_filter'  ), $locations['after']['priority']  );		
+		}
+
 	}
 
 	/**
@@ -165,21 +219,29 @@ class EA_Share_Count_Front {
 	 * Display Share Counts based on plugin settings.
 	 *
 	 * @param string $location
+	 * @param bool $echo
+	 * @return null/string, depending on $echo
+	 *
 	 * @since 1.1.0
 	 */
-	public function display( $location = '' ) {
+	public function display( $location = '', $echo = true ) {
 
 		$options = ea_share()->admin->options();
-		$output  = '';
+		$services  = '';
 		$style   = isset( $options['style'] ) ? esc_attr( $options['style'] ) : 'generic';
 
 		foreach( $options['included_services'] as $service ) {
-			$output .= $this->link( $service, false, false, $style );
+			$services .= $this->link( $service, false, false, $style );
 		}
 
-		echo '<div class="ea-share-count-wrap ' . sanitize_html_class( $location ) . '">';
-			echo apply_filters( 'ea_share_count_display', $output, $location );
-		echo '</div>';
+		$output = '<div class="ea-share-count-wrap ' . sanitize_html_class( $location ) . '">';
+		$output .= apply_filters( 'ea_share_count_display', $services, $location );
+		$output .=  '</div>';
+		
+		if( $echo )
+			echo $output;
+		else
+			return $output;
 	}
 	
 	/**
@@ -188,12 +250,31 @@ class EA_Share_Count_Front {
 	 * @since 1.1.0
 	 */
 	public function display_before_content() {
-
+	
 		$options = ea_share()->admin->options();
 
 		if ( ( 'before_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) ) {
 			$this->display( 'before_content' );
 		}
+	}
+	
+	/**
+	 * Display Before Content Filter
+	 * 
+	 * @param string $content
+	 * @return string $content
+	 *
+	 * @since 1.5.3
+	 */
+	public function display_before_content_filter( $content ) {
+	
+		$options = ea_share()->admin->options();
+
+		if ( ( 'before_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) ) {
+			$content = $this->display( 'before_content', false ) . $content;
+		}
+		
+		return $content;
 	}
 	
 	/**
@@ -208,6 +289,25 @@ class EA_Share_Count_Front {
 		if ( ( 'after_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) ) {
 			$this->display( 'after_content' );
 		}
+	}
+
+	/**
+	 * Display After Content Filter
+	 * 
+	 * @param string $content
+	 * @return string $content
+	 *
+	 * @since 1.5.3
+	 */
+	public function display_after_content_filter( $content ) {
+
+		$options = ea_share()->admin->options();
+
+		if ( ( 'after_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) ) {
+			$content .= $this->display( 'after_content', false );
+		}
+		
+		return $content;
 	}
 
 	/**

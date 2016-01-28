@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
 ## [1.5.3] = 2016-01-28
+### Added
+- Display before/after content now supports all themes. First looks for Genesis and Theme Hook Alliance hooks, then falls back to 'the_content' filter (see #36)
+
 ### Changed
 - Icons are now included in CSS. Icon classes have changed from font awesome to our custom icons. Ex: fa-facebook is now easc-facebook (see #35)
 - Reduced size of print button when using GSS style
