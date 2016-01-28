@@ -202,6 +202,18 @@ class EA_Share_Count_Admin {
 							</select>
 						</td>
 					</tr>
+					
+					<tr valign="top">
+						<th scope="row"><?php _e( 'How often to refresh counts', 'ea-share-count' );?></th>
+						<td>
+							<input type="text" name="ea_share_count_options[refresh_1]" value="<?php echo $this->option_value( 'refresh_1' );?>" class="regular-text" /><br />
+							<?php _e( 'Posts published in last 24 hours', 'ea-share-count' );?> <br /><br />
+							<input type="text" name="ea_share_count_options[refresh_2]" value="<?php echo $this->option_value( 'refresh_2' );?>" class="regular-text" /><br />
+							<?php _e( 'Posts published in last 5 days', 'ea-share-count' );?> <br /><br />
+							<input type="text" name="ea_share_count_options[refresh_3]" value="<?php echo $this->option_value( 'refresh_3' );?>" class="regular-text" /><br />
+							<?php _e( 'Older posts', 'ea-share-count' );?>
+						</td>
+					</tr>
 			
 				</table>
 
@@ -248,7 +260,26 @@ class EA_Share_Count_Admin {
 			'theme_location'        => '',
 			'included_services'     => array( 'facebook', 'twitter', 'pinterest' ),
 			'included_services_raw' => 'facebook,twitter,pinterest',
+			'refresh_1'             => '30 minutes',
+			'refresh_2'             => '6 hours',
+			'refresh_3'             => '2 days',
 		);
+	}
+	
+	/**
+	 * Option value
+	 * Helper function for accessing default if no option defined
+	 */
+	function option_value( $key ) {
+
+		$defaults = $this->settings_default();
+		$options = get_option( 'ea_share_count_options', $defaults );
+		if( isset( $options[$key] ) )
+			return $options[$key];
+		elseif( isset( $defaults[$key] ) )
+			return $defaults[$key];
+		else
+			return false; 	
 	}
 
 	/**
