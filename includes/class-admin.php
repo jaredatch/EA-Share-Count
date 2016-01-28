@@ -91,87 +91,6 @@ class EA_Share_Count_Admin {
 					</tr>
 
 					<tr valign="top">
-						<th scope="row"><?php _e( 'Share Count Style', 'ea-share-count' );?></th>
-						<td>
-							<select name="ea_share_count_options[style]">
-							<?php
-							$styles = array( 'bubble' => 'Bubble', 'fancy' => 'Fancy', 'gss' => 'Slim' );
-							foreach( $styles as $key => $label ) {
-								echo '<option value="' . $key . '" ' . selected( $key, $options['style'], false ) . '>' . $label . '</option>';
-							}
-							?>
-							</select>
-						</td>
-					</tr>
-
-					<tr valign="top">
-						<th scope="row"><?php _e( 'Share Count Number', 'ea-share-count' );?></th>
-						<td>
-							<select name="ea_share_count_options[number]">
-							<?php
-							$number = array( 'all' => 'All Services', 'total' => 'Total Only' );
-							foreach( $number as $key => $label ) {
-								echo '<option value="' . $key . '" ' . selected( $key, $options['number'], false ) . '>' . $label . '</option>';
-							}
-							?>
-							</select>
-						</td>
-					</tr>
-
-					<tr valign="top">
-						<th scope="row"><?php _e( 'Show Empty Counts', 'ea-share-count' );?></th>
-						<td>
-							<select name="ea_share_count_options[show_empty]">
-							<?php
-							$show_empty = array( 'true' => 'Yes', 'false' => 'No' );
-							foreach( $show_empty as $key => $label ) {
-								echo '<option value="' . $key . '" ' . selected( $key, $options['show_empty'], false ) . '>' . $label . '</option>';
-							}
-							?>
-							</select>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><?php _e( 'Supported Post Types', 'ea-share-count' );?></th>
-						<td>
-							<fieldset>
-							<?php 
-							$post_types = get_post_types( array( 'public' => true, '_builtin' => true ), 'names' );
-							if ( isset( $post_types['attachment'] ) ) {
-								unset( $post_types['attachment'] );
-							}
-							foreach( $post_types as $post_type ) {
-								echo '<label for="ea-cpt-' . sanitize_html_class( $post_type )  . '">';
-									echo '<input type="checkbox" name="ea_share_count_options[post_type][]" value="' . esc_attr( $post_type ). '" id="ea-cpt-' . sanitize_html_class( $post_type ) . '" ' . checked( in_array( $post_type, $options['post_type'] ), true, false ) . '>';
-									echo esc_html( $post_type );
-								echo '</label>';
-								echo '<br>';
-							}
-							?>
-							</fieldset>
-						</td>
-					</tr>
-
-					<tr valign="top">
-						<th scope="row"><?php _e( 'Theme Location', 'ea-share-count' );?></th>
-						<td>
-							<select name="ea_share_count_options[theme_location]">
-								<?php
-								$locations = array( 
-									''                     => __( 'None', 'ea-share-count' ), 
-									'before_content'       => __( 'Before Content', 'ea-share-count' ), 
-									'after_content'        => __( 'After Content',  'ea-share-count' ), 
-									'before_after_content' => __( 'Before and After Content', 'ea-share-count' ), 
-								);
-								foreach( $locations as $key => $label ) {
-									echo '<option value="' . $key . '" ' . selected( $key, $options['theme_location'], false ) . '>' . $label . '</option>';
-								}
-								?>
-							</select>
-						</td>
-					</tr>
-
-					<tr valign="top">
 						<th scope="row"><?php _e( 'Included Services', 'ea-share-count' );?></th>
 						<td>
 							<input type="hidden" name="ea_share_count_options[included_services_raw]" value="<?php echo $options['included_services_raw'];?>" class="share-count-services-raw">
@@ -202,6 +121,88 @@ class EA_Share_Count_Admin {
 						</td>
 					</tr>
 
+					<tr valign="top">
+						<th scope="row"><?php _e( 'Share Count Style', 'ea-share-count' );?></th>
+						<td>
+							<select name="ea_share_count_options[style]">
+							<?php
+							$styles = array( 'bubble' => 'Bubble', 'fancy' => 'Fancy', 'gss' => 'Slim' );
+							foreach( $styles as $key => $label ) {
+								echo '<option value="' . $key . '" ' . selected( $key, $options['style'], false ) . '>' . $label . '</option>';
+							}
+							?>
+							</select>
+						</td>
+					</tr>
+
+					<tr valign="top">
+						<th scope="row"><?php _e( 'Theme Location', 'ea-share-count' );?></th>
+						<td>
+							<select name="ea_share_count_options[theme_location]">
+								<?php
+								$locations = array( 
+									''                     => __( 'None', 'ea-share-count' ), 
+									'before_content'       => __( 'Before Content', 'ea-share-count' ), 
+									'after_content'        => __( 'After Content',  'ea-share-count' ), 
+									'before_after_content' => __( 'Before and After Content', 'ea-share-count' ), 
+								);
+								foreach( $locations as $key => $label ) {
+									echo '<option value="' . $key . '" ' . selected( $key, $options['theme_location'], false ) . '>' . $label . '</option>';
+								}
+								?>
+							</select>
+						</td>
+					</tr>
+
+					<tr valign="top">
+						<th scope="row"><?php _e( 'Supported Post Types', 'ea-share-count' );?></th>
+						<td>
+							<fieldset>
+							<?php 
+							$post_types = get_post_types( array( 'public' => true, '_builtin' => true ), 'names' );
+							if ( isset( $post_types['attachment'] ) ) {
+								unset( $post_types['attachment'] );
+							}
+							foreach( $post_types as $post_type ) {
+								echo '<label for="ea-cpt-' . sanitize_html_class( $post_type )  . '">';
+									echo '<input type="checkbox" name="ea_share_count_options[post_type][]" value="' . esc_attr( $post_type ). '" id="ea-cpt-' . sanitize_html_class( $post_type ) . '" ' . checked( in_array( $post_type, $options['post_type'] ), true, false ) . '>';
+									echo esc_html( $post_type );
+								echo '</label>';
+								echo '<br>';
+							}
+							?>
+							</fieldset>
+						</td>
+					</tr>		
+
+					<tr valign="top">
+						<th scope="row"><?php _e( 'Share Count Number', 'ea-share-count' );?></th>
+						<td>
+							<select name="ea_share_count_options[number]">
+							<?php
+							$number = array( 'all' => 'All Services', 'total' => 'Total Only' );
+							foreach( $number as $key => $label ) {
+								echo '<option value="' . $key . '" ' . selected( $key, $options['number'], false ) . '>' . $label . '</option>';
+							}
+							?>
+							</select>
+						</td>
+					</tr>
+
+					<tr valign="top">
+						<th scope="row"><?php _e( 'Show Empty Counts', 'ea-share-count' );?></th>
+						<td>
+							<select name="ea_share_count_options[show_empty]">
+							<?php
+							$show_empty = array( 'true' => 'Yes', 'false' => 'No' );
+							foreach( $show_empty as $key => $label ) {
+								echo '<option value="' . $key . '" ' . selected( $key, $options['show_empty'], false ) . '>' . $label . '</option>';
+							}
+							?>
+							</select>
+						</td>
+					</tr>
+			
 				</table>
 
 				<p class="submit">
