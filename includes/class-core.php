@@ -65,7 +65,7 @@ class EA_Share_Count_Core{
 			'Reply-To' => "$from_name <$from_email>"
 		);
 		$subject = "Your friend $from_name has shared an article with you";
-		$body    =  wp_specialchars_decode( get_the_title( $post_id ) ) . "\r\n";
+		$body    =  html_entity_decode( get_the_title( $post_id ), ENT_QUOTES ) . "\r\n";
 		$body   .=  get_permalink( $post_id ) . "\r\n";
 
 		wp_mail( 
