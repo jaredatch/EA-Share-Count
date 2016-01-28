@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [1.5.3] = 2016-01-28
+### Changed
+- Icons are now included in CSS. Icon classes have changed from font awesome to our custom icons. Ex: fa-facebook is now easc-facebook
+
 ## [1.5.2] - 2015-11-13
 ### Changed
 - Links to author names on plugin page

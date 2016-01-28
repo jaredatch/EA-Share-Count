@@ -1,3 +1,68 @@
+/* Icons
+---------------------------------------------------------------------------------------------------- */
+
+@font-face {
+    font-family: 'easc';
+    src:    url('../fonts/easc.eot?pxpg84');
+    src:    url('../fonts/easc.eot?pxpg84#iefix') format('embedded-opentype'),
+        url('../fonts/easc.woff2?pxpg84') format('woff2'),
+        url('../fonts/easc.ttf?pxpg84') format('truetype'),
+        url('../fonts/easc.woff?pxpg84') format('woff'),
+        url('../fonts/easc.svg?pxpg84#easc') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="easc-"], [class*=" easc-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'easc' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.easc-print:before {
+    content: "\e909";
+}
+.easc-share:before {
+    content: "\e908";
+}
+.easc-stumbleupon:before {
+    content: "\e907";
+}
+.easc-google-plus:before {
+    content: "\e906";
+}
+.easc-linkedin:before {
+    content: "\e905";
+}
+.easc-pinterest-p:before {
+    content: "\e904";
+}
+.easc-twitter:before {
+    content: "\e903";
+}
+.easc-facebook:before {
+    content: "\e902";
+}
+.easc-close:before {
+    content: "\e901";
+}
+.easc-envelope:before {
+    content: "\e900";
+}
+
+
+/* General
+---------------------------------------------------------------------------------------------------- */
+
 .ea-share-count-wrap {
 	margin: 0 0 20px 0;
 }
@@ -53,7 +118,7 @@
 	margin-top: -5px;
 }
 
-.ea-share-count-button.style-bubble .fa {
+.ea-share-count-button.style-bubble i {
 	width:1.28571429em;
 	text-align: center;
 }
@@ -373,7 +438,7 @@
 	background-color: #aaa;
 }
 
-.ea-share-count-button.style-fancy .fa {
+.ea-share-count-button.style-fancy i {
 	display: inline-block;
 	vertical-align: top;
 	height: 22px;
@@ -588,7 +653,7 @@
 	text-decoration: none;
 }
 
-.ea-share-count-button.style-gss .fa {
+.ea-share-count-button.style-gss i {
 	display: inline-block;
 	height: 25px;
 	line-height: 25px;
