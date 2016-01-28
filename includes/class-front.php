@@ -249,12 +249,17 @@ class EA_Share_Count_Front {
 	 * 
 	 * @since 1.1.0
 	 */
-	public function display_before_content() {
-	
+	public function display_before_content( $echo = true ) {
+
+		$echo = $echo ? $echo : true;
 		$options = ea_share()->admin->options();
 
 		if ( ( 'before_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) ) {
-			$this->display( 'before_content' );
+			if( $echo ) {
+	 			$this->display( 'before_content' );
+	 		} else {
+	 			return $this->display( 'before_content', false );
+	 		}
 		}
 	}
 	
@@ -268,13 +273,8 @@ class EA_Share_Count_Front {
 	 */
 	public function display_before_content_filter( $content ) {
 	
-		$options = ea_share()->admin->options();
+		return $this->display_before_content( false ) . $content;
 
-		if ( ( 'before_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) ) {
-			$content = $this->display( 'before_content', false ) . $content;
-		}
-		
-		return $content;
 	}
 	
 	/**
@@ -282,12 +282,17 @@ class EA_Share_Count_Front {
 	 * 
 	 * @since 1.1.0
 	 */
-	public function display_after_content() {
+	public function display_after_content( $echo = true ) {
 
+		$echo = $echo ? $echo : true;
 		$options = ea_share()->admin->options();
 
 		if ( ( 'after_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) ) {
-			$this->display( 'after_content' );
+			if( $echo ) {
+				$this->display( 'after_content' );
+			} else {
+				return $this->display( 'after_content', false );
+			}
 		}
 	}
 
@@ -300,14 +305,9 @@ class EA_Share_Count_Front {
 	 * @since 1.5.3
 	 */
 	public function display_after_content_filter( $content ) {
+	
+		return $content . $this->display_after_content( false );
 
-		$options = ea_share()->admin->options();
-
-		if ( ( 'after_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) ) {
-			$content .= $this->display( 'after_content', false );
-		}
-		
-		return $content;
 	}
 
 	/**
