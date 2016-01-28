@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file, formatted v
 ## [1.5.3] = 2016-01-28
 ### Changed
 - Icons are now included in CSS. Icon classes have changed from font awesome to our custom icons. Ex: fa-facebook is now easc-facebook
+- Reduced size of print button when using GSS style
 
 ## [1.5.2] - 2015-11-13
 ### Changed
