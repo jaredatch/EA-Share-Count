@@ -95,7 +95,7 @@ class EA_Share_Count_Admin {
 						<td>
 							<select name="ea_share_count_options[style]">
 							<?php
-							$styles = array( 'bubble' => 'Bubble', 'fancy' => 'Fancy', 'gss' => 'Genesis Simple Share' );
+							$styles = array( 'bubble' => 'Bubble', 'fancy' => 'Fancy', 'gss' => 'Slim' );
 							foreach( $styles as $key => $label ) {
 								echo '<option value="' . $key . '" ' . selected( $key, $options['style'], false ) . '>' . $label . '</option>';
 							}

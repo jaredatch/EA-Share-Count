@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file, formatted v
 ### Changed
 - Icons are now included in CSS. Icon classes have changed from font awesome to our custom icons. Ex: fa-facebook is now easc-facebook (see #35)
 - Reduced size of print button when using GSS style
+- Renamed Genesis Simple Share style to Slim
 
 ### Fixed
 - Special characters now work in emails (see #34)
