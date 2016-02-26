@@ -28,9 +28,19 @@ class EA_Share_Count_Front {
 	public function __construct() {
 
 		// Load assets
+		add_action( 'template_redirect',          array( $this, 'theme_location'         ), 99 );
 		add_action( 'wp_enqueue_scripts',         array( $this, 'header_assets'          ), 9  );
 		add_action( 'wp_footer',                  array( $this, 'load_assets'            ), 1  );	
-		add_action( 'wp_footer',                  array( $this, 'email_modal'            ), 50 );		
+		add_action( 'wp_footer',                  array( $this, 'email_modal'            ), 50 );
+
+	}
+
+	/**
+	 * Add share buttons to theme locations
+	 *
+	 * @since 1.5.4
+	 */
+	function theme_location() {
 
 		// Genesis Hooks
 		if( 'genesis' == basename( TEMPLATEPATH ) ) {
@@ -98,9 +108,9 @@ class EA_Share_Count_Front {
 		} elseif( $locations['after']['filter'] ) {
 			add_filter( $locations['after']['filter'],  array( $this, 'display_after_content_filter'  ), $locations['after']['priority']  );		
 		}
-
+	
 	}
-
+	
 	/**
 	 * Enqueue the assets earlier if possible.
 	 *

@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [1.5.4] = 2016-02-26
+### Changed
+- Moved the theme location code to a later hook (template_redirect) so filterable in theme.
+
 ## [1.5.3] = 2016-01-28
 ### Added
 - Display before/after content now supports all themes. First looks for Genesis and Theme Hook Alliance hooks, then falls back to 'the_content' filter (see #36)
