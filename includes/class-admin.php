@@ -159,7 +159,7 @@ class EA_Share_Count_Admin {
 						<td>
 							<fieldset>
 							<?php 
-							$post_types = get_post_types( array( 'public' => true, '_builtin' => true ), 'names' );
+							$post_types = get_post_types( array( 'public' => true ), 'names' );
 							if ( isset( $post_types['attachment'] ) ) {
 								unset( $post_types['attachment'] );
 							}

@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [1.5.5] = 2016-03-22
+### Added
+- Support for custom post types
+
 ## [1.5.4] = 2016-02-26
 ### Changed
 - Moved the theme location code to a later hook (template_redirect) so filterable in theme.
