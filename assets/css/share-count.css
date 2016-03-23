@@ -385,13 +385,15 @@
 	margin-right: 3px;
 }
 
-/* Email
+/* Print and Email
 --------------------------------------------- */
 
+.ea-share-count-button.print.style-bubble,
 .ea-share-count-button.email.style-bubble {
 	display: inline-block;
 }
  
+.ea-share-count-button.print.style-bubble .ea-share-count-icon-label,
 .ea-share-count-button.email.style-bubble .ea-share-count-icon-label {
 	position: relative;
 	background-color: #f1f1f1;
@@ -411,11 +413,13 @@
 	float: left;
 }
  
+.ea-share-count-button.print.style-bubble .ea-share-count-icon-label:hover,
 .ea-share-count-button.email.style-bubble .ea-share-count-icon-label:hover {
 	background: #ddd;
 }
 
-.ea-share-count-button.email.style-bubble .ea-share-count-icon-label i {
+.ea-share-count-button.print.style-bubble .ea-share-count-icon-label i,
+.ea-share-count-button.email.style-bubble .ea-share-count-icon-label i, {
 	color: #666;
 	line-height: 1;
 	font-size: 12px;
