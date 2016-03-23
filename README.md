@@ -22,4 +22,13 @@ Specify the services you would like included, the theme location, and style.
 ## Screenshots ##
 
 ### 1. Settings Page. ###
-![EA Share Count Settings.](https://s3.amazonaws.com/f.cl.ly/items/3p3t471j112o2U3D2t2f/screenshot-1.jpg?v=cf213561)
+![Settings Page](https://s3.amazonaws.com/f.cl.ly/items/3p3t471j112o2U3D2t2f/screenshot-1.jpg?v=cf213561)
+
+### 2. Bubble Style (default) ###
+![Bubble Style](https://s3.amazonaws.com/f.cl.ly/items/1D0m2q270u1719112W3S/Screen%20Shot%202016-03-23%20at%204.02.31%20PM.png?v=84be6c71)
+
+### 3. Fancy Style ###
+![Fancy Style](https://s3.amazonaws.com/f.cl.ly/items/1K3q1G312k3F3u0r0r21/Screen%20Shot%202016-03-23%20at%204.03.33%20PM.png?v=f44e0d06)
+
+### 4. Slim Style ###
+![Slim Style](https://s3.amazonaws.com/f.cl.ly/items/1L06211I3E3v1O2o0y0L/slim.jpg?v=58095cff)
