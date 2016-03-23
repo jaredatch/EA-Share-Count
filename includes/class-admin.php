@@ -366,13 +366,13 @@ class EA_Share_Count_Admin {
 			return;
 
 		$output  = '';
-		$output .= '<li>Facebook Likes: <strong>' . ( !empty( $counts['Facebook']['like_count'] ) ? absint( $counts['Facebook']['like_count'] ) : '0'  ) . '</strong></li>';
-		$output .= '<li>Facebook Shares: <strong>' . ( !empty( $counts['Facebook']['share_count'] ) ? absint( $counts['Facebook']['share_count'] ) : '0'  ) . '</strong></li>';
-		$output .= '<li>Facebook Comments: <strong>' . ( !empty( $counts['Facebook']['comment_count'] ) ? absint( $counts['Facebook']['comment_count'] ) : '0'  ) . '</strong></li>';
-		$output .= '<li>Twitter: <strong>' . ( !empty( $counts['Twitter'] ) ? absint( $counts['Twitter'] ) : '0'  ) . '</strong></li>';
-		$output .= '<li>Pinterest: <strong>' . ( !empty( $counts['Pinterest'] ) ? absint( $counts['Pinterest'] ) : '0'  ) . '</strong></li>';
-		$output .= '<li>LinkedIn: <strong>' . ( !empty( $counts['LinkedIn'] ) ? absint( $counts['LinkedIn'] ) : '0'  ) . '</strong></li>';
-		$output .= '<li>StumbleUpon: <strong>' . ( !empty( $counts['StumbleUpon'] ) ? absint( $counts['StumbleUpon'] ) : '0'  ) . '</strong></li>';
+		$output .= '<li>Facebook Likes: <strong>' . ( !empty( $counts['Facebook']['like_count'] ) ? number_format( absint( $counts['Facebook']['like_count'] ) ) : '0'  ) . '</strong></li>';
+		$output .= '<li>Facebook Shares: <strong>' . ( !empty( $counts['Facebook']['share_count'] ) ? number_format( absint( $counts['Facebook']['share_count'] ) ) : '0'  ) . '</strong></li>';
+		$output .= '<li>Facebook Comments: <strong>' . ( !empty( $counts['Facebook']['comment_count'] ) ? number_format( absint( $counts['Facebook']['comment_count'] ) ) : '0'  ) . '</strong></li>';
+		$output .= '<li>Twitter: <strong>' . ( !empty( $counts['Twitter'] ) ? number_format( absint( $counts['Twitter'] ) ) : '0'  ) . '</strong></li>';
+		$output .= '<li>Pinterest: <strong>' . ( !empty( $counts['Pinterest'] ) ? number_format( absint( $counts['Pinterest'] ) ) : '0'  ) . '</strong></li>';
+		$output .= '<li>LinkedIn: <strong>' . ( !empty( $counts['LinkedIn'] ) ? number_format( absint( $counts['LinkedIn'] ) ) : '0'  ) . '</strong></li>';
+		$output .= '<li>StumbleUpon: <strong>' . ( !empty( $counts['StumbleUpon'] ) ? number_format( absint( $counts['StumbleUpon'] ) ) : '0'  ) . '</strong></li>';
 		
 		// Show Email shares if enabled
 		$options = $this->options();

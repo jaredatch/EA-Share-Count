@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file, formatted v
 ## [1.5.5] = 2016-03-22
 ### Added
 - Support for custom post types
+- Added commas to the share counts in metabox
 
 ## [1.5.4] = 2016-02-26
 ### Changed
