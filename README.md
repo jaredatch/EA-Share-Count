@@ -11,13 +11,11 @@ A lean plugin that leverages SharedCount.com API to quickly retrieve, cache, and
 
 ## Installation ##
 
-Once installed, go to Settings > Share Count to customize. 
+[Download the plugin here.](https://github.com/jaredatch/EA-Share-Count/archive/master.zip) Once installed, go to Settings > Share Count to customize. You can specify the services you would like included, where they should appear, and the style.
 
 Register at [SharedCount.com](http://www.sharedcount.com), then add your API code to the settings page. In most instances the free plan will be enough due to caching of share counts. 
 
 If you do not provide a SharedCount API key, the plugin will still display share buttons but all counts will be 0. I recommend you select "No" in the "Show Empty Counts" dropdown.
-
-Specify the services you would like included, the theme location, and style.
 
 ## Customization ##
 
