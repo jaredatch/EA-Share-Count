@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file, formatted v
 - Support for custom post types
 - Added commas to the share counts in metabox
 
+### Changed
+- Expired share counts now update after page has loaded, rather during page load
+
 ## [1.5.4] = 2016-02-26
 ### Changed
 - Moved the theme location code to a later hook (template_redirect) so filterable in theme.

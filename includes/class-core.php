@@ -21,6 +21,7 @@ class EA_Share_Count_Core{
 
 		add_action( 'wp_ajax_easc_email',        array( $this, 'email_ajax' ) );
 		add_action( 'wp_ajax_nopriv_easc_email', array( $this, 'email_ajax' ) );
+		add_action( 'shutdown',                  array( $this, 'update_share_counts' ) );
 	}
 
 	/**
@@ -114,32 +115,11 @@ class EA_Share_Count_Core{
 
 		// Rebuild and update meta if necessary
 		if ( ! $share_count || ! $last_updated || $this->needs_updating( $last_updated, $post_date ) || $force ) {
+		
+			global $easc_needs_updating;
+			$id = $post_id ? $post_id : $id;
+			$easc_needs_updating[$id] = $post_url;
 			
-			$share_count = $this->query_api( $post_url );
-
-			if ( $share_count && ( 'site' == $id || 0 === strpos( $id, 'http' ) ) ) {
-
-				$share_option[$hash]['count'] = $share_count;
-				$share_option[$hash]['datetime'] = time();
-				$share_option[$hash]['url'] = $post_url;
-
-				$total = $this->total_count( $share_count );
-				if ( $total ) {
-					$share_option[$hash]['total'] = $share_count;
-				}
-
-				update_option( 'ea_share_count_urls', $share_option );
-			
-			} elseif ( $share_count ) {
-
-				update_post_meta( $post_id, 'ea_share_count', $share_count );
-				update_post_meta( $post_id, 'ea_share_count_datetime', time() );
-
-				$total = $this->total_count( json_decode( $share_count, true ) );
-				if ( $total ) {
-					update_post_meta( $post_id, 'ea_share_count_total', $total );
-				}
-			}
 		}
 
 		if ( $share_count && $array == true ) {
@@ -360,7 +340,52 @@ class EA_Share_Count_Core{
 			return false;
 		}
 	}
+	
+	/**
+	 * Update Share Counts
+	 *
+	 */
+	function update_share_counts() {
+	
+		global $easc_needs_updating;
+		if( !empty( $easc_needs_updating ) ) {
+		
+			foreach( $easc_needs_updating as $id => $post_url ) {
 
+				$share_count = $this->query_api( $post_url );
+				
+				if ( $share_count && ( 'site' == $id || 0 === strpos( $id, 'http' ) ) ) {
+				
+					$share_option = get_option( 'ea_share_count_urls', array() );	
+					$hash = md5( $post_url );	
+					$share_option[$hash]['count'] = $share_count;
+					$share_option[$hash]['datetime'] = time();
+					$share_option[$hash]['url'] = $post_url;
+	
+					$total = $this->total_count( $share_count );
+					if ( $total ) {
+						$share_option[$hash]['total'] = $share_count;
+					}
+	
+					update_option( 'ea_share_count_urls', $share_option );
+				
+				} elseif ( $share_count ) {
+	
+					update_post_meta( $id, 'ea_share_count', $share_count );
+					update_post_meta( $id, 'ea_share_count_datetime', time() );
+	
+					$total = $this->total_count( json_decode( $share_count, true ) );
+					if ( $total ) {
+						update_post_meta( $id, 'ea_share_count_total', $total );
+					}
+				}
+			
+			}
+		}
+
+	
+	}
+	
 	/**
 	 * Prime the pump
 	 *
