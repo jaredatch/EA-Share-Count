@@ -15,16 +15,9 @@ Once installed, go to Settings > Share Count to customize.
 
 Register at [SharedCount.com](http://www.sharedcount.com), then add your API code to the settings page. In most instances the free plan will be enough due to caching of share counts. 
 
-If you do not provide a SharedCount API key, the plugin will still display share buttons but no counts.
+If you do not provide a SharedCount API key, the plugin will still display share buttons but no counts. I recommend you select "No" in the "Show Empty Counts" dropdown.
 
 Specify the services you would like included, the theme location, and style.
-
-## Frequently Asked Questions ##
-
-= How do I register UI for arbitrary key=>value pairs as shortcode attributes? =
-
-Shortcake doesn't support custom key=>value pairs as shortcode attributes because it isn't a great user experience.
-
 
 ## Screenshots ##
 

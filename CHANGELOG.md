@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file, formatted v
 ### Added
 - Support for custom post types
 - Added commas to the share counts in metabox
+- Readme
 
 ### Changed
 - Expired share counts now update after page has loaded, rather during page load
