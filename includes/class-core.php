@@ -13,6 +13,14 @@
 class EA_Share_Count_Core{
 
 	/**
+	 * Holds list of posts that need share count refreshed
+	 *
+	 * @since 1.0.0
+	 * @var boolean
+	 */
+	public $update_queue = false;
+
+	/**
 	 * Primary class constructor.
 	 *
 	 * @since 1.3.0
@@ -116,9 +124,8 @@ class EA_Share_Count_Core{
 		// Rebuild and update meta if necessary
 		if ( ! $share_count || ! $last_updated || $this->needs_updating( $last_updated, $post_date ) || $force ) {
 		
-			global $easc_needs_updating;
 			$id = $post_id ? $post_id : $id;
-			$easc_needs_updating[$id] = $post_url;
+			$this->update_queue[$id] = $post_url;
 			
 		}
 
@@ -347,10 +354,9 @@ class EA_Share_Count_Core{
 	 */
 	function update_share_counts() {
 	
-		global $easc_needs_updating;
-		if( !empty( $easc_needs_updating ) ) {
+		if( !empty( $this->update_queue ) ) {
 		
-			foreach( $easc_needs_updating as $id => $post_url ) {
+			foreach( $this->update_queue as $id => $post_url ) {
 
 				$share_count = $this->query_api( $post_url );
 				
