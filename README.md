@@ -21,7 +21,7 @@ Specify the services you would like included, the theme location, and style.
 
 ## Customization ##
 
-You can also use the ea_share() function to access any of the internal methods. The most common use will be to get a specific share count. 
+You can also use the ea_share() function to access any of the internal methods. The most common use will be to get a specific share count.  [See all options here.](https://github.com/jaredatch/EA-Share-Count/blob/master/includes/class-core.php#L157)
 
 * `ea_share()->core->count( get_the_ID(), 'facebook' );` Provides the number of facebook likes/shares/comments
 * `ea_share()->core->count( get_the_ID(), 'included_total' );` Provides the total count from all the services specified in settings
