@@ -3,12 +3,13 @@ All notable changes to this project will be documented in this file, formatted v
 
 ## [1.5.5] = 2016-03-22
 ### Added
-- Support for custom post types
+- Added support for custom post types
 - Added commas to the share counts in metabox
-- Readme
+- Added readme file with documentation
 
 ### Changed
 - Expired share counts now update after page has loaded, rather during page load
+- Default style is now 'fancy' rather than 'bubble'
 
 ## [1.5.4] = 2016-02-26
 ### Changed
