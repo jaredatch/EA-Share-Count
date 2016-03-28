@@ -7,7 +7,7 @@
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
-A lean plugin that leverages SharedCount.com API to quickly retrieve, cache, and display various social sharing counts.
+EA Share Count is a lean plugin that leverages SharedCount.com API to quickly retrieve, cache, and display various social sharing counts. It's developer-friendly and very extensible.
 
 ## Installation ##
 
