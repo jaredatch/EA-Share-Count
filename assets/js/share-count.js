@@ -25,7 +25,7 @@ jQuery(document).ready(function($){
 		window.open(url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,' + window_size);
 		$(this).trigger("ea-share-click");
 	});
-	$(document).on('click', 'a[href*=#ea-share-count-email]', function(event) {
+	$(document).on('click', 'a[href*="#ea-share-count-email"]', function(event) {
 		event.preventDefault();
 		$('#easc-modal-wrap').fadeIn();
 		easc_id = $(this).data('postid');
