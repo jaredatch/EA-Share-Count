@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [1.5.6] = 2016-04-12
+### Changed
+- Use quotes in JS partial selector, fixing JS issue in WordPress 4.5
+
 ## [1.5.5] = 2016-03-22
 ### Added
 - Added support for custom post types

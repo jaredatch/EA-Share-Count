@@ -2,8 +2,8 @@
 **Contributors:** jaredatch, billerickson  
 **Tags:** facebook, linkedin, pinterest, share, share buttons, social, stumbleupon, twitter  
 **Requires at least:** 4.1  
-**Tested up to:** 4.4  
-**Stable tag:** 1.5.5  
+**Tested up to:** 4.5
+**Stable tag:** 1.5.6  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
