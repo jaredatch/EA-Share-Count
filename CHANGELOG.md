@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [1.5.7]
+### Added
+- 'ea_share_count_update_queue' filter
+
 ## [1.5.6] = 2016-04-12
 ### Changed
 - Use quotes in JS partial selector, fixing JS issue in WordPress 4.5

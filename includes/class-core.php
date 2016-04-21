@@ -354,9 +354,10 @@ class EA_Share_Count_Core{
 	 */
 	function update_share_counts() {
 	
-		if( !empty( $this->update_queue ) ) {
+		$queue = apply_filters( 'ea_share_count_update_queue', $this->update_queue );
+		if( !empty( $queue ) ) {
 		
-			foreach( $this->update_queue as $id => $post_url ) {
+			foreach( $queue as $id => $post_url ) {
 
 				$share_count = $this->query_api( $post_url );
 				
