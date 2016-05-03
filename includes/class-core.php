@@ -18,7 +18,7 @@ class EA_Share_Count_Core{
 	 * @since 1.0.0
 	 * @var boolean
 	 */
-	public $update_queue = false;
+	public $update_queue = array();
 
 	/**
 	 * Primary class constructor.
