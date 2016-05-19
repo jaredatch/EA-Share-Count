@@ -261,7 +261,7 @@ class EA_Share_Count_Front {
 	 */
 	public function display_before_content( $echo = true ) {
 
-		$echo = $echo ? $echo : true;
+		$echo = $echo ? true : false;
 		$options = ea_share()->admin->options();
 
 		if ( ( 'before_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) ) {
@@ -294,7 +294,7 @@ class EA_Share_Count_Front {
 	 */
 	public function display_after_content( $echo = true ) {
 
-		$echo = $echo ? $echo : true;
+		$echo = $echo ? true : false;
 		$options = ea_share()->admin->options();
 
 		if ( ( 'after_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) ) {
