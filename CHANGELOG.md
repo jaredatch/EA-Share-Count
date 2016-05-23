@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [1.5.9] = 2016-05-23
+### Fixed
+- Issue with automated theme location placement not working on in all cases. See #44
+
 ## [1.5.8] = 2016-05-19
 ### Fixed
 - Issue with 'after_content' theme location not working on some themes. See #43

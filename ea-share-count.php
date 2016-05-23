@@ -4,7 +4,7 @@
  * Plugin URI:  https://github.com/jaredatch/EA-Share-Count
  * Description: A lean plugin that leverages SharedCount.com API to quickly retrieve, cache, and display various social sharing counts.
  * Author:      Bill Erickson & Jared Atchison
- * Version:     1.5.8
+ * Version:     1.5.9
  *
  * EA Share Count is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ final class EA_Share_Count {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	private $version = '1.5.8';
+	private $version = '1.5.9';
 
 	/**
 	 * Core instance

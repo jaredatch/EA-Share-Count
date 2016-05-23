@@ -1,11 +1,11 @@
 # EA Share Count #
-**Contributors:** jaredatch, billerickson  
-**Tags:** facebook, linkedin, pinterest, share, share buttons, social, stumbleupon, twitter  
-**Requires at least:** 4.1  
+**Contributors:** jaredatch, billerickson
+**Tags:** facebook, linkedin, pinterest, share, share buttons, social, stumbleupon, twitter
+**Requires at least:** 4.1
 **Tested up to:** 4.5
-**Stable tag:** 1.5.8  
-**License:** GPLv2 or later  
-**License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
+**Stable tag:** 1.5.9
+**License:** GPLv2 or later
+**License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
 EA Share Count is a lean plugin that leverages SharedCount.com API to quickly retrieve, cache, and display various social sharing counts. It's developer-friendly and very extensible.
 
