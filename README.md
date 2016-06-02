@@ -60,3 +60,6 @@ There are also many filters in place to customize the plugin. [Here are some cod
 
 ### 4. Bubble Style ###
 ![Bubble Style](https://s3.amazonaws.com/f.cl.ly/items/1D0m2q270u1719112W3S/Screen%20Shot%202016-03-23%20at%204.02.31%20PM.png?v=84be6c71)
+
+### 5. Email Popup ###
+![Email Popup](https://s3.amazonaws.com/f.cl.ly/items/453x450Y2g1a2t2W1Y3d/Screen%20Shot%202016-06-02%20at%208.00.16%20AM.png?v=cb901d0b)
