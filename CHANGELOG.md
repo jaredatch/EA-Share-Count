@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [1.6.0] = 2016-06-23
+### Added
+- Checkbox in metabox to hide share buttons on this specific post, see #51
+
+### Fixed
+- Replaced PHP short tags with proper tags, see #50
+
 ## [1.5.9] = 2016-05-23
 ### Fixed
 - Issue with automated theme location placement not working on in all cases. See #44
