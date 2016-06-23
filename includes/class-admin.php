@@ -355,7 +355,8 @@ class EA_Share_Count_Admin {
 
 		wp_nonce_field( 'ea_share_count', 'ea_share_count_nonce' );
 		$exclude = intval( get_post_meta( $post->ID, 'ea_share_count_exclude', true ) );
-		echo '<p><input type="checkbox" name="ea_share_count_exclude" id="ea_share_count_exclude" value="' . $exclude . '" ' . checked( 1, $exclude, false ) . ' /> <label for="ea_share_count_exclude">' . __( 'Don\'t display buttons on this', 'ea-share-count' ) . ' ' . get_post_type( $post->ID ) . '</label></p>';
+		$post_type_object = get_post_type_object( get_post_type( $post->ID ) );
+		echo '<p><input type="checkbox" name="ea_share_count_exclude" id="ea_share_count_exclude" value="' . $exclude . '" ' . checked( 1, $exclude, false ) . ' /> <label for="ea_share_count_exclude">' . __( 'Don\'t display buttons on this', 'ea-share-count' ) . ' ' . strtolower( $post_type_object->labels->singular_name ) . '</label></p>';
 
 	}
 
