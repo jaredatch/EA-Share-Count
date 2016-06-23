@@ -29,6 +29,7 @@ class EA_Share_Count_Admin {
 		add_action( 'admin_init',                                 array( $this, 'metabox_add'     )        );
 		add_action( 'wp_ajax_ea_share_refresh',                   array( $this, 'metabox_ajax'    )        );
 		add_action( 'admin_enqueue_scripts',                      array( $this, 'metabox_assets'  )        );
+		add_action( 'save_post',                                  array( $this, 'metabox_save'    ), 10, 2 );
 	}
 
 	/**
@@ -352,6 +353,7 @@ class EA_Share_Count_Admin {
 		
 		echo '<a href="#" class="button" id="ea-share-count-refresh" data-nonce="' . wp_create_nonce( 'ea-share-count-refresh-' . $post->ID ) . '" data-postid="' . $post->ID . '">'. __( 'Refresh Share Counts', 'ea-share-count' ) . '</a>';
 
+		wp_nonce_field( 'ea_share_count', 'ea_share_count_nonce' );
 		$exclude = intval( get_post_meta( $post->ID, 'ea_share_count_exclude', true ) );
 		echo '<p><input type="checkbox" name="ea_share_count_exclude" id="ea_share_count_exclude" value="' . $exclude . '" ' . checked( 1, $exclude, false ) . ' /> <label for="ea_share_count_exclude">' . __( 'Don\'t display buttons on this', 'ea-share-count' ) . ' ' . get_post_type( $post->ID ) . '</label></p>';
 
@@ -436,6 +438,41 @@ class EA_Share_Count_Admin {
 		}
 	}
 	
+	/**
+	 * Save the Metabox
+	 *
+	 */
+	function metabox_save( $post_id, $post ) {
+
+		// Security check
+		if ( ! isset( $_POST['ea_share_count_nonce'] ) || ! wp_verify_nonce( $_POST['ea_share_count_nonce'], 'ea_share_count' ) ) {
+			return;
+		}
+
+		// Bail out if running an autosave, ajax, cron.
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			return;
+		}
+		if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+			return;
+		}
+
+		// Bail out if the user doesn't have the correct permissions to update the slider.
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+		
+		if( isset( $_POST['ea_share_count_exclude'] ) ) {
+			update_post_meta( $post_id, 'ea_share_count_exclude', 1 );
+		} else {
+			delete_post_meta( $post_id, 'ea_share_count_exclude' );
+		}
+
+	}
+
 	/**
 	 * Return the settings options values.
 	 *
