@@ -207,27 +207,27 @@ class EA_Share_Count_Front {
 		?>
 		<div id="easc-modal-wrap" style="display:none;">
 			<div class="easc-modal">
-				<span class="easc-modal-title"><? echo $labels['title']; ?></span>
+				<span class="easc-modal-title"><?php echo $labels['title']; ?></span>
 				<p>
-					<label for="easc-modal-recipient"><? echo $labels['recipient']; ?></label>
+					<label for="easc-modal-recipient"><?php echo $labels['recipient']; ?></label>
 					<input type="text" id="easc-modal-recipient">
 				</p>
 				<p>
-					<label for="easc-modal-name"><? echo $labels['name']; ?></label>
+					<label for="easc-modal-name"><?php echo $labels['name']; ?></label>
 					<input type="text" id="easc-modal-name">
 				</p>
 				<p>
-					<label for="easc-modal-email"><? echo $labels['email']; ?></label>
+					<label for="easc-modal-email"><?php echo $labels['email']; ?></label>
 					<input type="text" id="easc-modal-email">
 				</p>
 				<p class="easc-modal-validation">
-					<label for="easc-modal-validation"><? echo $labels['validation']; ?></label>
+					<label for="easc-modal-validation"><?php echo $labels['validation']; ?></label>
 					<input type="text" id="easc-modal-validation" autocomplete="off">
 				</p>
 				<p class="easc-modal-submit">
-					<button id="easc-modal-submit"><? echo $labels['submit']; ?></button>
+					<button id="easc-modal-submit"><?php echo $labels['submit']; ?></button>
 				</p>
-				<a href="#" id="easc-modal-close"><? echo $labels['close']; ?></a>
+				<a href="#" id="easc-modal-close"><?php echo $labels['close']; ?></a>
 				<div id="easc-modal-sent">Email sent!</div>
 			</div>
 		</div>
