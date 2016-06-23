@@ -349,8 +349,12 @@ class EA_Share_Count_Admin {
 		} else {
 			echo '<p id="ea-share-count-empty">' . __( 'No share counts downloaded for this entry', 'ea-share-count' ) . '</p>';
 		}
-
+		
 		echo '<a href="#" class="button" id="ea-share-count-refresh" data-nonce="' . wp_create_nonce( 'ea-share-count-refresh-' . $post->ID ) . '" data-postid="' . $post->ID . '">'. __( 'Refresh Share Counts', 'ea-share-count' ) . '</a>';
+
+		$exclude = intval( get_post_meta( $post->ID, 'ea_share_count_exclude', true ) );
+		echo '<p><input type="checkbox" name="ea_share_count_exclude" id="ea_share_count_exclude" value="' . $exclude . '" ' . checked( 1, $exclude, false ) . ' /> <label for="ea_share_count_exclude">' . __( 'Don\'t display buttons on this', 'ea-share-count' ) . ' ' . get_post_type( $post->ID ) . '</label></p>';
+
 	}
 
 	/**
@@ -431,7 +435,7 @@ class EA_Share_Count_Admin {
 			wp_enqueue_script( 'share-count-settings', EA_SHARE_COUNT_URL . 'assets/js/admin-metabox.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, false );
 		}
 	}
-
+	
 	/**
 	 * Return the settings options values.
 	 *
