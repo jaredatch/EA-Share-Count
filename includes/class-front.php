@@ -132,9 +132,9 @@ class EA_Share_Count_Front {
 		wp_register_script( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/js/share-count.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, true );
 		
 		$options = ea_share()->admin->options();
-
-		if ( !empty( $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) ) {
-
+		
+		if ( !empty( $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) && ! get_post_meta( get_the_ID(), 'ea_share_count_exclude', true ) ) {
+		
 			$this->share_link = true;
 			$this->load_assets();
 		}
@@ -272,7 +272,12 @@ class EA_Share_Count_Front {
 
 		$options = ea_share()->admin->options();
 
-		if ( ( 'before_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) ) {
+		if ( 
+			( 'before_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) 
+			&& !empty( $options['post_type'] ) 
+			&& is_singular( $options['post_type'] ) 
+			&& ! get_post_meta( get_the_ID(), 'ea_share_count_exclude', true ) 
+		) {
 			
 			// Detect if we are using a hook or filter
 			if ( !empty( $this->locations['before']['hook'] ) )  {
@@ -305,7 +310,12 @@ class EA_Share_Count_Front {
 
 		$options = ea_share()->admin->options();
 
-		if ( ( 'after_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) ) {
+		if ( 
+			( 'after_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) 
+			&& !empty( $options['post_type'] ) 
+			&& is_singular( $options['post_type'] ) 
+			&& ! get_post_meta( get_the_ID(), 'ea_share_count_exclude', true ) 
+		) {
 
 			// Detect if we are using a hook or filter
 			if ( !empty( $this->locations['after']['hook'] ) )  {
