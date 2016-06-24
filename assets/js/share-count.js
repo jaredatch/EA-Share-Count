@@ -28,6 +28,7 @@ jQuery(document).ready(function($){
 	$(document).on('click', 'a[href*="#ea-share-count-email"]', function(event) {
 		event.preventDefault();
 		$('#easc-modal-wrap').fadeIn();
+		$('#easc-modal-recipient').focus();
 		easc_id = $(this).data('postid');
 		easc_nonce = $(this).data('nonce');
 	});

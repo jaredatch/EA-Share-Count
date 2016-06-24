@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file, formatted v
 ## [1.6.0] = 2016-06-23
 ### Added
 - Checkbox in metabox to hide share buttons on this specific post, see #51
+- When opening email modal, focus on first input
 
 ### Fixed
 - Replaced PHP short tags with proper tags, see #50
