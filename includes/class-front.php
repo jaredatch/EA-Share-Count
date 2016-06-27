@@ -395,48 +395,56 @@ class EA_Share_Count_Front {
 					$link['label']  = 'Facebook';
 					$link['icon']   = 'easc-facebook';
 					$link['target'] = '_blank';
+					$link['attr_title'] = 'Share on Facebook';
 					break;
 				case 'facebook_likes':
 					$link['link']   = 'http://www.facebook.com/plugins/like.php?href=' . $link['url'];
 					$link['label']  = 'Like';
 					$link['icon']   = 'easc-facebook';
 					$link['target'] = '_blank';
+					$link['attr_title'] = 'Like on Facebook';
 					break;
 				case 'facebook_shares':
 					$link['link']   = 'https://www.facebook.com/sharer/sharer.php?u=' . $link['url'] . '&display=popup&ref=plugin&src=share_button';
 					$link['label']  = 'Share';
 					$link['icon']   = 'easc-facebook';
 					$link['target'] = '_blank';
+					$link['attr_title'] = 'Share on Facebook';
 					break;
 				case 'twitter':
 					$link['link']   = 'https://twitter.com/share?url=' . $link['url'] . '&text=' . $link['title'];
 					$link['label']  = 'Tweet';
 					$link['icon']   = 'easc-twitter';
 					$link['target'] = '_blank';
+					$link['attr_title'] = 'Share on Twitter';
 					break;
 				case 'pinterest':
 					$link['link']   = 'http://pinterest.com/pin/create/link/?url=' . $link['url'] . '&media=' . $link['img'] . ' &description=' . $link['title'];
 					$link['label']  = 'Pin';
 					$link['icon']   = 'easc-pinterest-p';
 					$link['target'] = '_blank';
+					$link['attr_title'] = 'Share on Pinterest';
 					break;
 				case 'linkedin':
 					$link['link']   = 'http://www.linkedin.com/shareArticle?mini=true&url=' . $link['url'];
 					$link['label']  = 'LinkedIn';
 					$link['icon']   = 'easc-linkedin';
 					$link['target'] = '_blank';
+					$link['attr_title'] = 'Share on LinkedIn';
 					break;
 				case 'google':
 					$link['link']   = 'http://plus.google.com/share?url=' . $link['url'];
 					$link['label']  = 'Google+';
 					$link['icon']   = 'easc-google-plus';
 					$link['target'] = '_blank';
+					$link['attr_title'] = 'Share on Google+';
 					break;
 				case 'stumbleupon':
 					$link['link']   = 'http://www.stumbleupon.com/submit?url=' . $link['url'] . '&title=' . $link['title'];
 					$link['label']  = 'StumbleUpon';
 					$link['icon']   = 'easc-stumbleupon';
 					$link['target'] = '_blank';
+					$link['attr_title'] = 'Share on StumbleUpon';
 					break;
 				case 'included_total':
 					$link['link']   = '';
@@ -448,6 +456,7 @@ class EA_Share_Count_Front {
 					$link['link'] = 'javascript:window.print()';
 					$link['label'] = 'Print';
 					$link['icon'] = 'easc-print';
+					$link['attr_title'] = 'Print this Page';
 					break;
 				case 'email': 
 					$link['link']   = '#ea-share-count-email';
@@ -455,6 +464,7 @@ class EA_Share_Count_Front {
 					$link['icon']   = 'easc-envelope';
 					$link['target'] = '';
 					$attr['nonce']  = wp_create_nonce( 'easc_email_' . $id );
+					$link['attr_title'] = 'Share via Email';
 					break;
 			}
 
