@@ -468,8 +468,9 @@ class EA_Share_Count_Front {
 					break;
 			}
 
-			$link   = apply_filters( 'ea_share_count_link', $link );
-			$target = !empty( $link['target'] ) ? ' target="' . esc_attr( $link['target'] ) . '" ' : '';
+			$link       = apply_filters( 'ea_share_count_link', $link );
+			$target     = !empty( $link['target'] ) ? ' target="' . esc_attr( $link['target'] ) . '" ' : '';
+			$attr_title = !empty( $link['attr_title'] ) ? ' title="' . esc_attr( $link['attr_title'] ) . '" ' : '';
 
 			// Add classes
 			if ( '0' == $link['count'] || ( 'total' == $options['number'] && 'included_total' != $type ) ) {
@@ -487,7 +488,7 @@ class EA_Share_Count_Front {
 			if ( $type == 'included_total' ) {
 				$output .= '<span class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '"' . $data . '>';
 			} else {
-				$output .= '<a href="' . $link['link'] . '"' . $target . 'class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '"'. $data. '">';
+				$output .= '<a href="' . $link['link'] . '"' . $attr_title . $target . 'class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '"'. $data. '">';
 			}
 				$output .= '<span class="ea-share-count-icon-label">';
 					$output .= '<i class="ea-share-count-icon ' . $link['icon'] . '"></i>';
