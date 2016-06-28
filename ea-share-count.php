@@ -51,7 +51,7 @@ final class EA_Share_Count {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	private $version = '1.5.9';
+	private $version = '1.6.0';
 
 	/**
 	 * Core instance
