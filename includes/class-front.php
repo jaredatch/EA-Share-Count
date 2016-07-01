@@ -70,12 +70,12 @@ class EA_Share_Count_Front {
 
 			$locations = array(
 				'before' => array(
-					'hook'     => 'tha_entry_content_before',
+					'hook'     => 'tha_entry_top',
 					'filter'   => false,
 					'priority' => 13,
 				),
 				'after' => array(
-					'hook'     => 'tha_entry_content_after',
+					'hook'     => 'tha_entry_bottom',
 					'filter'   => false,
 					'priority' => 8,
 				),
