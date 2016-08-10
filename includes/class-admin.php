@@ -128,6 +128,7 @@ class EA_Share_Count_Admin {
 							<select name="ea_share_count_options[style]">
 							<?php
 							$styles = array( 'fancy' => 'Fancy', 'gss' => 'Slim', 'bubble' => 'Bubble' );
+							$styles = apply_filters( 'ea_share_count_styles', $styles );
 							foreach( $styles as $key => $label ) {
 								echo '<option value="' . $key . '" ' . selected( $key, $options['style'], false ) . '>' . $label . '</option>';
 							}
