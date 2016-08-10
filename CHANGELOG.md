@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [Unreleased]
+### Added
+- Filter for adding additional styles, see #58
+
 ## [1.6.0] = 2016-06-23
 ### Added
 - Checkbox in metabox to hide share buttons on this specific post, see #51
