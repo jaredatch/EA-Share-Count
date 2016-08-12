@@ -71,23 +71,10 @@ class EA_Share_Count_Admin {
 				<table class="form-table">
 
 					<tr valign="top">
-						<th scope="row"><?php _e( 'SharedCount API Key', 'ea-share-count' );?></th>
+						<th scope="row"><?php _e( 'Facebook Access Token', 'ea-share-count' );?></th>
 						<td>
-							<input type="text" name="ea_share_count_options[api_key]" value="<?php echo $options['api_key'];?>" class="regular-text" /><br />
-							<a href="http://www.sharedcount.com" target="_blank"><?php _e( 'Register for one here', 'ea-share-count' );?></a>
-						</td>
-					</tr>
-
-					<tr valign="top">
-						<th scope="row"><?php _e( 'SharedCount API Domain', 'ea-share-count' );?></th>
-						<td>
-							<select name="ea_share_count_options[api_domain]">
-							<?php
-							$domains = array( 'https://free.sharedcount.com', 'https://plus.sharedcount.com', 'https://business.sharedcount.com' );
-							foreach( $domains as $domain )
-								echo '<option value="' . $domain . '" ' . selected( $domain, $options['api_domain'], false ) . '>' . $domain . '</option>';
-							?>
-							</select>
+							<input type="text" name="ea_share_count_options[fb_access_token]" value="<?php echo $this->settings_value( 'fb_access_token' ); ?>" class="regular-text" /><br />
+							<a href="https://developers.facebook.com/tools/explorer/" target="_blank"><?php _e( 'Click here to get a Facebook Access Token', 'ea-share-count' );?></a> <?php _e( '<br />Click "Get Token", then "Get User Access Token", then "Get Access Token" at the bottom. <br />None of the checkboxes need to be checked. Copy the access token and paste it here.', 'ea-share-count' );?>
 						</td>
 					</tr>
 
@@ -243,6 +230,7 @@ class EA_Share_Count_Admin {
 		return array( 
 			'api_key'               => '',
 			'api_domain'            => 'https://free.sharedcount.com',
+			'fb_access_token'       => '',
 			'style'                 => '',
 			'number'                => 'all',
 			'show_empty'            => 'true',
@@ -251,6 +239,26 @@ class EA_Share_Count_Admin {
 			'included_services'     => array( 'facebook', 'twitter', 'pinterest' ),
 			'included_services_raw' => 'facebook,twitter,pinterest',
 		);
+	}
+	
+	/**
+	 * Return settings value.
+	 *
+	 * @since 1.7.0
+	 */
+	function settings_value( $key = false ) {
+
+		$defaults = $this->settings_default();		
+		$options  = get_option( 'ea_share_count_options', $defaults ); 
+
+		if( isset( $options[$key] ) )
+			return $options[$key];
+
+		elseif( isset( $defaults[$key] ) )
+			return $defaults[$key];
+
+		else
+			return false;
 	}
 	
 	/**
@@ -269,6 +277,7 @@ class EA_Share_Count_Admin {
 
 		$input['api_key']               = esc_attr( $input['api_key'] );
 		$input['api_domain']            = esc_url( $input['api_domain'] );
+		$input['fb_access_token']       = esc_attr( $input['fb_access_token'] );
 		$input['style']                 = esc_attr( $input['style'] );
 		$input['number']                = esc_attr( $input['number'] );
 		$input['show_empty']            = esc_attr( $input['show_empty'] );
