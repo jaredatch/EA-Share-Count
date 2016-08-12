@@ -81,7 +81,7 @@ class EA_Share_Count_Admin {
 					<tr valign="top">
 						<th scope="row"><?php _e( 'Included Services', 'ea-share-count' );?></th>
 						<td>
-							<input type="hidden" name="ea_share_count_options[included_services_raw]" value="<?php echo $options['included_services_raw'];?>" class="share-count-services-raw">
+							<input type="hidden" name="ea_share_count_options[included_services_raw]" value="<?php echo $this->settings_value( 'included_services_raw' );?>" class="share-count-services-raw">
 							<select name="ea_share_count_options[included_services][]" class="share-count-services" multiple="multiple" style="min-width:350px;">
 							<?php
 							$services = array(
@@ -102,7 +102,7 @@ class EA_Share_Count_Admin {
 								$services = array_merge( array_flip( $options['included_services'] ), $services );
 							}
 							foreach( $services as $key => $service ) {
-								echo '<option value="' . $key . '" ' . selected( in_array( $key, $options['included_services'] ), true, false ) . '>' . $service . '</option>';
+								echo '<option value="' . $key . '" ' . selected( in_array( $key, $this->settings_value( 'included_services' ) ), true, false ) . '>' . $service . '</option>';
 							}
 							?>
 							</select>
@@ -117,7 +117,7 @@ class EA_Share_Count_Admin {
 							$styles = array( 'fancy' => 'Fancy', 'gss' => 'Slim', 'bubble' => 'Bubble' );
 							$styles = apply_filters( 'ea_share_count_styles', $styles );
 							foreach( $styles as $key => $label ) {
-								echo '<option value="' . $key . '" ' . selected( $key, $options['style'], false ) . '>' . $label . '</option>';
+								echo '<option value="' . $key . '" ' . selected( $key, $this->settings_value( 'style' ), false ) . '>' . $label . '</option>';
 							}
 							?>
 							</select>
@@ -136,7 +136,7 @@ class EA_Share_Count_Admin {
 									'before_after_content' => __( 'Before and After Content', 'ea-share-count' ), 
 								);
 								foreach( $locations as $key => $label ) {
-									echo '<option value="' . $key . '" ' . selected( $key, $options['theme_location'], false ) . '>' . $label . '</option>';
+									echo '<option value="' . $key . '" ' . selected( $key, $this->settings_value( 'theme_location' ), false ) . '>' . $label . '</option>';
 								}
 								?>
 							</select>
@@ -154,7 +154,7 @@ class EA_Share_Count_Admin {
 							}
 							foreach( $post_types as $post_type ) {
 								echo '<label for="ea-cpt-' . sanitize_html_class( $post_type )  . '">';
-									echo '<input type="checkbox" name="ea_share_count_options[post_type][]" value="' . esc_attr( $post_type ). '" id="ea-cpt-' . sanitize_html_class( $post_type ) . '" ' . checked( in_array( $post_type, $options['post_type'] ), true, false ) . '>';
+									echo '<input type="checkbox" name="ea_share_count_options[post_type][]" value="' . esc_attr( $post_type ). '" id="ea-cpt-' . sanitize_html_class( $post_type ) . '" ' . checked( in_array( $post_type, $this->settings_value( 'post_type') ), true, false ) . '>';
 									echo esc_html( $post_type );
 								echo '</label>';
 								echo '<br>';
@@ -171,7 +171,7 @@ class EA_Share_Count_Admin {
 							<?php
 							$number = array( 'all' => 'All Services', 'total' => 'Total Only' );
 							foreach( $number as $key => $label ) {
-								echo '<option value="' . $key . '" ' . selected( $key, $options['number'], false ) . '>' . $label . '</option>';
+								echo '<option value="' . $key . '" ' . selected( $key, $this->settings_value( 'number' ), false ) . '>' . $label . '</option>';
 							}
 							?>
 							</select>
@@ -185,7 +185,7 @@ class EA_Share_Count_Admin {
 							<?php
 							$show_empty = array( 'true' => 'Yes', 'false' => 'No' );
 							foreach( $show_empty as $key => $label ) {
-								echo '<option value="' . $key . '" ' . selected( $key, $options['show_empty'], false ) . '>' . $label . '</option>';
+								echo '<option value="' . $key . '" ' . selected( $key, $this->settings_value( 'show_empty' ), false ) . '>' . $label . '</option>';
 							}
 							?>
 							</select>
