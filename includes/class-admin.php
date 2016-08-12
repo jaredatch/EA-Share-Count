@@ -71,6 +71,31 @@ class EA_Share_Count_Admin {
 				<table class="form-table">
 
 					<tr valign="top">
+						<th scope="row"><?php _e( 'Retrieve Share Counts From', 'ea-share-count' );?></th>
+						<td>
+							<fieldset>
+							<?php 
+							$services = array(
+								'facebook'        => 'Facebook',
+								'pinterest'       => 'Pinterest',
+								'linkedin'        => 'LinkedIn',
+								'google'          => 'Google+',
+								'stumbleupon'     => 'Stumble Upon',
+							);
+							$services = apply_filters( 'ea_share_count_query_services', $services );
+							foreach( $services as $key => $label ) {
+								echo '<label for="ea-query-service-' . sanitize_html_class( $key )  . '">';
+									echo '<input type="checkbox" name="ea_share_count_options[query_services][]" value="' . esc_attr( $key ). '" id="ea-query-service-' . sanitize_html_class( $key ) . '" ' . checked( in_array( $key, $this->settings_value( 'query_services') ), true, false ) . '>';
+									echo esc_html( $label );
+								echo '</label>';
+								echo '<br>';
+							}
+							?>
+							</fieldset>
+						</td>
+					</tr>
+
+					<tr valign="top">
 						<th scope="row"><?php _e( 'Facebook Access Token', 'ea-share-count' );?></th>
 						<td>
 							<input type="text" name="ea_share_count_options[fb_access_token]" value="<?php echo $this->settings_value( 'fb_access_token' ); ?>" class="regular-text" /><br />
@@ -79,7 +104,7 @@ class EA_Share_Count_Admin {
 					</tr>
 
 					<tr valign="top">
-						<th scope="row"><?php _e( 'Share Buttons', 'ea-share-count' );?></th>
+						<th scope="row"><?php _e( 'Share Buttons to Display', 'ea-share-count' );?></th>
 						<td>
 							<input type="hidden" name="ea_share_count_options[included_services_raw]" value="<?php echo $this->settings_value( 'included_services_raw' );?>" class="share-count-services-raw">
 							<select name="ea_share_count_options[included_services][]" class="share-count-services" multiple="multiple" style="min-width:350px;">
@@ -143,31 +168,6 @@ class EA_Share_Count_Admin {
 						</td>
 					</tr>
 					
-					<tr valign="top">
-						<th scope="row"><?php _e( 'Retrieve Share Counts From', 'ea-share-count' );?></th>
-						<td>
-							<fieldset>
-							<?php 
-							$services = array(
-								'facebook'        => 'Facebook',
-								'pinterest'       => 'Pinterest',
-								'linkedin'        => 'LinkedIn',
-								'google'          => 'Google+',
-								'stumbleupon'     => 'Stumble Upon',
-							);
-							$services = apply_filters( 'ea_share_count_query_services', $services );
-							foreach( $services as $key => $label ) {
-								echo '<label for="ea-query-service-' . sanitize_html_class( $key )  . '">';
-									echo '<input type="checkbox" name="ea_share_count_options[query_services][]" value="' . esc_attr( $key ). '" id="ea-query-service-' . sanitize_html_class( $key ) . '" ' . checked( in_array( $key, $this->settings_value( 'query_services') ), true, false ) . '>';
-									echo esc_html( $label );
-								echo '</label>';
-								echo '<br>';
-							}
-							?>
-							</fieldset>
-						</td>
-					</tr>
-
 					<tr valign="top">
 						<th scope="row"><?php _e( 'Supported Post Types', 'ea-share-count' );?></th>
 						<td>
