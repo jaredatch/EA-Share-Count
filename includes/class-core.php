@@ -356,7 +356,6 @@ class EA_Share_Count_Core{
 			switch( $service ) {
 			
 				case 'facebook':
-					
 					$query_args = array(
 						'id'           => urlencode( $global_args['url'] ),
 						'access_token' => urlencode( ea_share()->admin->settings_value( 'fb_access_token' ) ),
@@ -375,7 +374,6 @@ class EA_Share_Count_Core{
 					break;
 				
 				case 'pinterest':
-
 					$query_args = array(
 						'callback' => 'receiveCount',
 						'url'      => $global_args['url'],
@@ -392,7 +390,19 @@ class EA_Share_Count_Core{
 					break;
 					
 				case 'linkedin':
-				
+					$query_args = array(
+						'url'      => $global_args['url'],
+						'format'   => 'json',
+					);
+					$query = add_query_arg( $query_args, 'http://www.linkedin.com/countserv/count/share' );
+					$results = wp_remote_get( $query );
+					if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
+						
+						$body = json_decode( $results['body'] );
+						if( isset( $body->count ) )
+							$share_count['LinkedIn'] = intval( $body->count );
+						
+					}
 					break;
 				
 				case 'google':
