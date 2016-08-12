@@ -79,7 +79,7 @@ class EA_Share_Count_Admin {
 					</tr>
 
 					<tr valign="top">
-						<th scope="row"><?php _e( 'Included Services', 'ea-share-count' );?></th>
+						<th scope="row"><?php _e( 'Share Buttons', 'ea-share-count' );?></th>
 						<td>
 							<input type="hidden" name="ea_share_count_options[included_services_raw]" value="<?php echo $this->settings_value( 'included_services_raw' );?>" class="share-count-services-raw">
 							<select name="ea_share_count_options[included_services][]" class="share-count-services" multiple="multiple" style="min-width:350px;">
@@ -110,7 +110,7 @@ class EA_Share_Count_Admin {
 					</tr>
 
 					<tr valign="top">
-						<th scope="row"><?php _e( 'Share Count Style', 'ea-share-count' );?></th>
+						<th scope="row"><?php _e( 'Share Button Style', 'ea-share-count' );?></th>
 						<td>
 							<select name="ea_share_count_options[style]">
 							<?php
