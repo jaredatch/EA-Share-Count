@@ -74,7 +74,7 @@ class EA_Share_Count_Admin {
 						<th scope="row"><?php _e( 'Facebook Access Token', 'ea-share-count' );?></th>
 						<td>
 							<input type="text" name="ea_share_count_options[fb_access_token]" value="<?php echo $this->settings_value( 'fb_access_token' ); ?>" class="regular-text" /><br />
-							<a href="https://developers.facebook.com/tools/explorer/" target="_blank"><?php _e( 'Click here to get a Facebook Access Token', 'ea-share-count' );?></a> <?php _e( '<br />Click "Get Token", then "Get User Access Token", then "Get Access Token" at the bottom. <br />None of the checkboxes need to be checked. Copy the access token and paste it here.', 'ea-share-count' );?>
+							<a href="https://developers.facebook.com/tools/explorer/" target="_blank"><?php _e( 'Click here to get a Facebook Access Token', 'ea-share-count' );?></a> <?php _e( '(no permissions needed)', 'ea-share-count' ); ?>
 						</td>
 					</tr>
 
