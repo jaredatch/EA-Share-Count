@@ -406,7 +406,18 @@ class EA_Share_Count_Core{
 					break;
 				
 				case 'google':
-				
+					// Copied from GSS / Sharre, pardon the ugliness
+					$content = wp_remote_get("https://plusone.google.com/u/0/_/+1/fastbutton?url=".$global_args['url']."&count=true");
+					$dom = new DOMDocument;
+					$dom->preserveWhiteSpace = false;
+					@$dom->loadHTML($content['body']);
+					$domxpath = new DOMXPath($dom);
+					$newDom = new DOMDocument;
+					$newDom->formatOutput = true;
+					$filtered = $domxpath->query("//div[@id='aggregateCount']");
+					if (isset($filtered->item(0)->nodeValue)) {
+						$share_count['GooglePlusOne'] = str_replace('>', '', $filtered->item(0)->nodeValue);
+					}	
 					break;
 					
 				case 'stumbleupon':
