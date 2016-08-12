@@ -421,7 +421,18 @@ class EA_Share_Count_Core{
 					break;
 					
 				case 'stumbleupon':
-				
+					$query_args = array(
+						'url'      => $global_args['url'],
+					);
+					$query = add_query_arg( $query_args, 'http://www.stumbleupon.com/services/1.01/badge.getinfo' );
+					$results = wp_remote_get( $query );
+					if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
+						
+						$body = json_decode( $results['body'] );
+						if( isset( $body->result->views ) )
+							$share_count['StumbleUpon'] = intval( $body->result->views );
+						
+					}
 					break;	
 			
 			}
