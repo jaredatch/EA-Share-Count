@@ -373,7 +373,35 @@ class EA_Share_Count_Core{
 						
 					}
 					break;
+				
+				case 'pinterest':
+
+					$query_args = array(
+						'callback' => 'receiveCount',
+						'url'      => $global_args['url'],
+					);
+					$query = add_query_arg( $query_args, 'http://api.pinterest.com/v1/urls/count.json' );
+					$results = wp_remote_get( $query );
+					if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
+						
+						$body = json_decode( $results['body'] );
+						if( isset( $body->count ) )
+							$share_count['Pinterest'] = intval( $body->count );
+						
+					}
+					break;
 					
+				case 'linkedin':
+				
+					break;
+				
+				case 'google':
+				
+					break;
+					
+				case 'stumbleupon':
+				
+					break;	
 			
 			}
 		}
