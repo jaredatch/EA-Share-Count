@@ -331,21 +331,58 @@ class EA_Share_Count_Core{
 	public function query_api( $url = false ) {
 
 		$options = ea_share()->admin->options();
-	
-		// Check that URL and API key are set
-		if ( ! $url || empty( $options['api_key'] ) ) {
+		$services = ea_share()->admin->settings_value( 'query_services' );
+		$global_args = apply_filters( 'ea_share_count_api_params', array( 'url' => $url ) );
+		
+		if( empty( $services ) || empty( $url ) )
 			return;
-		}
+			
+		$share_count = array(
+			'Facebook'      => array(
+				'share_count'   => 0,
+				'like_count'    => 0,
+				'comment_count' => 0,
+				'total_count'   => 0,
+			),
+			'Twitter'       => 0,
+			'Pinterest'     => 0,
+			'LinkedIn'      => 0,
+			'GooglePlusOne' => 0,
+			'StumbleUpon'   => 0
+		);
+		
+		foreach( $services as $service ) {
 
-		$query_args = apply_filters( 'ea_share_count_api_params', array( 'url' => $url, 'apikey' => $options['api_key'] ) );
-		$query      = add_query_arg( $query_args, $options['api_domain'] . '/url' );
-		$results    = wp_remote_get( $query );
-
-		if ( ! is_wp_error( $results) && 200 == $results['response']['code'] ) {
-			return $results['body'];
-		} else {
-			return false;
+			switch( $service ) {
+			
+				case 'facebook':
+					
+					$query_args = array(
+						'id'           => urlencode( $global_args['url'] ),
+						'access_token' => urlencode( ea_share()->admin->settings_value( 'fb_access_token' ) ),
+					);
+					$query = add_query_arg( $query_args, 'https://graph.facebook.com/' );
+					$results = wp_remote_get( esc_url( $query ) );
+					if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
+						
+						$body = json_decode( $results['body'] );
+						$share_count['Facebook']['share_count'] = intval( $body->shares );
+						$share_count['Facebook']['like_count'] = intval( $body->shares );
+						$share_count['Facebook']['comment_count'] = intval( $body->comments );
+						$share_count['Facebook']['total_count'] = intval( $body->shares ) + intval( $body->comments );
+						
+					}
+					break;
+					
+			
+			}
 		}
+		
+		// Modify API query results, or query additional APIs
+		$share_count = apply_filters( 'ea_share_count_query_api', $share_count, $global_args );
+		
+		return json_encode( $share_count );
+			
 	}
 	
 	/**
