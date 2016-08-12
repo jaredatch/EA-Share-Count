@@ -92,6 +92,7 @@ class EA_Share_Count_Admin {
 							}
 							?>
 							</fieldset>
+							<p><?php _e( 'Each service requires a separate API request, so using many services could cause performance issues.', 'ea-share-count' );?></p>
 						</td>
 					</tr>
 
