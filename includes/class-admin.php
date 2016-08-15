@@ -334,6 +334,7 @@ class EA_Share_Count_Admin {
 			$services_array[] = $service;
 		}
 
+		$input['query_services']        = array_map( 'esc_attr', $input['query_services'] );
 		$input['fb_access_token']       = esc_attr( $input['fb_access_token'] );
 		$input['style']                 = esc_attr( $input['style'] );
 		$input['number']                = esc_attr( $input['number'] );
@@ -342,6 +343,16 @@ class EA_Share_Count_Admin {
 		$input['theme_location']        = esc_attr( $input['theme_location'] );
 		$input['included_services']     = array_map( 'esc_attr', $services_array );
 		$input['included_services_raw'] = esc_attr( $input['included_services_raw'] );
+		
+		// Remove query services if they are disabled
+		$services = $this->query_services();
+		foreach( $services as $service ) {
+			if( $service['disabled'] && in_array( $service['key'], $input['query_services'] ) ) {
+				$key = array_search( $service['key'], $input['query_services'] );
+				unset( $input['query_services'][$key] );
+			}
+				
+		}
 		
 		return $input;
 	}
