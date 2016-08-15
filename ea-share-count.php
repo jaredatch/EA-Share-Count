@@ -114,6 +114,9 @@ final class EA_Share_Count {
 
 		// Base name
 		define( 'EA_SHARE_COUNT_BASE', plugin_basename( __FILE__ ) );
+		
+		// Plugin root file
+		define( 'EA_SHARE_COUNT_FILE', __FILE__ );
 	}
 
 	/**
@@ -123,6 +126,7 @@ final class EA_Share_Count {
 	 */
 	public function includes() {
 
+		require_once EA_SHARE_COUNT_DIR . 'includes/class-install.php';
 		require_once EA_SHARE_COUNT_DIR . 'includes/class-core.php';
 		require_once EA_SHARE_COUNT_DIR . 'includes/class-admin.php';
 		require_once EA_SHARE_COUNT_DIR . 'includes/class-front.php';
