@@ -30,6 +30,8 @@ class EA_Share_Count_Admin {
 		add_action( 'wp_ajax_ea_share_refresh',                   array( $this, 'metabox_ajax'    )        );
 		add_action( 'admin_enqueue_scripts',                      array( $this, 'metabox_assets'  )        );
 		add_action( 'save_post',                                  array( $this, 'metabox_save'    ), 10, 2 );
+		// Notices
+		add_action( 'admin_notices',                              array( $this, 'admin_notices' )          );
 	}
 
 	/**
@@ -568,5 +570,18 @@ class EA_Share_Count_Admin {
 		$options = get_option( 'ea_share_count_options', $this->settings_default() ); 
 
 		return apply_filters( 'ea_share_count_options', $options );
+	}
+	
+	/**
+	 * Admin Notices
+	 *
+	 * @since 1.7.0
+	 *
+	 */
+	function admin_notices() {
+	
+		// Removal of SharedCount
+		echo '<div class="update-nag notice is-dismissible"><p>' . sprintf( __( 'EA Share Count must be <a href="%s">configured</a> due to recent Facebook API changes. <a href="%s" target="_blank">More information here</a>.', 'ea-share-count' ), admin_url( 'options-general.php?page=ea_share_count_options' ), esc_url( 'https://github.com/jaredatch/EA-Share-Count/wiki/No-longer-using-SharedCount' ) ) . '</p></div>';
+
 	}
 }
