@@ -588,14 +588,13 @@ class EA_Share_Count_Admin {
 		if( ! current_user_can( 'manage_options' ) )
 			return;
 			
-		// Only display on existing installs
-		if( ! get_option( 'ea_share_count_options' ) )
-			return;
+		$options = get_option( 'ea_share_count_options' );
 	
 		$notices = array(
 			array(
 				'key'     => '170',
 				'class'   => 'notice easc-notice error is-dismissible',
+				'display' => isset( $options['api_key'] ),
 				'message' => sprintf( 
 					__( 'EA Share Count must be <a href="%s">configured</a> due to recent Facebook API changes. <a href="%s" target="_blank">More information here</a>.', 'ea-share-count' ), 
 					admin_url( 'options-general.php?page=ea_share_count_options' ), 
@@ -606,7 +605,7 @@ class EA_Share_Count_Admin {
 		
 		$dismissed = $this->settings_value( 'dismissed_notices' );		
 		foreach( $notices as $notice ) {
-			if( !in_array( $notice['key'], $dismissed ) )
+			if( $notice['display'] && !in_array( $notice['key'], $dismissed ) )
 				echo '<div class="' . esc_attr( $notice['class'] ) . '" data-key="' . sanitize_key( $notice['key'] ) . '"><p>' . $notice['message'] . '</p></div>';
 		}
 	
