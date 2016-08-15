@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file, formatted v
 
 ### Fixed
 - PHP Notice if you were getting share counts for a custom URL rather than post ID, see 18efb9b394c22a986a508c32ffd2e2e8f1d541a5
+- Used correct hooks for Theme Hook Alliance, see #55
 
 ## [1.6.0] = 2016-06-23
 ### Added
