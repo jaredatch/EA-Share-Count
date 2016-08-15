@@ -1,7 +1,7 @@
 jQuery(document).ready(function($){
 
 	// Save dismiss state
-	$( '.notice.is-dismissible' ).on('click', '.notice-dismiss', function ( event ) {
+	$( '.easc-notice.is-dismissible' ).on('click', '.notice-dismiss', function ( event ) {
 		event.preventDefault();
 		var $this = $(this);
 		if( ! $this.parent().data( 'key' ) ){

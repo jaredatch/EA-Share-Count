@@ -589,7 +589,7 @@ class EA_Share_Count_Admin {
 		$notices = array(
 			array(
 				'key'     => '170',
-				'class'   => 'error notice is-dismissible',
+				'class'   => 'notice easc-notice error is-dismissible',
 				'message' => sprintf( 
 					__( 'EA Share Count must be <a href="%s">configured</a> due to recent Facebook API changes. <a href="%s" target="_blank">More information here</a>.', 'ea-share-count' ), 
 					admin_url( 'options-general.php?page=ea_share_count_options' ), 
