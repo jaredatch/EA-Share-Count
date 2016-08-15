@@ -583,7 +583,12 @@ class EA_Share_Count_Admin {
 	 */
 	function admin_notices() {
 	
+		// Only display notices to users who can edit the plugin settings
 		if( ! current_user_can( 'manage_options' ) )
+			return;
+			
+		// Only display on existing installs
+		if( ! get_option( 'ea_share_count_options' ) )
 			return;
 	
 		$notices = array(
