@@ -17,6 +17,23 @@ Use the "Retrieve Share Counts From" checkboxes to select which APIs you'd like 
 
 The "Share Buttons to Display" field lets you control which share buttons to display and in what order. They can be automatically added before and/or after your site's content by selecting a Theme Location. Alternatively you can use `ea_share()->from->display()` in your theme to display the buttons.
 
+## Screenshots ##
+
+### 1. Settings Page. ###
+![Settings Page](https://d3vv6lp55qjaqc.cloudfront.net/items/2T2j1w3P2P2b3L2P2Z3Y/Screen%20Shot%202016-08-15%20at%204.39.19%20PM.png?v=1dbe1998)
+
+### 2. Fancy Style (default) ###
+![Fancy Style](https://s3.amazonaws.com/f.cl.ly/items/1K3q1G312k3F3u0r0r21/Screen%20Shot%202016-03-23%20at%204.03.33%20PM.png?v=f44e0d06)
+
+### 3. Slim Style ###
+![Slim Style](https://s3.amazonaws.com/f.cl.ly/items/1L06211I3E3v1O2o0y0L/slim.jpg?v=58095cff)
+
+### 4. Bubble Style ###
+![Bubble Style](https://s3.amazonaws.com/f.cl.ly/items/1D0m2q270u1719112W3S/Screen%20Shot%202016-03-23%20at%204.02.31%20PM.png?v=84be6c71)
+
+### 5. Email Popup ###
+![Email Popup](https://s3.amazonaws.com/f.cl.ly/items/453x450Y2g1a2t2W1Y3d/Screen%20Shot%202016-06-02%20at%208.00.16%20AM.png?v=cb901d0b)
+
 ## Customization ##
 
 You can also use the ea_share() function to access any of the internal methods. The most common use will be to get a specific share count.  [See all options here.](https://github.com/jaredatch/EA-Share-Count/blob/master/includes/class-core.php#L157)
@@ -47,21 +64,3 @@ There are also many filters in place to customize the plugin. [Here are some cod
 * `ea_share_count_admin_services` What services are available on the settings page
 * `ea_share_count_query_services` What services are available to be queried for share counts
 * `ea_share_count_options` The options used on the settings page
-
-
-## Screenshots ##
-
-### 1. Settings Page. ###
-![Settings Page](https://d3vv6lp55qjaqc.cloudfront.net/items/2T2j1w3P2P2b3L2P2Z3Y/Screen%20Shot%202016-08-15%20at%204.39.19%20PM.png?v=1dbe1998)
-
-### 2. Fancy Style (default) ###
-![Fancy Style](https://s3.amazonaws.com/f.cl.ly/items/1K3q1G312k3F3u0r0r21/Screen%20Shot%202016-03-23%20at%204.03.33%20PM.png?v=f44e0d06)
-
-### 3. Slim Style ###
-![Slim Style](https://s3.amazonaws.com/f.cl.ly/items/1L06211I3E3v1O2o0y0L/slim.jpg?v=58095cff)
-
-### 4. Bubble Style ###
-![Bubble Style](https://s3.amazonaws.com/f.cl.ly/items/1D0m2q270u1719112W3S/Screen%20Shot%202016-03-23%20at%204.02.31%20PM.png?v=84be6c71)
-
-### 5. Email Popup ###
-![Email Popup](https://s3.amazonaws.com/f.cl.ly/items/453x450Y2g1a2t2W1Y3d/Screen%20Shot%202016-06-02%20at%208.00.16%20AM.png?v=cb901d0b)
