@@ -264,6 +264,26 @@ class EA_Share_Count_Admin {
 	}
 	
 	/**
+	 * Return settings value.
+	 *
+	 * @since 1.7.0
+	 */
+	function settings_value( $key = false ) {
+
+		$defaults = $this->settings_default();		
+		$options  = get_option( 'ea_share_count_options', $defaults ); 
+
+		if( isset( $options[$key] ) )
+			return $options[$key];
+
+		elseif( isset( $defaults[$key] ) )
+			return $defaults[$key];
+
+		else
+			return false;
+	}
+	
+	/**
 	 * Query Services
 	 *
 	 * @since 1.7.0
@@ -303,26 +323,6 @@ class EA_Share_Count_Admin {
 		$services = apply_filters( 'ea_share_count_query_services', $services );
 		return $services;
 
-	}
-	
-	/**
-	 * Return settings value.
-	 *
-	 * @since 1.7.0
-	 */
-	function settings_value( $key = false ) {
-
-		$defaults = $this->settings_default();		
-		$options  = get_option( 'ea_share_count_options', $defaults ); 
-
-		if( isset( $options[$key] ) )
-			return $options[$key];
-
-		elseif( isset( $defaults[$key] ) )
-			return $defaults[$key];
-
-		else
-			return false;
 	}
 	
 	/**
