@@ -254,8 +254,6 @@ class EA_Share_Count_Admin {
 	public function settings_default() {
 
 		return array( 
-			'api_key'               => '',
-			'api_domain'            => 'https://free.sharedcount.com',
 			'fb_access_token'       => '',
 			'style'                 => '',
 			'number'                => 'all',
@@ -302,8 +300,6 @@ class EA_Share_Count_Admin {
 			$services_array[] = $service;
 		}
 
-		$input['api_key']               = esc_attr( $input['api_key'] );
-		$input['api_domain']            = esc_url( $input['api_domain'] );
 		$input['fb_access_token']       = esc_attr( $input['fb_access_token'] );
 		$input['style']                 = esc_attr( $input['style'] );
 		$input['number']                = esc_attr( $input['number'] );
