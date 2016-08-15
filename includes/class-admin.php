@@ -260,6 +260,7 @@ class EA_Share_Count_Admin {
 			'included_services'     => array( 'facebook', 'twitter', 'pinterest' ),
 			'included_services_raw' => 'facebook,twitter,pinterest',
 			'query_services'        => array(),
+			'dismissed_notices'     => array(),
 		);
 	}
 	
@@ -580,8 +581,23 @@ class EA_Share_Count_Admin {
 	 */
 	function admin_notices() {
 	
-		// Removal of SharedCount
-		echo '<div class="error notice is-dismissible"><p>' . sprintf( __( 'EA Share Count must be <a href="%s">configured</a> due to recent Facebook API changes. <a href="%s" target="_blank">More information here</a>.', 'ea-share-count' ), admin_url( 'options-general.php?page=ea_share_count_options' ), esc_url( 'https://github.com/jaredatch/EA-Share-Count/wiki/No-longer-using-SharedCount' ) ) . '</p></div>';
-
+		$notices = array(
+			array(
+				'key'     => '1.7.0',
+				'class'   => 'error notice is-dismissible',
+				'message' => sprintf( 
+					__( 'EA Share Count must be <a href="%s">configured</a> due to recent Facebook API changes. <a href="%s" target="_blank">More information here</a>.', 'ea-share-count' ), 
+					admin_url( 'options-general.php?page=ea_share_count_options' ), 
+					esc_url( 'https://github.com/jaredatch/EA-Share-Count/wiki/No-longer-using-SharedCount' ) 
+				)
+			)
+		);
+		
+		$dismissed = $this->settings_value( 'dismissed_notices' );		
+		foreach( $notices as $notice ) {
+			if( !in_array( $notice['key'], $dismissed ) )
+				echo '<div class="' . esc_attr( $notice['class'] ) . '" data-key="' . $notice['key'] . '"><p>' . $notice['message'] . '</p></div>';
+		}
+	
 	}
 }
