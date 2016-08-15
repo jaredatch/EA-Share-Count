@@ -80,6 +80,8 @@ class EA_Share_Count_Admin {
 								echo '<label for="ea-query-service-' . sanitize_html_class( $service['key'] )  . '">';
 									echo '<input type="checkbox" name="ea_share_count_options[query_services][]" value="' . esc_attr( $service['key'] ). '" id="ea-query-service-' . sanitize_html_class( $service['key'] ) . '" ' . checked( in_array( $service['key'], $this->settings_value( 'query_services') ), true, false ) . ' ' . disabled( $service['disabled'], true, false ) . '>';
 									echo esc_html( $service['label'] );
+									if( $service['disabled'] && isset( $service['disabled_message'] ) )
+										echo ' - <em>' . esc_html( $service['disabled_message'] ) . '</em>';
 								echo '</label>';
 								echo '<br>';
 							}
@@ -269,29 +271,30 @@ class EA_Share_Count_Admin {
 
 		$services = array(
 			array(
-				'key'      => 'facebook',
-				'label'    => 'Facebook',
-				'disabled' => empty( $this->settings_value( 'fb_access_token' ) ),
+				'key'              => 'facebook',
+				'label'            => 'Facebook',
+				'disabled'         => empty( $this->settings_value( 'fb_access_token' ) ),
+				'disabled_message' => 'You must provide a Facebook Access Token'
 			),
 			array(
-				'key'      => 'pinterest',
-				'label'    => 'Pinterest',
-				'disabled' => false,
+				'key'              => 'pinterest',
+				'label'            => 'Pinterest',
+				'disabled'         => false,
 			),
 			array(
-				'key'      => 'linkedin',
-				'label'    => 'LinkedIn',
-				'disabled' => false,
+				'key'              => 'linkedin',
+				'label'            => 'LinkedIn',
+				'disabled'         => false,
 			),
 			array(
-				'key'      => 'google',
-				'label'    => 'Google+',
-				'disabled' => false,
+				'key'              => 'google',
+				'label'            => 'Google+',
+				'disabled'         => false,
 			),
 			array(
-				'key'      => 'stumbleupon',
-				'label'    => 'StumbleUpon',
-				'disabled' => false,
+				'key'              => 'stumbleupon',
+				'label'            => 'StumbleUpon',
+				'disabled'         => false,
 			)
 		);
 
