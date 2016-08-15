@@ -581,7 +581,7 @@ class EA_Share_Count_Admin {
 	function admin_notices() {
 	
 		// Removal of SharedCount
-		echo '<div class="update-nag notice is-dismissible"><p>' . sprintf( __( 'EA Share Count must be <a href="%s">configured</a> due to recent Facebook API changes. <a href="%s" target="_blank">More information here</a>.', 'ea-share-count' ), admin_url( 'options-general.php?page=ea_share_count_options' ), esc_url( 'https://github.com/jaredatch/EA-Share-Count/wiki/No-longer-using-SharedCount' ) ) . '</p></div>';
+		echo '<div class="error notice is-dismissible"><p>' . sprintf( __( 'EA Share Count must be <a href="%s">configured</a> due to recent Facebook API changes. <a href="%s" target="_blank">More information here</a>.', 'ea-share-count' ), admin_url( 'options-general.php?page=ea_share_count_options' ), esc_url( 'https://github.com/jaredatch/EA-Share-Count/wiki/No-longer-using-SharedCount' ) ) . '</p></div>';
 
 	}
 }
