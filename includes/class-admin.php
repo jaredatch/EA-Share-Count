@@ -32,6 +32,8 @@ class EA_Share_Count_Admin {
 		add_action( 'save_post',                                  array( $this, 'metabox_save'    ), 10, 2 );
 		// Notices
 		add_action( 'admin_notices',                              array( $this, 'admin_notices' )          );
+		add_action( 'admin_enqueue_scripts',                      array( $this, 'notice_assets' )          );
+		add_action( 'wp_ajax_ea_share_count_dismissible_notice',  array( $this, 'notice_dismissal_ajax'  ) );
 	}
 
 	/**
@@ -581,9 +583,12 @@ class EA_Share_Count_Admin {
 	 */
 	function admin_notices() {
 	
+		if( ! current_user_can( 'manage_options' ) )
+			return;
+	
 		$notices = array(
 			array(
-				'key'     => '1.7.0',
+				'key'     => '170',
 				'class'   => 'error notice is-dismissible',
 				'message' => sprintf( 
 					__( 'EA Share Count must be <a href="%s">configured</a> due to recent Facebook API changes. <a href="%s" target="_blank">More information here</a>.', 'ea-share-count' ), 
@@ -596,8 +601,45 @@ class EA_Share_Count_Admin {
 		$dismissed = $this->settings_value( 'dismissed_notices' );		
 		foreach( $notices as $notice ) {
 			if( !in_array( $notice['key'], $dismissed ) )
-				echo '<div class="' . esc_attr( $notice['class'] ) . '" data-key="' . $notice['key'] . '"><p>' . $notice['message'] . '</p></div>';
+				echo '<div class="' . esc_attr( $notice['class'] ) . '" data-key="' . sanitize_key( $notice['key'] ) . '"><p>' . $notice['message'] . '</p></div>';
 		}
 	
+	}
+	
+	/**
+	 * Admin Notice Assets
+	 *
+	 * @since 1.7.0
+	 *
+	 */
+	function notice_assets() {
+		
+		wp_enqueue_script( 'ea-share-count-notice', EA_SHARE_COUNT_URL . 'assets/js/share-count-notice.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, false );
+		wp_localize_script( 'ea-share-count-notice', 'ea_share_count_notice', array(
+			'nonce' => wp_create_nonce( 'ea-share-count-notice' ),
+		) );
+		
+	}
+	
+	/**
+	 * AJAX Callback for Admin Notice Dismissal
+	 *
+	 * @since 1.7.0
+	 */
+	function notice_dismissal_ajax() {
+		
+		if (  ! isset( $_POST[ 'nonce' ] ) || ! wp_verify_nonce( $_POST[ 'nonce' ], 'ea-share-count-notice' ) || ! current_user_can( 'manage_options' ) ) {
+			return false;
+		}	
+		
+		$options = get_option( 'ea_share_count_options' );
+		if( ! isset( $options['dismissed_notices'] ) )
+			$options['dismissed_notices'] = array();
+			
+		$notice = sanitize_key( $_POST['notice'] );
+		$options['dismissed_notices'][] = $notice;
+		
+		update_option( 'ea_share_count_options', $options );
+			
 	}
 }
