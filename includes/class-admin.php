@@ -100,7 +100,7 @@ class EA_Share_Count_Admin {
 						<th scope="row"><?php _e( 'Facebook Access Token', 'ea-share-count' );?></th>
 						<td>
 							<input type="text" name="ea_share_count_options[fb_access_token]" value="<?php echo $this->settings_value( 'fb_access_token' ); ?>" class="regular-text" /><br />
-							<a href="https://developers.facebook.com/tools/explorer/" target="_blank"><?php _e( 'Click here to get a Facebook Access Token', 'ea-share-count' );?></a> <?php _e( '(no permissions needed)', 'ea-share-count' ); ?>
+							<a href="https://smashballoon.com/custom-facebook-feed/access-token/" target="_blank"><?php _e( 'Follow these instructions to get a Facebook Access Token', 'ea-share-count' );?></a>
 						</td>
 					</tr>
 
