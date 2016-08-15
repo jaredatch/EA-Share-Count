@@ -124,7 +124,7 @@ class EA_Share_Count_Core{
 		// Rebuild and update meta if necessary
 		if ( ! $share_count || ! $last_updated || $this->needs_updating( $last_updated, $post_date ) || $force ) {
 		
-			$id = $post_id ? $post_id : $id;
+			$id = isset( $post_id ) ? $post_id : $id;
 			$this->update_queue[$id] = $post_url;
 			
 		}
