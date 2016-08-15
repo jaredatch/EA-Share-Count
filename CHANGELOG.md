@@ -2,8 +2,16 @@
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
 ## [Unreleased]
+### Changed
+- SharedCount is no longer used for counts, see #57
+
 ### Added
-- Filter for adding additional styles, see #58
+- Filter for adding additional styles (ea_share_count_admin_services), see #58
+- Filter for adding additional share count services (ea_share_count_query_services), see #57
+- Admin notice regarding changing share count source
+
+### Fixed
+- PHP Notice if you were getting share counts for a custom URL rather than post ID, see 18efb9b394c22a986a508c32ffd2e2e8f1d541a5
 
 ## [1.6.0] = 2016-06-23
 ### Added
