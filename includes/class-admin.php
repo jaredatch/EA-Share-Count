@@ -76,17 +76,37 @@ class EA_Share_Count_Admin {
 							<fieldset>
 							<?php 
 							$services = array(
-								'facebook'        => 'Facebook',
-								'pinterest'       => 'Pinterest',
-								'linkedin'        => 'LinkedIn',
-								'google'          => 'Google+',
-								'stumbleupon'     => 'Stumble Upon',
+								array(
+									'key'      => 'facebook',
+									'label'    => 'Facebook',
+									'disabled' => empty( $this->settings_value( 'fb_access_token' ) ),
+								),
+								array(
+									'key'      => 'pinterest',
+									'label'    => 'Pinterest',
+									'disabled' => false,
+								),
+								array(
+									'key'      => 'linkedin',
+									'label'    => 'LinkedIn',
+									'disabled' => false,
+								),
+								array(
+									'key'      => 'google',
+									'label'    => 'Google+',
+									'disabled' => false,
+								),
+								array(
+									'key'      => 'stumbleupon',
+									'label'    => 'StumbleUpon',
+									'disabled' => false,
+								)
 							);
 							$services = apply_filters( 'ea_share_count_query_services', $services );
-							foreach( $services as $key => $label ) {
-								echo '<label for="ea-query-service-' . sanitize_html_class( $key )  . '">';
-									echo '<input type="checkbox" name="ea_share_count_options[query_services][]" value="' . esc_attr( $key ). '" id="ea-query-service-' . sanitize_html_class( $key ) . '" ' . checked( in_array( $key, $this->settings_value( 'query_services') ), true, false ) . '>';
-									echo esc_html( $label );
+							foreach( $services as $service ) {
+								echo '<label for="ea-query-service-' . sanitize_html_class( $service['key'] )  . '">';
+									echo '<input type="checkbox" name="ea_share_count_options[query_services][]" value="' . esc_attr( $service['key'] ). '" id="ea-query-service-' . sanitize_html_class( $service['key'] ) . '" ' . checked( in_array( $service['key'], $this->settings_value( 'query_services') ), true, false ) . ' ' . disabled( $service['disabled'], true, false ) . '>';
+									echo esc_html( $service['label'] );
 								echo '</label>';
 								echo '<br>';
 							}
@@ -262,7 +282,7 @@ class EA_Share_Count_Admin {
 			'theme_location'        => '',
 			'included_services'     => array( 'facebook', 'twitter', 'pinterest' ),
 			'included_services_raw' => 'facebook,twitter,pinterest',
-			'query_services'        => array( 'facebook' ),
+			'query_services'        => array(),
 		);
 	}
 	
@@ -308,6 +328,7 @@ class EA_Share_Count_Admin {
 		$input['theme_location']        = esc_attr( $input['theme_location'] );
 		$input['included_services']     = array_map( 'esc_attr', $services_array );
 		$input['included_services_raw'] = esc_attr( $input['included_services_raw'] );
+		
 		return $input;
 	}
 
