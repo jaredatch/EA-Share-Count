@@ -7,15 +7,15 @@
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
-EA Share Count is a lean plugin that leverages SharedCount.com API to quickly retrieve, cache, and display various social sharing counts. It's developer-friendly and very extensible.
+EA Share Count is a lean plugin for quickly retrieving, caching, and displaying various social sharing counts and buttons. It's developer-friendly and very extensible.
 
 ## Installation ##
 
-[Download the plugin here.](https://github.com/jaredatch/EA-Share-Count/archive/master.zip) Once installed, go to Settings > Share Count to customize. You can specify the services you would like included, where they should appear, and the style.
+[Download the plugin here.](https://github.com/jaredatch/EA-Share-Count/archive/master.zip) Once installed, go to Settings > Share Count to customize. 
 
-Register at [SharedCount.com](http://www.sharedcount.com), then add your API code to the settings page. In most instances the free plan will be enough due to caching of share counts. 
+Use the "Retrieve Share Counts From" checkboxes to select which APIs you'd like to query for share counts. By default it will not receive any share counts. The Facebook API requires you to provide an Access Token.
 
-If you do not provide a SharedCount API key, the plugin will still display share buttons but all counts will be 0. I recommend you select "No" in the "Show Empty Counts" dropdown.
+The "Share Buttons to Display" field lets you control which share buttons to display and in what order. They can be automatically added before and/or after your site's content by selecting a Theme Location. Alternatively you can use `ea_share()->from->display()` in your theme to display the buttons.
 
 ## Customization ##
 
@@ -23,6 +23,7 @@ You can also use the ea_share() function to access any of the internal methods. 
 
 * `ea_share()->core->count( get_the_ID(), 'facebook' );` Provides the number of facebook likes/shares/comments
 * `ea_share()->core->count( get_the_ID(), 'included_total' );` Provides the total count from all the services specified in settings
+* `ea_share()->front->display( $location, $echo );` Display the share buttons, as configured in Settings > Share Count. The $location is an identifying class added to wrapping HTML (useful if you have buttons in multiple locations). $echo is a boolean value indicating whether the buttons should be echoed or returned. 
 
 There are also many filters in place to customize the plugin. [Here are some code snippets](http://www.billerickson.net/code-tag/ea-share-count/).
 
@@ -42,15 +43,16 @@ There are also many filters in place to customize the plugin. [Here are some cod
 * `ea_share_count_email_body` Body of email used in email modal. Defaults to Post Title and Post Permalink.
 * `ea_share_count_email_headers` Email headers used by email modal. See [the code](https://github.com/jaredatch/EA-Share-Count/blob/master/includes/class-core.php#L72) for more information.
 * `ea_share_count_update_increments` How frequently the share counts are updated. See [the code](https://github.com/jaredatch/EA-Share-Count/blob/master/includes/class-core.php#L297) for default increments.
-* `ea_share_count_api_params` Customize parameters passed to SharedCount API
+* `ea_share_count_api_params` Customize the global API parameters (currently only contains URL). [Example](http://www.billerickson.net/code/ea-share-count-use-production-url/)
 * `ea_share_count_admin_services` What services are available on the settings page
+* `ea_share_count_query_services` What services are available to be queried for share counts
 * `ea_share_count_options` The options used on the settings page
 
 
 ## Screenshots ##
 
 ### 1. Settings Page. ###
-![Settings Page](https://s3.amazonaws.com/f.cl.ly/items/3p3t471j112o2U3D2t2f/screenshot-1.jpg?v=cf213561)
+![Settings Page](https://d3vv6lp55qjaqc.cloudfront.net/items/2T2j1w3P2P2b3L2P2Z3Y/Screen%20Shot%202016-08-15%20at%204.39.19%20PM.png?v=1dbe1998)
 
 ### 2. Fancy Style (default) ###
 ![Fancy Style](https://s3.amazonaws.com/f.cl.ly/items/1K3q1G312k3F3u0r0r21/Screen%20Shot%202016-03-23%20at%204.03.33%20PM.png?v=f44e0d06)
