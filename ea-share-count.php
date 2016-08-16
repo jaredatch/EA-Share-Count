@@ -3,7 +3,7 @@
  * Plugin Name: EA Share Count
  * Plugin URI:  https://github.com/jaredatch/EA-Share-Count
  * GitHub URI: jaredatch/EA-Share-Count
- * Description: A lean plugin that leverages SharedCount.com API to quickly retrieve, cache, and display various social sharing counts.
+ * Description: A lean plugin for quickly retrieving, caching, and displaying various social sharing counts and buttons.
  * Author:      Bill Erickson & Jared Atchison
  * Version:     1.7.0
  *
