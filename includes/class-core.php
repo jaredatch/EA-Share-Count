@@ -322,7 +322,7 @@ class EA_Share_Count_Core{
 	}
 
 	/**
-	 * Query the SharedCount API
+	 * Query the Social Service APIs
 	 *
 	 * @since 1.0.0
 	 * @param string $url
