@@ -358,8 +358,11 @@ class EA_Share_Count_Core{
 				case 'facebook':
 					$query_args = array(
 						'id'           => urlencode( $global_args['url'] ),
-						'access_token' => urlencode( ea_share()->admin->settings_value( 'fb_access_token' ) ),
 					);
+					$token = ea_share()->admin->settings_value( 'fb_access_token' );
+					if( $token )
+						$query_args['access_token'] = urlencode( $token );
+						
 					$query = add_query_arg( $query_args, 'https://graph.facebook.com/' );
 					$results = wp_remote_get( esc_url( $query ) );
 					if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {

@@ -95,7 +95,7 @@ class EA_Share_Count_Admin {
 						</td>
 					</tr>
 
-					<tr valign="top">
+					<tr valign="top" style="display:none;">
 						<th scope="row"><?php _e( 'Facebook Access Token', 'ea-share-count' );?></th>
 						<td>
 							<input type="text" name="ea_share_count_options[fb_access_token]" value="<?php echo $this->settings_value( 'fb_access_token' ); ?>" class="regular-text" /><br />
@@ -298,7 +298,7 @@ class EA_Share_Count_Admin {
 			array(
 				'key'              => 'facebook',
 				'label'            => 'Facebook',
-				'disabled'         => empty( $this->settings_value( 'fb_access_token' ) ),
+				'disabled'         => false,
 				'disabled_message' => 'You must provide a Facebook Access Token'
 			),
 			array(
