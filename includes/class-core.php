@@ -364,7 +364,7 @@ class EA_Share_Count_Core{
 						$query_args['access_token'] = urlencode( $token );
 						
 					$query = add_query_arg( $query_args, 'https://graph.facebook.com/' );
-					$results = wp_remote_get( esc_url( $query ) );
+					$results = wp_remote_get( $query );
 					if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
 						
 						$body = json_decode( $results['body'] );
