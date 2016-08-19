@@ -368,10 +368,21 @@ class EA_Share_Count_Core{
 					if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
 						
 						$body = json_decode( $results['body'] );
-						$share_count['Facebook']['share_count'] = intval( $body->shares );
-						$share_count['Facebook']['like_count'] = intval( $body->shares );
-						$share_count['Facebook']['comment_count'] = intval( $body->comments );
-						$share_count['Facebook']['total_count'] = intval( $body->shares ) + intval( $body->comments );
+						
+						// Not sure why Facebook returns the data in different formats sometimes
+						if( isset( $body->shares ) )
+							$share_count['Facebook']['share_count'] = intval( $body->shares );
+						elseif( isset( $body->share->share_count ) )
+							$share_count['Facebook']['share_count'] = intval( $body->share->share_count );
+						
+						if( isset( $body->comments ) )
+							$share_count['Facebook']['comment_count'] = intval( $body->comments );
+						elseif( isset( $body->share->comment_count ) )
+							$share_count['Facebook']['comment_count'] = intval( $body->comments );
+							
+						$share_count['Facebook']['like_count'] = $share_count['Facebook']['share_count'];
+						$share_count['Facebook']['total_count'] = $share_count['Facebook']['share_count'] + $share_count['Facebook']['comment_count'];
+
 						
 					}
 					break;
