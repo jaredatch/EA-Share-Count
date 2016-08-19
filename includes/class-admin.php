@@ -261,7 +261,7 @@ class EA_Share_Count_Admin {
 			'theme_location'        => '',
 			'included_services'     => array( 'facebook', 'twitter', 'pinterest' ),
 			'included_services_raw' => 'facebook,twitter,pinterest',
-			'query_services'        => array(),
+			'query_services'        => array( 'facebook' ),
 			'dismissed_notices'     => array(),
 		);
 	}
