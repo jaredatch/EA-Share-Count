@@ -1,9 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
-## [Unreleased]
+## [1.7.0] = 2016-08-20
 ### Changed
-- SharedCount is no longer used for counts, see #57
+- Now receive counts directly from social services (no more SharedCount), see #57
 - Updates now automatically pull from GitHub tags, see #53
 
 ### Added
@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file, formatted v
 - Version number is now saved to database for future updates
 
 ### Fixed
-- PHP Notice if you were getting share counts for a custom URL rather than post ID, see 18efb9b394c22a986a508c32ffd2e2e8f1d541a5
+- PHP Notice if you were getting share counts for a custom URL rather than post ID
 - Used correct hooks for Theme Hook Alliance, see #55
 
 ## [1.6.0] = 2016-06-23
