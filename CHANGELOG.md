@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [1.7.1]
+### Fixed
+- Issue with Facebook comment count parsing, see #63
+
+### Added
+- Composer support
+
 ## [1.7.0] = 2016-08-20
 ### Changed
 - Now receive counts directly from social services (no more SharedCount), see #57
