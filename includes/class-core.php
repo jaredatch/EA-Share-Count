@@ -378,7 +378,7 @@ class EA_Share_Count_Core{
 						if( isset( $body->comments ) )
 							$share_count['Facebook']['comment_count'] = intval( $body->comments );
 						elseif( isset( $body->share->comment_count ) )
-							$share_count['Facebook']['comment_count'] = intval( $body->comments );
+							$share_count['Facebook']['comment_count'] = intval( $body->share->comment_count );
 							
 						$share_count['Facebook']['like_count'] = $share_count['Facebook']['share_count'];
 						$share_count['Facebook']['total_count'] = $share_count['Facebook']['share_count'] + $share_count['Facebook']['comment_count'];
