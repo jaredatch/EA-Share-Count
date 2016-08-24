@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
-## [1.7.1]
+## [1.7.1] = 2016-08-24
 ### Fixed
 - Issue with Facebook comment count parsing, see #63
 
