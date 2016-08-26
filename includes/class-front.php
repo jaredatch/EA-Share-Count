@@ -488,7 +488,7 @@ class EA_Share_Count_Front {
 			if ( $type == 'included_total' ) {
 				$output .= '<span class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '"' . $data . '>';
 			} else {
-				$output .= '<a href="' . $link['link'] . '"' . $attr_title . $target . 'class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '"'. $data. '>';
+				$output .= '<a href="' . $link['link'] . '"' . $attr_title . $target . ' class="ea-share-count-button ' . $link['class'] . ' ' . sanitize_html_class( $link['type'] ) . '"'. $data. '>';
 			}
 				$output .= '<span class="ea-share-count-icon-label">';
 					$output .= '<i class="ea-share-count-icon ' . $link['icon'] . '"></i>';
