@@ -396,7 +396,8 @@ class EA_Share_Count_Core{
 					$results = wp_remote_get( $query );
 					if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
 						
-						$body = json_decode( $results['body'] );
+						$raw_json = preg_replace('/^receiveCount\((.*)\)$/', "\\1", $results['body'] );
+						$body     = json_decode( $raw_json );
 						if( isset( $body->count ) )
 							$share_count['Pinterest'] = intval( $body->count );
 						
