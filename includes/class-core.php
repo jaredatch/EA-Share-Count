@@ -84,7 +84,7 @@ class EA_Share_Count_Core{
 			apply_filters( 'ea_share_count_email_headers', $headers, $post_id, $recipient, $from_name, $from_email )
 		);
 
-		$count = absint( get_post_meta( $post_id, 'ea_share_count_email'), true );
+		$count = absint( get_post_meta( $post_id, 'ea_share_count_email', true ) );
 		$update = update_post_meta( $post_id, 'ea_share_count_email', $count++ );
 
 		wp_send_json_success();
