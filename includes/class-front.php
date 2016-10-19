@@ -38,7 +38,7 @@ class EA_Share_Count_Front {
 		// Load assets
 		add_action( 'template_redirect',          array( $this, 'theme_location'         ), 99 );
 		add_action( 'wp_enqueue_scripts',         array( $this, 'header_assets'          ), 9  );
-		add_action( 'wp_footer',                  array( $this, 'load_assets'            ), 1  );	
+		add_action( 'wp_footer',                  array( $this, 'load_assets'            ), 1  );
 		add_action( 'wp_footer',                  array( $this, 'email_modal'            ), 50 );
 	}
 
@@ -80,7 +80,7 @@ class EA_Share_Count_Front {
 					'priority' => 8,
 				),
 			);
-		
+
 		// Fallback to 'the_content'
 		} else {
 
@@ -96,30 +96,30 @@ class EA_Share_Count_Front {
 					'priority' => 12,
 				),
 			);
-		
+
 		}
 
 		// Filter theme locations
 		$locations = apply_filters( 'ea_share_count_theme_locations', $locations );
-		
+
 		// Make locations available everywhere
 		$this->locations = $locations;
-		
+
 		// Display share buttons before content
 		if( $locations['before']['hook'] ) {
 			add_action( $locations['before']['hook'], array( $this, 'display_before_content' ), $locations['before']['priority'] );
 		} elseif( $locations['before']['filter'] ) {
 			add_filter( $locations['before']['filter'], array( $this, 'display_before_content_filter' ), $locations['before']['priority'] );
 		}
-		
+
 		// Display share buttons after content
 		if( $locations['after']['hook'] ) {
 			add_action( $locations['after']['hook'],  array( $this, 'display_after_content'  ), $locations['after']['priority']  );
 		} elseif( $locations['after']['filter'] ) {
-			add_filter( $locations['after']['filter'],  array( $this, 'display_after_content_filter'  ), $locations['after']['priority']  );		
+			add_filter( $locations['after']['filter'],  array( $this, 'display_after_content_filter'  ), $locations['after']['priority']  );
 		}
 	}
-	
+
 	/**
 	 * Enqueue the assets earlier if possible.
 	 *
@@ -130,11 +130,11 @@ class EA_Share_Count_Front {
 		// Register assets
 		wp_register_style( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/css/share-count.css', array(), EA_SHARE_COUNT_VERSION );
 		wp_register_script( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/js/share-count.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, true );
-		
+
 		$options = ea_share()->admin->options();
-		
+
 		if ( !empty( $options['theme_location'] ) && !empty( $options['post_type'] ) && is_singular( $options['post_type'] ) && ! get_post_meta( get_the_ID(), 'ea_share_count_exclude', true ) ) {
-		
+
 			$this->share_link = true;
 			$this->load_assets();
 		}
@@ -144,7 +144,7 @@ class EA_Share_Count_Front {
 			$args = array(
 				'url' => admin_url( 'admin-ajax.php' ),
 			);
-			wp_localize_script( 'ea-share-count', 'easc', $args );	
+			wp_localize_script( 'ea-share-count', 'easc', $args );
 		}
 	}
 
@@ -154,7 +154,7 @@ class EA_Share_Count_Front {
 	 * @since 1.0.0
 	 */
 	public function load_assets() {
-	
+
 		// Only continue if a share link was previously used in the page.
 		if ( ! $this->share_link ) {
 			return;
@@ -176,7 +176,7 @@ class EA_Share_Count_Front {
 	 *
 	 * This popup is output (and hidden) in the site footer if the Email
 	 * service is configured in the plugin settings.
-	 * 
+	 *
 	 * @since 1.5.0
 	 */
 	public function email_modal() {
@@ -256,29 +256,29 @@ class EA_Share_Count_Front {
 		$output = '<div class="ea-share-count-wrap ' . sanitize_html_class( $location ) . '">';
 		$output .= apply_filters( 'ea_share_count_display', $services, $location );
 		$output .=  '</div>';
-		
+
 		if( $echo )
 			echo $output;
 		else
 			return $output;
 	}
-	
+
 	/**
 	 * Display Before Content
-	 * 
+	 *
 	 * @since 1.1.0
 	 */
 	public function display_before_content() {
 
 		$options = ea_share()->admin->options();
 
-		if ( 
-			( 'before_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) 
-			&& !empty( $options['post_type'] ) 
-			&& is_singular( $options['post_type'] ) 
-			&& ! get_post_meta( get_the_ID(), 'ea_share_count_exclude', true ) 
+		if (
+			( 'before_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] )
+			&& !empty( $options['post_type'] )
+			&& is_singular( $options['post_type'] )
+			&& ! get_post_meta( get_the_ID(), 'ea_share_count_exclude', true )
 		) {
-			
+
 			// Detect if we are using a hook or filter
 			if ( !empty( $this->locations['before']['hook'] ) )  {
 				$this->display( 'before_content' );
@@ -287,34 +287,34 @@ class EA_Share_Count_Front {
 			}
 		}
 	}
-	
+
 	/**
 	 * Display Before Content Filter
-	 * 
+	 *
 	 * @param string $content
 	 * @return string $content
 	 *
 	 * @since 1.5.3
 	 */
 	public function display_before_content_filter( $content ) {
-	
+
 		return $this->display_before_content() . $content;
 	}
-	
+
 	/**
 	 * Display After Content
-	 * 
+	 *
 	 * @since 1.1.0
 	 */
 	public function display_after_content() {
 
 		$options = ea_share()->admin->options();
 
-		if ( 
-			( 'after_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] ) 
-			&& !empty( $options['post_type'] ) 
-			&& is_singular( $options['post_type'] ) 
-			&& ! get_post_meta( get_the_ID(), 'ea_share_count_exclude', true ) 
+		if (
+			( 'after_content' == $options['theme_location'] || 'before_after_content' == $options['theme_location'] )
+			&& !empty( $options['post_type'] )
+			&& is_singular( $options['post_type'] )
+			&& ! get_post_meta( get_the_ID(), 'ea_share_count_exclude', true )
 		) {
 
 			// Detect if we are using a hook or filter
@@ -328,14 +328,14 @@ class EA_Share_Count_Front {
 
 	/**
 	 * Display After Content Filter
-	 * 
+	 *
 	 * @param string $content
 	 * @return string $content
 	 *
 	 * @since 1.5.3
 	 */
 	public function display_after_content_filter( $content ) {
-	
+
 		return $content . $this->display_after_content();
 	}
 
@@ -373,16 +373,16 @@ class EA_Share_Count_Front {
 			$link['class'] = esc_attr( 'style-' . $style );
 
 			if ( 'site' == $id ) {
-				$link['url']   = home_url();
-				$link['title'] = get_bloginfo( 'name' );
+				$link['url']   = esc_url( home_url() );
+				$link['title'] = wp_strip_all_tags( get_bloginfo( 'name' ) );
 				$link['img']   = apply_filters( 'ea_share_count_default_image', '' );
 			} elseif( 0 === strpos( $id, 'http' ) ) {
 				$link['url']   = esc_url( $id );
 				$link['title'] = '';
 				$link['img']   = apply_filters( 'ea_share_count_default_image', '' );
 			} else {
-				$link['url']   = get_permalink( $id );
-				$link['title'] = get_the_title( $id );
+				$link['url']   = esc_url( get_permalink( $id ) );
+				$link['title'] = wp_strip_all_tags( get_the_title( $id ) );
 				$img           = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'full' );
 				$link['img']   = isset( $img[0] ) ? $img[0] : '';
 				$link['img']   = apply_filters( 'ea_share_count_single_image', $link['img'], $id );
@@ -458,7 +458,7 @@ class EA_Share_Count_Front {
 					$link['icon']       = 'easc-print';
 					$link['attr_title'] = 'Print this Page';
 					break;
-				case 'email': 
+				case 'email':
 					$link['link']       = '#ea-share-count-email';
 					$link['label']      = 'Email';
 					$link['icon']       = 'easc-envelope';
@@ -495,7 +495,7 @@ class EA_Share_Count_Front {
 					$output .= '<span class="ea-share-count-label">' . $link['label'] . '</span>';
 				$output .= '</span>';
 				if ( ( 'true' == $show_empty && !('total' == $options['number'] && 'included_total' != $type ) )  || ( 'true' != $show_empty && $link['count'] != '0' ) ) {
-					$output .= '<span class="ea-share-count">' . $link['count'] . '</span>'; 
+					$output .= '<span class="ea-share-count">' . $link['count'] . '</span>';
 				}
 			$output .=  $type == 'included_total' ? '</span>' : '</a>';
 		}
