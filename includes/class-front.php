@@ -250,7 +250,7 @@ class EA_Share_Count_Front {
 	 *
 	 * @since 1.1.0
 	 */
-	public function display( $location = '', $echo = true, $style = false; ) {
+	public function display( $location = '', $echo = true, $style = false ) {
 
 		$options = ea_share()->admin->options();
 		$services  = '';
