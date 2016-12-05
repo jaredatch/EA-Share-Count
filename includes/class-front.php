@@ -57,11 +57,13 @@ class EA_Share_Count_Front {
 					'hook'     => 'genesis_entry_header',
 					'filter'   => false,
 					'priority' => 13,
+					'style'    => false,
 				),
 				'after' => array(
 					'hook'     => 'genesis_entry_footer',
 					'filter'   => false,
 					'priority' => 8,
+					'style'    => false,
 				),
 			);
 
@@ -73,11 +75,13 @@ class EA_Share_Count_Front {
 					'hook'     => 'tha_entry_top',
 					'filter'   => false,
 					'priority' => 13,
+					'style'    => false,
 				),
 				'after' => array(
 					'hook'     => 'tha_entry_bottom',
 					'filter'   => false,
 					'priority' => 8,
+					'style'    => false,
 				),
 			);
 
@@ -89,11 +93,13 @@ class EA_Share_Count_Front {
 					'hook'     => false,
 					'filter'   => 'the_content',
 					'priority' => 8,
+					'style'    => false,
 				),
 				'after' => array(
 					'hook'     => false,
 					'filter'   => 'the_content',
 					'priority' => 12,
+					'style'    => false,
 				),
 			);
 
@@ -239,15 +245,20 @@ class EA_Share_Count_Front {
 	 *
 	 * @param string $location
 	 * @param bool $echo
+	 * @param string $style
 	 * @return null/string, depending on $echo
 	 *
 	 * @since 1.1.0
 	 */
-	public function display( $location = '', $echo = true ) {
+	public function display( $location = '', $echo = true, $style = false ) {
 
 		$options = ea_share()->admin->options();
 		$services  = '';
-		$style   = isset( $options['style'] ) ? esc_attr( $options['style'] ) : 'generic';
+
+		if( ! $style && isset( $options['style'] ) ) {
+			$style = esc_attr( $options['style'] );
+		} elseif( ! $style )
+			$style = 'generic';
 
 		foreach( $options['included_services'] as $service ) {
 			$services .= $this->link( $service, false, false, $style );
@@ -281,9 +292,9 @@ class EA_Share_Count_Front {
 
 			// Detect if we are using a hook or filter
 			if ( !empty( $this->locations['before']['hook'] ) )  {
-				$this->display( 'before_content' );
+				$this->display( 'before_content', true, $this->locations['before']['style'] );
 			} elseif ( !empty( $this->locations['before']['filter'] ) ) {
-				return $this->display( 'before_content', false );
+				return $this->display( 'before_content', false, $this->locations['before']['style'] );
 			}
 		}
 	}
@@ -319,9 +330,9 @@ class EA_Share_Count_Front {
 
 			// Detect if we are using a hook or filter
 			if ( !empty( $this->locations['after']['hook'] ) )  {
-				$this->display( 'after_content' );
+				$this->display( 'after_content', true, $this->locations['after']['style'] );
 			} elseif ( !empty( $this->locations['after']['filter'] ) ) {
-				return $this->display( 'after_content', false );
+				return $this->display( 'after_content', false, $this->locations['after']['style'] );
 			}
 		}
 	}
