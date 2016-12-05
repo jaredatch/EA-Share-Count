@@ -292,9 +292,9 @@ class EA_Share_Count_Front {
 
 			// Detect if we are using a hook or filter
 			if ( !empty( $this->locations['before']['hook'] ) )  {
-				$this->display( 'before_content' );
+				$this->display( 'before_content', true, $this->locations['before']['style'] );
 			} elseif ( !empty( $this->locations['before']['filter'] ) ) {
-				return $this->display( 'before_content', false );
+				return $this->display( 'before_content', false, $this->locations['before']['style'] );
 			}
 		}
 	}
@@ -330,9 +330,9 @@ class EA_Share_Count_Front {
 
 			// Detect if we are using a hook or filter
 			if ( !empty( $this->locations['after']['hook'] ) )  {
-				$this->display( 'after_content' );
+				$this->display( 'after_content', true, $this->locations['after']['style'] );
 			} elseif ( !empty( $this->locations['after']['filter'] ) ) {
-				return $this->display( 'after_content', false );
+				return $this->display( 'after_content', false, $this->locations['after']['style'] );
 			}
 		}
 	}
