@@ -398,60 +398,63 @@ class EA_Share_Count_Front {
 				$link['img']   = isset( $img[0] ) ? $img[0] : '';
 				$link['img']   = apply_filters( 'ea_share_count_single_image', $link['img'], $id );
 			}
+
 			$link['count'] = ea_share()->core->count( $id, $type, false, $round );
+
+            $link_url = apply_filters( 'ea_share_count_link_url', $link['url'] );
 
 			switch ( $type ) {
 				case 'facebook':
-					$link['link']       = 'https://www.facebook.com/sharer/sharer.php?u=' . $link['url'] . '&display=popup&ref=plugin&src=share_button';
+					$link['link']       = 'https://www.facebook.com/sharer/sharer.php?u=' . $link_url . '&display=popup&ref=plugin&src=share_button';
 					$link['label']      = 'Facebook';
 					$link['icon']       = 'easc-facebook';
 					$link['target']     = '_blank';
 					$link['attr_title'] = 'Share on Facebook';
 					break;
 				case 'facebook_likes':
-					$link['link']       = 'http://www.facebook.com/plugins/like.php?href=' . $link['url'];
+					$link['link']       = 'http://www.facebook.com/plugins/like.php?href=' . $link_url;
 					$link['label']      = 'Like';
 					$link['icon']       = 'easc-facebook';
 					$link['target']     = '_blank';
 					$link['attr_title'] = 'Like on Facebook';
 					break;
 				case 'facebook_shares':
-					$link['link']       = 'https://www.facebook.com/sharer/sharer.php?u=' . $link['url'] . '&display=popup&ref=plugin&src=share_button';
+					$link['link']       = 'https://www.facebook.com/sharer/sharer.php?u=' . $link_url . '&display=popup&ref=plugin&src=share_button';
 					$link['label']      = 'Share';
 					$link['icon']       = 'easc-facebook';
 					$link['target']     = '_blank';
 					$link['attr_title'] = 'Share on Facebook';
 					break;
 				case 'twitter':
-					$link['link']       = 'https://twitter.com/share?url=' . $link['url'] . '&text=' . $link['title'];
+					$link['link']       = 'https://twitter.com/share?url=' . $link_url . '&text=' . $link['title'];
 					$link['label']      = 'Tweet';
 					$link['icon']       = 'easc-twitter';
 					$link['target']     = '_blank';
 					$link['attr_title'] = 'Share on Twitter';
 					break;
 				case 'pinterest':
-					$link['link']       = 'http://pinterest.com/pin/create/link/?url=' . $link['url'] . '&media=' . $link['img'] . ' &description=' . $link['title'];
+					$link['link']       = 'http://pinterest.com/pin/create/link/?url=' . $link_url . '&media=' . $link['img'] . ' &description=' . $link['title'];
 					$link['label']      = 'Pin';
 					$link['icon']       = 'easc-pinterest-p';
 					$link['target']     = '_blank';
 					$link['attr_title'] = 'Share on Pinterest';
 					break;
 				case 'linkedin':
-					$link['link']       = 'http://www.linkedin.com/shareArticle?mini=true&url=' . $link['url'];
+					$link['link']       = 'http://www.linkedin.com/shareArticle?mini=true&url=' . $link_url;
 					$link['label']      = 'LinkedIn';
 					$link['icon']       = 'easc-linkedin';
 					$link['target']     = '_blank';
 					$link['attr_title'] = 'Share on LinkedIn';
 					break;
 				case 'google':
-					$link['link']       = 'http://plus.google.com/share?url=' . $link['url'];
+					$link['link']       = 'http://plus.google.com/share?url=' . $link_url;
 					$link['label']      = 'Google+';
 					$link['icon']       = 'easc-google-plus';
 					$link['target']     = '_blank';
 					$link['attr_title'] = 'Share on Google+';
 					break;
 				case 'stumbleupon':
-					$link['link']       = 'http://www.stumbleupon.com/submit?url=' . $link['url'] . '&title=' . $link['title'];
+					$link['link']       = 'http://www.stumbleupon.com/submit?url=' . $link_url . '&title=' . $link['title'];
 					$link['label']      = 'StumbleUpon';
 					$link['icon']       = 'easc-stumbleupon';
 					$link['target']     = '_blank';
