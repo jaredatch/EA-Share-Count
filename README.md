@@ -1,4 +1,6 @@
 # EA Share Count #
+![Release](https://img.shields.io/github/release/qubyte/rubidium.svg) ![Total Downloads](https://img.shields.io/github/downloads/jaredatch/ea-share-count/total.svg?style=flat-square&maxAge=2592000)  ![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg?style=flat-square&maxAge=2592000)
+
 **Contributors:** jaredatch, billerickson  
 **Tags:** facebook, linkedin, pinterest, share, share buttons, social, stumbleupon, twitter  
 **Requires at least:** 4.1  
@@ -11,7 +13,7 @@ EA Share Count is a lean plugin for quickly retrieving, caching, and displaying 
 
 ## Installation ##
 
-[Download the plugin here.](https://github.com/jaredatch/EA-Share-Count/archive/master.zip) Once installed, go to Settings > Share Count to customize. 
+[Download the plugin here.](https://github.com/jaredatch/EA-Share-Count/archive/master.zip) Once installed, go to Settings > Share Count to customize.
 
 Use the "Retrieve Share Counts From" checkboxes to select which APIs you'd like to query for share counts. By default it will not receive any share counts. The Facebook API requires you to provide an Access Token.
 
@@ -40,7 +42,7 @@ You can also use the ea_share() function to access any of the internal methods. 
 
 * `ea_share()->core->count( get_the_ID(), 'facebook' );` Provides the number of facebook likes/shares/comments
 * `ea_share()->core->count( get_the_ID(), 'included_total' );` Provides the total count from all the services specified in settings
-* `ea_share()->front->display( $location, $echo );` Display the share buttons, as configured in Settings > Share Count. The $location is an identifying class added to wrapping HTML (useful if you have buttons in multiple locations). $echo is a boolean value indicating whether the buttons should be echoed or returned. 
+* `ea_share()->front->display( $location, $echo );` Display the share buttons, as configured in Settings > Share Count. The $location is an identifying class added to wrapping HTML (useful if you have buttons in multiple locations). $echo is a boolean value indicating whether the buttons should be echoed or returned.
 
 There are also many filters in place to customize the plugin. [Here are some code snippets](http://www.billerickson.net/code-tag/ea-share-count/).
 
@@ -49,11 +51,11 @@ There are also many filters in place to customize the plugin. [Here are some cod
 * `ea_share_count_link` An array of elements used to form the share link. See [the code](https://github.com/jaredatch/EA-Share-Count/blob/master/includes/class-front.php#L442) for more information.
 * `ea_share_count_default_image` Default image used by Pinterest for generic URLs.
 * `ea_share_count_single_image` Image used by Pinterest for singular content (post, page...). Set to Featured Image by default.
-* `ea_share_count_site_url` What URL is used if you specify 'site' as the ID. Defaults to home_url(). 
+* `ea_share_count_site_url` What URL is used if you specify 'site' as the ID. Defaults to home_url().
 * `ea_share_count_single` The share count used when the requested service isn't recognized. If you're adding custom services, you'll use this to set the share count for that service.
 * `ea_share_count_total` Customize what is used as the 'total_count'
 * `ea_share_count_load_css` Disable the CSS from loading, [like this](https://gist.github.com/billerickson/fe8079583c1b030e4d59). Note that the icons are part of the CSS, so you'll need to include your own icon font.
-* `ea_share_count_load_js` Disable the JavaScript from loading. 
+* `ea_share_count_load_js` Disable the JavaScript from loading.
 * `ea_share_count_email_modal` Enable email modal window in use cases where the share button is manually being called.
 * `ea_share_count_email_labels` Email modal window labels for different fields. See [the code](https://github.com/jaredatch/EA-Share-Count/blob/master/includes/class-front.php#L188) for more information.
 * `ea_share_count_email_subject` Subject used in email modal. Defaults to "Your friend $from_name has shared an article with you"
