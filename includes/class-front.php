@@ -398,6 +398,7 @@ class EA_Share_Count_Front {
 				$link['img']   = isset( $img[0] ) ? $img[0] : '';
 				$link['img']   = apply_filters( 'ea_share_count_single_image', $link['img'], $id );
 			}
+			$link['url'] = apply_filters( 'ea_share_count_link_url', $link['url'] );
 			$link['count'] = ea_share()->core->count( $id, $type, false, $round );
 
 			switch ( $type ) {
