@@ -264,9 +264,9 @@ class EA_Share_Count_Front {
 			$services .= $this->link( $service, false, false, $style );
 		}
 
-		$output = '<div class="ea-share-count-wrap ' . sanitize_html_class( $location ) . '">';
-		$output .= apply_filters( 'ea_share_count_display', $services, $location );
-		$output .=  '</div>';
+		$links = apply_filters( 'ea_share_count_display', $services, $location );
+		$wrap_format = apply_filters( 'ea_share_count_display_wrap_format', '<div class="ea-share-count-wrap %2$s">%1$s</div>', $location );
+		$output = apply_filters( 'ea_share_count_display_output', sprintf( $wrap_format, $links, sanitize_html_class( $location ) ), $location );
 
 		if( $echo )
 			echo $output;
