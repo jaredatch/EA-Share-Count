@@ -362,7 +362,7 @@ class EA_Share_Count_Core{
 					$results = wp_remote_get( $query );
 					if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
 
-						$body = json_decode( $results['body'] );
+						$body = json_decode( wp_remote_retrieve_body( $results ) );
 
 						// Not sure why Facebook returns the data in different formats sometimes
 						if( isset( $body->shares ) )
@@ -391,7 +391,7 @@ class EA_Share_Count_Core{
 					$results = wp_remote_get( $query );
 					if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
 
-						$raw_json = preg_replace('/^receiveCount\((.*)\)$/', "\\1", $results['body'] );
+						$raw_json = preg_replace('/^receiveCount\((.*)\)$/', "\\1", wp_remote_retrieve_body( $results ) );
 						$body     = json_decode( $raw_json );
 						if( isset( $body->count ) )
 							$share_count['Pinterest'] = intval( $body->count );
@@ -408,7 +408,7 @@ class EA_Share_Count_Core{
 					$results = wp_remote_get( $query );
 					if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
 
-						$body = json_decode( $results['body'] );
+						$body = json_decode( wp_remote_retrieve_body( $results ) );
 						if( isset( $body->count ) )
 							$share_count['LinkedIn'] = intval( $body->count );
 
@@ -420,7 +420,7 @@ class EA_Share_Count_Core{
 					$content = wp_remote_get("https://plusone.google.com/u/0/_/+1/fastbutton?url=".$global_args['url']."&count=true");
 					$dom = new DOMDocument;
 					$dom->preserveWhiteSpace = false;
-					@$dom->loadHTML($content['body']);
+					@$dom->loadHTML( wp_remote_retrieve_body( $content ) );
 					$domxpath = new DOMXPath($dom);
 					$newDom = new DOMDocument;
 					$newDom->formatOutput = true;
@@ -438,7 +438,7 @@ class EA_Share_Count_Core{
 					$results = wp_remote_get( $query );
 					if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
 
-						$body = json_decode( $results['body'] );
+						$body = json_decode( wp_remote_retrieve_body( $results ) );
 						if( isset( $body->result->views ) )
 							$share_count['StumbleUpon'] = intval( $body->result->views );
 
