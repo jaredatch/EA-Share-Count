@@ -13,7 +13,7 @@
     font-style: normal;
 }
 
-[class^="easc-"], [class*=" easc-"] {
+[class^="easc-icon-"], [class*=" easc-icon-"] {
     /* use !important to prevent issues with browser extensions that change fonts */
     font-family: 'easc' !important;
     speak: none;
@@ -28,34 +28,34 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.easc-print:before {
+.easc-icon-print:before {
     content: "\e909";
 }
-.easc-share:before {
+.easc-icon-share:before {
     content: "\e908";
 }
-.easc-stumbleupon:before {
+.easc-icon-stumbleupon:before {
     content: "\e907";
 }
-.easc-google-plus:before {
+.easc-icon-google-plus:before {
     content: "\e906";
 }
-.easc-linkedin:before {
+.easc-icon-linkedin:before {
     content: "\e905";
 }
-.easc-pinterest-p:before {
+.easc-icon-pinterest-p:before {
     content: "\e904";
 }
-.easc-twitter:before {
+.easc-icon-twitter:before {
     content: "\e903";
 }
-.easc-facebook:before {
+.easc-icon-facebook:before {
     content: "\e902";
 }
-.easc-close:before {
+.easc-icon-close:before {
     content: "\e901";
 }
-.easc-envelope:before {
+.easc-icon-envelope:before {
     content: "\e900";
 }
 
@@ -91,7 +91,7 @@
 	position: relative;
 	border: 1px solid #ccc;
 }
- 
+
 .ea-share-count-button.style-bubble .ea-share-count:after,
 .ea-share-count-button.style-bubble .ea-share-count:before {
 	right: 100%;
@@ -103,14 +103,14 @@
 	position: absolute;
 	pointer-events: none;
 }
- 
+
 .ea-share-count-button.style-bubble .ea-share-count:after {
 	border-color: rgba(255, 255, 255, 0);
 	border-right-color: #ffffff;
 	border-width: 4px;
 	margin-top: -4px;
 }
- 
+
 .ea-share-count-button.style-bubble .ea-share-count:before {
 	border-color: rgba(51, 51, 51, 0);
 	border-right-color: #ccc;
@@ -171,7 +171,7 @@
 .ea-share-count-button.twitter.style-bubble {
 	display: inline-block;
 }
- 
+
 .ea-share-count-button.twitter.style-bubble .ea-share-count-icon-label {
 	position: relative;
 	background-color: #eee;
@@ -193,7 +193,7 @@
 	display: block;
 	float: left;
 }
- 
+
 .ea-share-count-button.twitter.style-bubble .ea-share-count-icon-label i {
 	color: #55ACEE;
 	line-height: 1;
@@ -207,7 +207,7 @@
 .ea-share-count-button.pinterest.style-bubble {
 	display: inline-block;
 }
- 
+
 .ea-share-count-button.pinterest.style-bubble .ea-share-count-icon-label {
 	position: relative;
 	background-color: #fa0029;
@@ -226,7 +226,7 @@
 	display: block;
 	float: left;
 }
- 
+
 .ea-share-count-button.pinterest.style-bubble .ea-share-count-icon-label:hover {
 	background: #cd0015;
 }
@@ -244,7 +244,7 @@
 .ea-share-count-button.linkedin.style-bubble {
 	display: inline-block;
 }
- 
+
 .ea-share-count-button.linkedin.style-bubble .ea-share-count-icon-label {
 	position: relative;
 	background-color: #008bbf;
@@ -266,7 +266,7 @@
 .ea-share-count-button.linkedin.style-bubble .ea-share-count-icon-label:hover {
 	background: #0077b4;
 }
- 
+
 .ea-share-count-button.linkedin.style-bubble .ea-share-count-icon-label i {
 	color: #fff;
 	line-height: 1;
@@ -280,7 +280,7 @@
 .ea-share-count-button.google.style-bubble {
 	display: inline-block;
 }
- 
+
 .ea-share-count-button.google.style-bubble .ea-share-count-icon-label {
 	position: relative;
 	background-color: #fff;
@@ -304,7 +304,7 @@
 .ea-share-count-button.google.style-bubble .ea-share-count-icon-label:hover {
 	border-color: #ccc;
 }
- 
+
 .ea-share-count-button.google.style-bubble .ea-share-count-icon-label i {
 	color: #f44336;
 	line-height: 1;
@@ -318,7 +318,7 @@
 .ea-share-count-button.stumbleupon.style-bubble {
 	display: inline-block;
 }
- 
+
 .ea-share-count-button.stumbleupon.style-bubble .ea-share-count-icon-label {
 	position: relative;
 	background-color: #eee;
@@ -340,7 +340,7 @@
 	display: block;
 	float: left;
 }
- 
+
 .ea-share-count-button.stumbleupon.style-bubble .ea-share-count-icon-label i {
 	color: #55ACEE;
 	line-height: 1;
@@ -354,7 +354,7 @@
 .ea-share-count-button.included_total.style-bubble {
 	display: inline-block;
 }
- 
+
 .ea-share-count-button.included_total.style-bubble .ea-share-count-icon-label {
 	position: relative;
 	background-color: #999;
@@ -373,7 +373,7 @@
 	display: block;
 	float: left;
 }
- 
+
 .ea-share-count-button.included_total.style-bubble .ea-share-count-icon-label:hover {
 	background: #666;
 }
@@ -392,7 +392,7 @@
 .ea-share-count-button.email.style-bubble {
 	display: inline-block;
 }
- 
+
 .ea-share-count-button.print.style-bubble .ea-share-count-icon-label,
 .ea-share-count-button.email.style-bubble .ea-share-count-icon-label {
 	position: relative;
@@ -412,7 +412,7 @@
 	display: block;
 	float: left;
 }
- 
+
 .ea-share-count-button.print.style-bubble .ea-share-count-icon-label:hover,
 .ea-share-count-button.email.style-bubble .ea-share-count-icon-label:hover {
 	background: #ddd;
