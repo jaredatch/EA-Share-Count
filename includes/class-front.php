@@ -394,9 +394,7 @@ class EA_Share_Count_Front {
 			} else {
 				$link['url']   = esc_url( get_permalink( $id ) );
 				$link['title'] = wp_strip_all_tags( get_the_title( $id ) );
-				$img           = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'full' );
-				$link['img']   = isset( $img[0] ) ? $img[0] : '';
-				$link['img']   = apply_filters( 'ea_share_count_single_image', $link['img'], $id );
+				$link['img']   = apply_filters( 'ea_share_count_single_image', wp_get_attachment_image_url( get_post_thumbnail_id(), 'full' ), $id );
 			}
 			$link['url'] = apply_filters( 'ea_share_count_link_url', $link['url'] );
 			$link['count'] = ea_share()->core->count( $id, $type, false, $round );
