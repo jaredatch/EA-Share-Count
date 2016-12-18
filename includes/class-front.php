@@ -473,7 +473,6 @@ class EA_Share_Count_Front {
 					$link['label']      = 'Email';
 					$link['icon']       = 'easc-icon-envelope';
 					$link['target']     = '';
-					$attr['nonce']      = wp_create_nonce( 'easc_email_' . $id );
 					$link['attr_title'] = 'Share via Email';
 					break;
 			}
