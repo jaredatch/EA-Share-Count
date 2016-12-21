@@ -1,5 +1,5 @@
 # EA Share Count #
-![Release](https://img.shields.io/github/release/jaredatch/ea-share-count.svg) ![Total Downloads](https://img.shields.io/github/downloads/jaredatch/ea-share-count/total.svg?style=flat-square&maxAge=2592000)  ![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg?style=flat-square&maxAge=2592000)
+![Release](https://img.shields.io/github/release/jaredatch/ea-share-count.svg) ![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg?style=flat-square&maxAge=2592000)
 
 **Contributors:** jaredatch, billerickson  
 **Tags:** facebook, linkedin, pinterest, share, share buttons, social, stumbleupon, twitter  
