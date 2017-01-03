@@ -1,6 +1,21 @@
 # Change Log
 All notable changes to this project will be documented in this file, formatted via [this recommendation](http://keepachangelog.com/).
 
+## [1.8.0] = 2017-01-03
+### Added
+- Added `ea_share_count_display_wrap_format` filter, see #75
+- Allow unique styling for each instance, see #78
+- Added `ea_share_count_link_url` filter, see #80
+
+### Fixed
+- Update handling of Pinterest API response, see #64
+- Strip tags from title before using in URL, see #71
+- Simplified the image attribute, see #74
+- Ensure icon styling only targets icons, see #70
+- Removed nonce from email modal, see #69
+- Properly receive HTTP requests to prevent errors, see #68
+- Fix slim styling display, see #66
+
 ## [1.7.1] = 2016-08-24
 ### Fixed
 - Issue with Facebook comment count parsing, see #63

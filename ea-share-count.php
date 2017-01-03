@@ -5,7 +5,7 @@
  * GitHub URI: jaredatch/EA-Share-Count
  * Description: A lean plugin for quickly retrieving, caching, and displaying various social sharing counts and buttons.
  * Author:      Bill Erickson & Jared Atchison
- * Version:     1.7.1
+ * Version:     1.8.0
  *
  * EA Share Count is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
  * @license    GPL-2.0+
  * @copyright  Copyright (c) 2015
  */
- 
+
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -52,7 +52,7 @@ final class EA_Share_Count {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	private $version = '1.7.1';
+	private $version = '1.8.0';
 
 	/**
 	 * Core instance
@@ -77,8 +77,8 @@ final class EA_Share_Count {
 	 * @var object
 	 */
 	public $front;
-	
-	/** 
+
+	/**
 	 * Share Count Instance.
 	 *
 	 * @since 1.0.0
@@ -87,7 +87,7 @@ final class EA_Share_Count {
 	public static function instance() {
 
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof EA_Share_Count ) ) {
-			
+
 			self::$instance = new EA_Share_Count;
 			self::$instance->constants();
 			self::$instance->includes();
@@ -115,7 +115,7 @@ final class EA_Share_Count {
 
 		// Base name
 		define( 'EA_SHARE_COUNT_BASE', plugin_basename( __FILE__ ) );
-		
+
 		// Plugin root file
 		define( 'EA_SHARE_COUNT_FILE', __FILE__ );
 	}
@@ -137,7 +137,7 @@ final class EA_Share_Count {
 
 	/**
 	 * Bootstap.
-	 * 
+	 *
 	 * @since 1.3.0
 	 */
 	public function init() {

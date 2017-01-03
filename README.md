@@ -4,8 +4,8 @@
 **Contributors:** jaredatch, billerickson  
 **Tags:** facebook, linkedin, pinterest, share, share buttons, social, stumbleupon, twitter  
 **Requires at least:** 4.1  
-**Tested up to:** 4.6.0  
-**Stable tag:** 1.7.1  
+**Tested up to:** 4.7.0  
+**Stable tag:** 1.8.0  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,8 +47,10 @@ You can also use the ea_share() function to access any of the internal methods. 
 There are also many filters in place to customize the plugin. [Here are some code snippets](http://www.billerickson.net/code-tag/ea-share-count/).
 
 * `ea_share_count_display` Customize what is displayed in the share count area.
+* `ea_share_count_display_wrap_format` Customize the wrapping class and format of share count area.
 * `ea_share_count_theme_locations` Specify which hooks/filters are used for the "Before Content" and "After Content" share buttons. See [the code](https://github.com/jaredatch/EA-Share-Count/blob/master/includes/class-front.php#L38) for more information.
 * `ea_share_count_link` An array of elements used to form the share link. See [the code](https://github.com/jaredatch/EA-Share-Count/blob/master/includes/class-front.php#L442) for more information.
+* `ea_share_count_link_url` The URL being shared
 * `ea_share_count_default_image` Default image used by Pinterest for generic URLs.
 * `ea_share_count_single_image` Image used by Pinterest for singular content (post, page...). Set to Featured Image by default.
 * `ea_share_count_site_url` What URL is used if you specify 'site' as the ID. Defaults to home_url().
