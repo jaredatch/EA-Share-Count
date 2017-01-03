@@ -665,7 +665,11 @@
 	margin: 0 8px 0 8px;
 	width:1.28571429em;
 	text-align:center;
-	vertical-align: middle;
+	vertical-align: top;
+}
+
+.ea-share-count-button.style-gss .ea-share-count {
+    box-sizing: border-box;
 }
 
 .ea-share-count-button.style-gss .ea-share-count-label {
