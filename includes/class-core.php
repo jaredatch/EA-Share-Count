@@ -449,6 +449,21 @@ class EA_Share_Count_Core{
 							}
 						}
 						break;
+
+					case 'twitter':
+						$query_args = array( 'url' => $global_args['url'] );
+						$query      = add_query_arg( $query_args, 'http://public.newsharecounts.com/count.json' );
+						$results    = wp_remote_get( $query );
+
+						if ( ! is_wp_error( $results ) && 200 == wp_remote_retrieve_response_code( $results ) ) {
+
+							$body = json_decode( wp_remote_retrieve_body( $results ) );
+
+							if ( isset( $body->count ) ) {
+								$share_count['Twitter'] = $body->count;
+							}
+						}
+						break;
 				}
 			}
 		}

@@ -79,19 +79,25 @@ class EA_Share_Count_Admin {
 						<td>
 							<fieldset>
 							<?php
-							$services = $this->query_services();
+							$services      = $this->query_services();
+							$services_notes = '';
 							foreach( $services as $service ) {
 								echo '<label for="ea-query-service-' . sanitize_html_class( $service['key'] )  . '">';
-									echo '<input type="checkbox" name="ea_share_count_options[query_services][]" value="' . esc_attr( $service['key'] ). '" id="ea-query-service-' . sanitize_html_class( $service['key'] ) . '" ' . checked( in_array( $service['key'], $this->settings_value( 'query_services') ), true, false ) . ' ' . disabled( $service['disabled'], true, false ) . '>';
+									echo '<input type="checkbox" name="ea_share_count_options[query_services][]" value="' . esc_attr( $service['key'] ). '" id="ea-query-service-' . sanitize_html_class( $service['key'] ) . '" ' . checked( in_array( $service['key'], $this->settings_value( 'query_services' ) ), true, false ) . ' ' . disabled( $service['disabled'], true, false ) . ' class="ea-share-count-services-check" data-key="' . sanitize_html_class( $service['key'] ) . '">';
 									echo esc_html( $service['label'] );
 									if( $service['disabled'] && isset( $service['disabled_message'] ) )
 										echo ' - <em>' . esc_html( $service['disabled_message'] ) . '</em>';
 								echo '</label>';
 								echo '<br>';
+								if ( !empty( $service['note'] ) ) {
+									$note_visibility = ! in_array( $service['key'], $this->settings_value( 'query_services' ) ) ? 'style="display:none;"' : '';
+									$services_notes .= '<p id="ea-service-note-' . sanitize_html_class( $service['key'] ) . '" ' . $note_visibility . '>' . $service['note'] . '</p>';
+								}
 							}
 							?>
 							</fieldset>
 							<p><?php _e( 'Each service requires a separate API request, so using many services could cause performance issues.', 'ea-share-count' );?></p>
+							<?php echo $services_notes; ?>
 						</td>
 					</tr>
 
@@ -300,6 +306,12 @@ class EA_Share_Count_Admin {
 				'label'            => 'Facebook',
 				'disabled'         => false,
 				'disabled_message' => 'You must provide a Facebook Access Token'
+			),
+			array(
+				'key'              => 'twitter',
+				'label'            => 'Twitter',
+				'disabled'         => false,
+				'note'             => 'To use Twitter counts you must sign up for an account with <a href="http://newsharecounts.com/" target="blank" rel="noopener noreferrer">newsharedcounts.com</a>',
 			),
 			array(
 				'key'              => 'pinterest',

@@ -12,4 +12,13 @@ jQuery(document).ready(function($){
 		array.join(',');
 		$(".share-count-services-raw").val(array);
 	});
+	$('.ea-share-count-services-check').change(function(event) {
+		var $this = $(this),
+			key   = $this.data('key');
+		if ( $this.is(':checked') ) {
+			$('#ea-service-note-'+key).show();
+		} else {
+			$('#ea-service-note-'+key).hide();
+		}
+	});
 });
