@@ -452,7 +452,7 @@ class EA_Share_Count_Admin {
 			echo '<p id="ea-share-count-empty">' . __( 'No share counts downloaded for this entry', 'ea-share-count' ) . '</p>';
 		}
 
-		echo '<a href="#" class="button" id="ea-share-count-refresh" data-nonce="' . wp_create_nonce( 'ea-share-count-refresh-' . $post->ID ) . '" data-postid="' . $post->ID . '">'. __( 'Refresh Share Counts', 'ea-share-count' ) . '</a>';
+		echo '<button class="button" id="ea-share-count-refresh" data-nonce="' . wp_create_nonce( 'ea-share-count-refresh-' . $post->ID ) . '" data-postid="' . $post->ID . '">'. __( 'Refresh Share Counts', 'ea-share-count' ) . '</button>';
 
 		wp_nonce_field( 'ea_share_count', 'ea_share_count_nonce' );
 		$exclude = intval( get_post_meta( $post->ID, 'ea_share_count_exclude', true ) );
