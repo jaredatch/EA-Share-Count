@@ -85,8 +85,9 @@ class EA_Share_Count_Admin {
 								echo '<label for="ea-query-service-' . sanitize_html_class( $service['key'] )  . '">';
 									echo '<input type="checkbox" name="ea_share_count_options[query_services][]" value="' . esc_attr( $service['key'] ). '" id="ea-query-service-' . sanitize_html_class( $service['key'] ) . '" ' . checked( in_array( $service['key'], $this->settings_value( 'query_services' ) ), true, false ) . ' ' . disabled( $service['disabled'], true, false ) . ' class="ea-share-count-services-check" data-key="' . sanitize_html_class( $service['key'] ) . '">';
 									echo esc_html( $service['label'] );
-									if( $service['disabled'] && isset( $service['disabled_message'] ) )
+									if ( $service['disabled'] && isset( $service['disabled_message'] ) ) {
 										echo ' - <em>' . esc_html( $service['disabled_message'] ) . '</em>';
+									}
 								echo '</label>';
 								echo '<br>';
 								if ( !empty( $service['note'] ) ) {
@@ -132,7 +133,7 @@ class EA_Share_Count_Admin {
 							if ( !empty( $options['included_services_raw'] ) ) {
 								$services = array_merge( array_flip( $options['included_services'] ), $services );
 							}
-							foreach( $services as $key => $service ) {
+							foreach ( $services as $key => $service ) {
 								echo '<option value="' . $key . '" ' . selected( in_array( $key, $this->settings_value( 'included_services' ) ), true, false ) . '>' . $service . '</option>';
 							}
 							?>
@@ -147,7 +148,7 @@ class EA_Share_Count_Admin {
 							<?php
 							$styles = array( 'fancy' => 'Fancy', 'gss' => 'Slim', 'bubble' => 'Bubble' );
 							$styles = apply_filters( 'ea_share_count_styles', $styles );
-							foreach( $styles as $key => $label ) {
+							foreach ( $styles as $key => $label ) {
 								echo '<option value="' . $key . '" ' . selected( $key, $this->settings_value( 'style' ), false ) . '>' . $label . '</option>';
 							}
 							?>
@@ -166,7 +167,7 @@ class EA_Share_Count_Admin {
 									'after_content'        => __( 'After Content',  'ea-share-count' ),
 									'before_after_content' => __( 'Before and After Content', 'ea-share-count' ),
 								);
-								foreach( $locations as $key => $label ) {
+								foreach ( $locations as $key => $label ) {
 									echo '<option value="' . $key . '" ' . selected( $key, $this->settings_value( 'theme_location' ), false ) . '>' . $label . '</option>';
 								}
 								?>
@@ -183,7 +184,7 @@ class EA_Share_Count_Admin {
 							if ( isset( $post_types['attachment'] ) ) {
 								unset( $post_types['attachment'] );
 							}
-							foreach( $post_types as $post_type ) {
+							foreach ( $post_types as $post_type ) {
 								echo '<label for="ea-cpt-' . sanitize_html_class( $post_type )  . '">';
 									echo '<input type="checkbox" name="ea_share_count_options[post_type][]" value="' . esc_attr( $post_type ). '" id="ea-cpt-' . sanitize_html_class( $post_type ) . '" ' . checked( in_array( $post_type, $this->settings_value( 'post_type') ), true, false ) . '>';
 									echo esc_html( $post_type );
@@ -201,7 +202,7 @@ class EA_Share_Count_Admin {
 							<select name="ea_share_count_options[number]">
 							<?php
 							$number = array( 'all' => 'All Services', 'total' => 'Total Only' );
-							foreach( $number as $key => $label ) {
+							foreach ( $number as $key => $label ) {
 								echo '<option value="' . $key . '" ' . selected( $key, $this->settings_value( 'number' ), false ) . '>' . $label . '</option>';
 							}
 							?>
@@ -215,7 +216,7 @@ class EA_Share_Count_Admin {
 							<select name="ea_share_count_options[show_empty]">
 							<?php
 							$show_empty = array( 'true' => 'Yes', 'false' => 'No' );
-							foreach( $show_empty as $key => $label ) {
+							foreach ( $show_empty as $key => $label ) {
 								echo '<option value="' . $key . '" ' . selected( $key, $this->settings_value( 'show_empty' ), false ) . '>' . $label . '</option>';
 							}
 							?>
@@ -282,14 +283,13 @@ class EA_Share_Count_Admin {
 		$defaults = $this->settings_default();
 		$options  = get_option( 'ea_share_count_options', $defaults );
 
-		if( isset( $options[$key] ) )
+		if ( isset( $options[$key] ) ) {
 			return $options[$key];
-
-		elseif( isset( $defaults[$key] ) )
+		} elseif ( isset( $defaults[$key] ) ) {
 			return $defaults[$key];
-
-		else
+		} else {
 			return false;
+		}
 	}
 
 	/**
@@ -336,8 +336,8 @@ class EA_Share_Count_Admin {
 		);
 
 		$services = apply_filters( 'ea_share_count_query_services', $services );
-		return $services;
 
+		return $services;
 	}
 
 	/**
@@ -350,7 +350,8 @@ class EA_Share_Count_Admin {
 		// Reorder services based on the order they were provided
 		$services_array = array();
 		$services_raw   = explode( ',', $input['included_services_raw'] );
-		foreach( $services_raw as $service ) {
+
+		foreach ( $services_raw as $service ) {
 			$services_array[] = $service;
 		}
 
@@ -366,9 +367,9 @@ class EA_Share_Count_Admin {
 
 		// Remove query services if they are disabled
 		$services = $this->query_services();
-		if( !empty( $input['query_services'] ) && !empty( $services ) ) {
-			foreach( $services as $service ) {
-				if( $service['disabled'] && in_array( $service['key'], $input['query_services'] ) ) {
+		if ( !empty( $input['query_services'] ) && !empty( $services ) ) {
+			foreach ( $services as $service ) {
+				if ( $service['disabled'] && in_array( $service['key'], $input['query_services'] ) ) {
 					$key = array_search( $service['key'], $input['query_services'] );
 					unset( $input['query_services'][$key] );
 				}
@@ -417,7 +418,7 @@ class EA_Share_Count_Admin {
 		$options = $this->options();
 		if ( !empty( $options['post_type'] ) ) {
 			$post_types = (array) $options['post_type'];
-			foreach( $post_types as $post_type ) {
+			foreach ( $post_types as $post_type ) {
 				add_meta_box( 'ea-share-count-metabox', __( 'Share Counts', 'ea-share-count' ), array( $this, 'metabox' ), $post_type, 'side', 'low' );
 			}
 		}
@@ -469,8 +470,9 @@ class EA_Share_Count_Admin {
 	 */
 	public function metabox_counts( $counts, $post_id ) {
 
-		if ( empty( $counts) || !is_array( $counts ) )
+		if ( empty( $counts) || !is_array( $counts ) ) {
 			return;
+		}
 
 		$output  = '';
 		$output .= '<li>Facebook Likes: <strong>' . ( !empty( $counts['Facebook']['like_count'] ) ? number_format( absint( $counts['Facebook']['like_count'] ) ) : '0'  ) . '</strong></li>';
@@ -531,8 +533,9 @@ class EA_Share_Count_Admin {
 		global $post;
 		$options = $this->options();
 
-		if ( empty( $options['post_type'] ) )
+		if ( empty( $options['post_type'] ) ) {
 			return;
+		}
 
 		if ( 'post.php' == $hook && in_array( $post->post_type, $options['post_type'] )  ) {
 			wp_enqueue_script( 'share-count-settings', EA_SHARE_COUNT_URL . 'assets/js/admin-metabox.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, false );
@@ -566,7 +569,7 @@ class EA_Share_Count_Admin {
 			return;
 		}
 
-		if( isset( $_POST['ea_share_count_exclude'] ) ) {
+		if ( isset( $_POST['ea_share_count_exclude'] ) ) {
 			update_post_meta( $post_id, 'ea_share_count_exclude', 1 );
 		} else {
 			delete_post_meta( $post_id, 'ea_share_count_exclude' );
@@ -597,8 +600,9 @@ class EA_Share_Count_Admin {
 	function admin_notices() {
 
 		// Only display notices to users who can edit the plugin settings
-		if( ! current_user_can( 'manage_options' ) )
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
+		}
 
 		$options = get_option( 'ea_share_count_options' );
 
@@ -616,11 +620,11 @@ class EA_Share_Count_Admin {
 		);
 
 		$dismissed = $this->settings_value( 'dismissed_notices' );
-		foreach( $notices as $notice ) {
-			if( $notice['display'] && !in_array( $notice['key'], $dismissed ) )
+		foreach ( $notices as $notice ) {
+			if ( $notice['display'] && !in_array( $notice['key'], $dismissed ) ) {
 				echo '<div class="' . esc_attr( $notice['class'] ) . '" data-key="' . sanitize_key( $notice['key'] ) . '"><p>' . $notice['message'] . '</p></div>';
+			}
 		}
-
 	}
 
 	/**
@@ -635,7 +639,6 @@ class EA_Share_Count_Admin {
 		wp_localize_script( 'ea-share-count-notice', 'ea_share_count_notice', array(
 			'nonce' => wp_create_nonce( 'ea-share-count-notice' ),
 		) );
-
 	}
 
 	/**
@@ -650,13 +653,13 @@ class EA_Share_Count_Admin {
 		}
 
 		$options = get_option( 'ea_share_count_options' );
-		if( ! isset( $options['dismissed_notices'] ) )
+		if ( ! isset( $options['dismissed_notices'] ) ) {
 			$options['dismissed_notices'] = array();
+		}
 
 		$notice = sanitize_key( $_POST['notice'] );
 		$options['dismissed_notices'][] = $notice;
 
 		update_option( 'ea_share_count_options', $options );
-
 	}
 }
