@@ -325,8 +325,8 @@ class EA_Share_Count_Core{
 	 */
 	public function query_api( $url = false ) {
 
-		$options = ea_share()->admin->options();
-		$services = ea_share()->admin->settings_value( 'query_services' );
+		$options     = ea_share()->admin->options();
+		$services    = ea_share()->admin->settings_value( 'query_services' );
 		$global_args = apply_filters( 'ea_share_count_api_params', array( 'url' => $url ) );
 
 		if( empty( $services ) || empty( $url ) )
@@ -346,105 +346,112 @@ class EA_Share_Count_Core{
 			'StumbleUpon'   => 0
 		);
 
-		foreach( $services as $service ) {
+		// Provide a filter so certain service queries can be bypassed. Helpful
+		// if you want to run your own request against other APIs.
+		$services = apply_filters( 'ea_share_count_query_services', $services, $global_args ) ) {
 
-			switch( $service ) {
+		if ( !empty( $services ) );
 
-				case 'facebook':
-					$query_args = array(
-						'id'           => urlencode( $global_args['url'] ),
-					);
-					$token = ea_share()->admin->settings_value( 'fb_access_token' );
-					if( $token )
-						$query_args['access_token'] = urlencode( $token );
+			foreach( $services as $service ) {
 
-					$query = add_query_arg( $query_args, 'https://graph.facebook.com/' );
-					$results = wp_remote_get( $query );
-					if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
+				switch( $service ) {
 
-						$body = json_decode( wp_remote_retrieve_body( $results ) );
+					case 'facebook':
+						$query_args = array(
+							'id'           => urlencode( $global_args['url'] ),
+						);
+						$token = ea_share()->admin->settings_value( 'fb_access_token' );
+						if( $token )
+							$query_args['access_token'] = urlencode( $token );
 
-						// Not sure why Facebook returns the data in different formats sometimes
-						if( isset( $body->shares ) )
-							$share_count['Facebook']['share_count'] = intval( $body->shares );
-						elseif( isset( $body->share->share_count ) )
-							$share_count['Facebook']['share_count'] = intval( $body->share->share_count );
+						$query = add_query_arg( $query_args, 'https://graph.facebook.com/' );
+						$results = wp_remote_get( $query );
+						if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
 
-						if( isset( $body->comments ) )
-							$share_count['Facebook']['comment_count'] = intval( $body->comments );
-						elseif( isset( $body->share->comment_count ) )
-							$share_count['Facebook']['comment_count'] = intval( $body->share->comment_count );
+							$body = json_decode( wp_remote_retrieve_body( $results ) );
 
-						$share_count['Facebook']['like_count'] = $share_count['Facebook']['share_count'];
-						$share_count['Facebook']['total_count'] = $share_count['Facebook']['share_count'] + $share_count['Facebook']['comment_count'];
+							// Not sure why Facebook returns the data in different formats sometimes
+							if( isset( $body->shares ) )
+								$share_count['Facebook']['share_count'] = intval( $body->shares );
+							elseif( isset( $body->share->share_count ) )
+								$share_count['Facebook']['share_count'] = intval( $body->share->share_count );
+
+							if( isset( $body->comments ) )
+								$share_count['Facebook']['comment_count'] = intval( $body->comments );
+							elseif( isset( $body->share->comment_count ) )
+								$share_count['Facebook']['comment_count'] = intval( $body->share->comment_count );
+
+							$share_count['Facebook']['like_count'] = $share_count['Facebook']['share_count'];
+							$share_count['Facebook']['total_count'] = $share_count['Facebook']['share_count'] + $share_count['Facebook']['comment_count'];
 
 
-					}
-					break;
+						}
+						break;
 
-				case 'pinterest':
-					$query_args = array(
-						'callback' => 'receiveCount',
-						'url'      => $global_args['url'],
-					);
-					$query = add_query_arg( $query_args, 'http://api.pinterest.com/v1/urls/count.json' );
-					$results = wp_remote_get( $query );
-					if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
+					case 'pinterest':
+						$query_args = array(
+							'callback' => 'receiveCount',
+							'url'      => $global_args['url'],
+						);
+						$query = add_query_arg( $query_args, 'http://api.pinterest.com/v1/urls/count.json' );
+						$results = wp_remote_get( $query );
+						if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
 
-						$raw_json = preg_replace('/^receiveCount\((.*)\)$/', "\\1", wp_remote_retrieve_body( $results ) );
-						$body     = json_decode( $raw_json );
-						if( isset( $body->count ) )
-							$share_count['Pinterest'] = intval( $body->count );
+							$raw_json = preg_replace('/^receiveCount\((.*)\)$/', "\\1", wp_remote_retrieve_body( $results ) );
+							$body     = json_decode( $raw_json );
+							if( isset( $body->count ) )
+								$share_count['Pinterest'] = intval( $body->count );
 
-					}
-					break;
+						}
+						break;
 
-				case 'linkedin':
-					$query_args = array(
-						'url'      => $global_args['url'],
-						'format'   => 'json',
-					);
-					$query = add_query_arg( $query_args, 'http://www.linkedin.com/countserv/count/share' );
-					$results = wp_remote_get( $query );
-					if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
+					case 'linkedin':
+						$query_args = array(
+							'url'      => $global_args['url'],
+							'format'   => 'json',
+						);
+						$query = add_query_arg( $query_args, 'http://www.linkedin.com/countserv/count/share' );
+						$results = wp_remote_get( $query );
+						if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
 
-						$body = json_decode( wp_remote_retrieve_body( $results ) );
-						if( isset( $body->count ) )
-							$share_count['LinkedIn'] = intval( $body->count );
+							$body = json_decode( wp_remote_retrieve_body( $results ) );
+							if( isset( $body->count ) )
+								$share_count['LinkedIn'] = intval( $body->count );
 
-					}
-					break;
+						}
+						break;
 
-				case 'google':
-					// Copied from GSS / Sharre, pardon the ugliness
-					$content = wp_remote_get("https://plusone.google.com/u/0/_/+1/fastbutton?url=".$global_args['url']."&count=true");
-					$dom = new DOMDocument;
-					$dom->preserveWhiteSpace = false;
-					@$dom->loadHTML( wp_remote_retrieve_body( $content ) );
-					$domxpath = new DOMXPath($dom);
-					$newDom = new DOMDocument;
-					$newDom->formatOutput = true;
-					$filtered = $domxpath->query("//div[@id='aggregateCount']");
-					if (isset($filtered->item(0)->nodeValue)) {
-						$share_count['GooglePlusOne'] = str_replace('>', '', $filtered->item(0)->nodeValue);
-					}
-					break;
+					case 'google':
+						// Copied from GSS / Sharre, pardon the ugliness
+						$content = wp_remote_get("https://plusone.google.com/u/0/_/+1/fastbutton?url=".$global_args['url']."&count=true");
+						$dom = new DOMDocument;
+						$dom->preserveWhiteSpace = false;
+						@$dom->loadHTML( wp_remote_retrieve_body( $content ) );
+						$domxpath = new DOMXPath($dom);
+						$newDom = new DOMDocument;
+						$newDom->formatOutput = true;
+						$filtered = $domxpath->query("//div[@id='aggregateCount']");
+						if (isset($filtered->item(0)->nodeValue)) {
+							$share_count['GooglePlusOne'] = str_replace('>', '', $filtered->item(0)->nodeValue);
+						}
+						break;
 
-				case 'stumbleupon':
-					$query_args = array(
-						'url'      => $global_args['url'],
-					);
-					$query = add_query_arg( $query_args, 'http://www.stumbleupon.com/services/1.01/badge.getinfo' );
-					$results = wp_remote_get( $query );
-					if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
+					case 'stumbleupon':
+						$query_args = array(
+							'url'      => $global_args['url'],
+						);
+						$query = add_query_arg( $query_args, 'http://www.stumbleupon.com/services/1.01/badge.getinfo' );
+						$results = wp_remote_get( $query );
+						if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
 
-						$body = json_decode( wp_remote_retrieve_body( $results ) );
-						if( isset( $body->result->views ) )
-							$share_count['StumbleUpon'] = intval( $body->result->views );
+							$body = json_decode( wp_remote_retrieve_body( $results ) );
+							if( isset( $body->result->views ) )
+								$share_count['StumbleUpon'] = intval( $body->result->views );
 
-					}
-					break;
+						}
+						break;
 
+				}
 			}
 		}
 
