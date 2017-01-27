@@ -120,7 +120,15 @@ class EA_Share_Count_Core{
 		if ( ! $share_count || ! $last_updated || $this->needs_updating( $last_updated, $post_date ) || $force ) {
 
 			$id = isset( $post_id ) ? $post_id : $id;
+
 			$this->update_queue[$id] = $post_url;
+
+			// If this update was forced then we process immediately. Otherwise
+			// add the the queue which processes on shutdown (for now)
+			if ( $force ) {
+				$this->update_share_counts();
+				$share_count = $this->counts( $id );
+			}
 		}
 
 		if ( $share_count && $array == true ) {
@@ -520,6 +528,9 @@ class EA_Share_Count_Core{
 						update_post_meta( $id, 'ea_share_count_total', $total );
 					}
 				}
+
+				// After processing remove from queue
+				unset( $this->update_queue[$id] );
 			}
 		}
 	}

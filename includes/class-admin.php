@@ -470,7 +470,7 @@ class EA_Share_Count_Admin {
 	 */
 	public function metabox_counts( $counts, $post_id ) {
 
-		if ( empty( $counts) || !is_array( $counts ) ) {
+		if ( empty( $counts ) || !is_array( $counts ) ) {
 			return;
 		}
 
