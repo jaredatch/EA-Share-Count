@@ -79,7 +79,7 @@ class EA_Share_Count_Core{
 			apply_filters( 'ea_share_count_email_headers', $headers, $post_id, $recipient, $from_name, $from_email )
 		);
 
-		$count = absint( get_post_meta( $post_id, 'ea_share_count_email', true ) );
+		$count  = absint( get_post_meta( $post_id, 'ea_share_count_email', true ) );
 		$update = update_post_meta( $post_id, 'ea_share_count_email', $count++ );
 
 		wp_send_json_success();
@@ -121,7 +121,6 @@ class EA_Share_Count_Core{
 
 			$id = isset( $post_id ) ? $post_id : $id;
 			$this->update_queue[$id] = $post_url;
-
 		}
 
 		if ( $share_count && $array == true ) {
@@ -268,7 +267,7 @@ class EA_Share_Count_Core{
 
 		if ( $output >= 1000000 ) {
 			$output = $output / 1000000 . 'm';
-		} elseif( $output >= 1000 ) {
+		} elseif ( $output >= 1000 ) {
 			$output = $output / 1000 . 'k';
 		}
 
@@ -329,8 +328,9 @@ class EA_Share_Count_Core{
 		$services    = ea_share()->admin->settings_value( 'query_services' );
 		$global_args = apply_filters( 'ea_share_count_api_params', array( 'url' => $url ) );
 
-		if( empty( $services ) || empty( $url ) )
+		if ( empty( $services ) || empty( $url ) ) {
 			return;
+		}
 
 		$share_count = array(
 			'Facebook'      => array(
@@ -352,72 +352,70 @@ class EA_Share_Count_Core{
 
 		if ( !empty( $services ) );
 
-			foreach( $services as $service ) {
+			foreach ( $services as $service ) {
 
-				switch( $service ) {
+				switch ( $service ) {
 
 					case 'facebook':
-						$query_args = array(
-							'id'           => urlencode( $global_args['url'] ),
-						);
-						$token = ea_share()->admin->settings_value( 'fb_access_token' );
-						if( $token )
-							$query_args['access_token'] = urlencode( $token );
+						$query_args = array( 'id' => urlencode( $global_args['url'] ) );
+						$token      = ea_share()->admin->settings_value( 'fb_access_token' );
 
-						$query = add_query_arg( $query_args, 'https://graph.facebook.com/' );
+						if ( $token ) {
+							$query_args['access_token'] = urlencode( $token );
+						}
+
+						$query   = add_query_arg( $query_args, 'https://graph.facebook.com/' );
 						$results = wp_remote_get( $query );
-						if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
+
+						if ( ! is_wp_error( $results ) && 200 == wp_remote_retrieve_response_code( $results ) ) {
 
 							$body = json_decode( wp_remote_retrieve_body( $results ) );
 
 							// Not sure why Facebook returns the data in different formats sometimes
-							if( isset( $body->shares ) )
-								$share_count['Facebook']['share_count'] = intval( $body->shares );
-							elseif( isset( $body->share->share_count ) )
-								$share_count['Facebook']['share_count'] = intval( $body->share->share_count );
+							if ( isset( $body->shares ) ) {
+								$share_count['Facebook']['share_count'] = $body->shares;
+							} elseif ( isset( $body->share->share_count ) ) {
+								$share_count['Facebook']['share_count'] = $body->share->share_count;
+							}
+							if ( isset( $body->comments ) ) {
+								$share_count['Facebook']['comment_count'] = $body->comments );
+							} elseif ( isset( $body->share->comment_count ) ) {
+								$share_count['Facebook']['comment_count'] = $body->share->comment_count;
+							}
 
-							if( isset( $body->comments ) )
-								$share_count['Facebook']['comment_count'] = intval( $body->comments );
-							elseif( isset( $body->share->comment_count ) )
-								$share_count['Facebook']['comment_count'] = intval( $body->share->comment_count );
-
-							$share_count['Facebook']['like_count'] = $share_count['Facebook']['share_count'];
+							$share_count['Facebook']['like_count']  = $share_count['Facebook']['share_count'];
 							$share_count['Facebook']['total_count'] = $share_count['Facebook']['share_count'] + $share_count['Facebook']['comment_count'];
-
-
 						}
 						break;
 
 					case 'pinterest':
-						$query_args = array(
-							'callback' => 'receiveCount',
-							'url'      => $global_args['url'],
-						);
-						$query = add_query_arg( $query_args, 'http://api.pinterest.com/v1/urls/count.json' );
-						$results = wp_remote_get( $query );
-						if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
+						$query_args = array( 'callback' => 'receiveCount', 'url' => $global_args['url'] );
+						$query      = add_query_arg( $query_args, 'http://api.pinterest.com/v1/urls/count.json' );
+						$results    = wp_remote_get( $query );
+
+						if ( ! is_wp_error( $results ) && 200 == wp_remote_retrieve_response_code( $results ) ) {
 
 							$raw_json = preg_replace('/^receiveCount\((.*)\)$/', "\\1", wp_remote_retrieve_body( $results ) );
 							$body     = json_decode( $raw_json );
-							if( isset( $body->count ) )
-								$share_count['Pinterest'] = intval( $body->count );
 
+							if ( isset( $body->count ) ) {
+								$share_count['Pinterest'] = $body->count;
+							}
 						}
 						break;
 
 					case 'linkedin':
-						$query_args = array(
-							'url'      => $global_args['url'],
-							'format'   => 'json',
-						);
-						$query = add_query_arg( $query_args, 'http://www.linkedin.com/countserv/count/share' );
-						$results = wp_remote_get( $query );
-						if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
+						$query_args = array( 'url' => $global_args['url'], 'format'   => 'json' );
+						$query      = add_query_arg( $query_args, 'http://www.linkedin.com/countserv/count/share' );
+						$results    = wp_remote_get( $query );
+
+						if ( ! is_wp_error( $results ) && 200 == wp_remote_retrieve_response_code( $results ) ) {
 
 							$body = json_decode( wp_remote_retrieve_body( $results ) );
-							if( isset( $body->count ) )
-								$share_count['LinkedIn'] = intval( $body->count );
 
+							if ( isset( $body->count ) ) {
+								$share_count['LinkedIn'] = $body->count;
+							}
 						}
 						break;
 
@@ -431,26 +429,26 @@ class EA_Share_Count_Core{
 						$newDom = new DOMDocument;
 						$newDom->formatOutput = true;
 						$filtered = $domxpath->query("//div[@id='aggregateCount']");
-						if (isset($filtered->item(0)->nodeValue)) {
-							$share_count['GooglePlusOne'] = str_replace('>', '', $filtered->item(0)->nodeValue);
+
+						if ( isset( $filtered->item(0)->nodeValue ) ) {
+							$share_count['GooglePlusOne'] = str_replace( '>', '', $filtered->item(0)->nodeValue );
 						}
 						break;
 
 					case 'stumbleupon':
-						$query_args = array(
-							'url'      => $global_args['url'],
-						);
-						$query = add_query_arg( $query_args, 'http://www.stumbleupon.com/services/1.01/badge.getinfo' );
-						$results = wp_remote_get( $query );
-						if( ! is_wp_error( $results ) && 200 == $results['response']['code'] ) {
+						$query_args = array( 'url' => $global_args['url'] );
+						$query      = add_query_arg( $query_args, 'http://www.stumbleupon.com/services/1.01/badge.getinfo' );
+						$results    = wp_remote_get( $query );
+
+						if ( ! is_wp_error( $results ) && 200 == wp_remote_retrieve_response_code( $results ) ) {
 
 							$body = json_decode( wp_remote_retrieve_body( $results ) );
-							if( isset( $body->result->views ) )
-								$share_count['StumbleUpon'] = intval( $body->result->views );
 
+							if ( isset( $body->result->views ) ) {
+								$share_count['StumbleUpon'] = $body->result->views;
+							}
 						}
 						break;
-
 				}
 			}
 		}
@@ -458,32 +456,38 @@ class EA_Share_Count_Core{
 		// Modify API query results, or query additional APIs
 		$share_count = apply_filters( 'ea_share_count_query_api', $share_count, $global_args );
 
-		return json_encode( $share_count );
+		// Sanitize
+		array_walk_recursive( $share_count, 'absint' );
 
+		// Final counts
+		return json_encode( $share_count );
 	}
 
 	/**
 	 * Update Share Counts
 	 *
+	 * @since 1.0.0
 	 */
 	function update_share_counts() {
 
 		$queue = apply_filters( 'ea_share_count_update_queue', $this->update_queue );
-		if( !empty( $queue ) ) {
 
-			foreach( $queue as $id => $post_url ) {
+		if ( !empty( $queue ) ) {
+
+			foreach ( $queue as $id => $post_url ) {
 
 				$share_count = $this->query_api( $post_url );
 
 				if ( $share_count && ( 'site' == $id || 0 === strpos( $id, 'http' ) ) ) {
 
-					$share_option = get_option( 'ea_share_count_urls', array() );
-					$hash = md5( $post_url );
-					$share_option[$hash]['count'] = $share_count;
+					$share_option                    = get_option( 'ea_share_count_urls', array() );
+					$hash                            = md5( $post_url );
+					$share_option[$hash]['count']    = $share_count;
 					$share_option[$hash]['datetime'] = time();
-					$share_option[$hash]['url'] = $post_url;
+					$share_option[$hash]['url']      = $post_url;
 
 					$total = $this->total_count( $share_count );
+
 					if ( $total ) {
 						$share_option[$hash]['total'] = $share_count;
 					}
@@ -496,15 +500,13 @@ class EA_Share_Count_Core{
 					update_post_meta( $id, 'ea_share_count_datetime', time() );
 
 					$total = $this->total_count( json_decode( $share_count, true ) );
+
 					if ( $total ) {
 						update_post_meta( $id, 'ea_share_count_total', $total );
 					}
 				}
-
 			}
 		}
-
-
 	}
 
 	/**
@@ -518,7 +520,6 @@ class EA_Share_Count_Core{
 	 * @param int $count, how many posts should have sharing data
 	 * @param int $interval, how many should be updated at once
 	 * @param bool $messages, whether to display messages during the update
-	 *
 	 */
 	public function prime_the_pump( $count = 100, $interval = 20, $messages = false ) {
 
@@ -553,7 +554,8 @@ class EA_Share_Count_Core{
 			) );
 
 			if ( $update->have_posts() ) {
-				foreach( $update->posts as $i => $post_id ) {
+
+				foreach ( $update->posts as $i => $post_id ) {
 					if ( $interval > $i ) {
 						$this->count( $post_id );
 						do_action( 'ea_share_count_primed', $post_id );
