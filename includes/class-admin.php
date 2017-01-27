@@ -515,10 +515,11 @@ class EA_Share_Count_Admin {
 		$list   = '<ul id="ea-share-count-list">' . $this->metabox_counts( $counts, $id ) . '<ul>';
 
 		wp_send_json_success( array(
-			'msg'   => __( 'Share counts updated.', 'ea-share-count' ),
-			'class' => 'success',
-			'date'  => $date,
-			'list'  => $list,
+			'msg'    => __( 'Share counts updated.', 'ea-share-count' ),
+			'class'  => 'success',
+			'date'   => $date,
+			'list'   => $list,
+			'counts' => $counts,
 		) );
 	}
 
