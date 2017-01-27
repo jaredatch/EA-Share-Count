@@ -348,9 +348,9 @@ class EA_Share_Count_Core{
 
 		// Provide a filter so certain service queries can be bypassed. Helpful
 		// if you want to run your own request against other APIs.
-		$services = apply_filters( 'ea_share_count_query_services', $services, $global_args ) ) {
+		$services = apply_filters( 'ea_share_count_query_requests', $services, $global_args );
 
-		if ( !empty( $services ) );
+		if ( !empty( $services ) ) {
 
 			foreach ( $services as $service ) {
 
@@ -378,7 +378,7 @@ class EA_Share_Count_Core{
 								$share_count['Facebook']['share_count'] = $body->share->share_count;
 							}
 							if ( isset( $body->comments ) ) {
-								$share_count['Facebook']['comment_count'] = $body->comments );
+								$share_count['Facebook']['comment_count'] = $body->comments;
 							} elseif ( isset( $body->share->comment_count ) ) {
 								$share_count['Facebook']['comment_count'] = $body->share->comment_count;
 							}
