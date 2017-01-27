@@ -36,10 +36,10 @@ class EA_Share_Count_Front {
 	public function __construct() {
 
 		// Load assets
-		add_action( 'template_redirect',          array( $this, 'theme_location'         ), 99 );
-		add_action( 'wp_enqueue_scripts',         array( $this, 'header_assets'          ), 9  );
-		add_action( 'wp_footer',                  array( $this, 'load_assets'            ), 1  );
-		add_action( 'wp_footer',                  array( $this, 'email_modal'            ), 50 );
+		add_action( 'template_redirect',  array( $this, 'theme_location' ), 99 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'header_assets'  ), 9  );
+		add_action( 'wp_footer',          array( $this, 'load_assets'    ), 1  );
+		add_action( 'wp_footer',          array( $this, 'email_modal'    ), 50 );
 	}
 
 	/**
@@ -50,7 +50,7 @@ class EA_Share_Count_Front {
 	function theme_location() {
 
 		// Genesis Hooks
-		if( 'genesis' == basename( TEMPLATEPATH ) ) {
+		if ( 'genesis' == basename( TEMPLATEPATH ) ) {
 
 			$locations = array(
 				'before' => array(
@@ -68,7 +68,7 @@ class EA_Share_Count_Front {
 			);
 
 		// Theme Hook Alliance
-		} elseif( current_theme_supports( 'tha_hooks', array( 'entry' ) ) ) {
+		} elseif ( current_theme_supports( 'tha_hooks', array( 'entry' ) ) ) {
 
 			$locations = array(
 				'before' => array(
@@ -112,16 +112,16 @@ class EA_Share_Count_Front {
 		$this->locations = $locations;
 
 		// Display share buttons before content
-		if( $locations['before']['hook'] ) {
+		if ( $locations['before']['hook'] ) {
 			add_action( $locations['before']['hook'], array( $this, 'display_before_content' ), $locations['before']['priority'] );
-		} elseif( $locations['before']['filter'] && ! is_feed() ) {
+		} elseif ( $locations['before']['filter'] && ! is_feed() ) {
 			add_filter( $locations['before']['filter'], array( $this, 'display_before_content_filter' ), $locations['before']['priority'] );
 		}
 
 		// Display share buttons after content
-		if( $locations['after']['hook'] ) {
+		if ( $locations['after']['hook'] ) {
 			add_action( $locations['after']['hook'],  array( $this, 'display_after_content'  ), $locations['after']['priority']  );
-		} elseif( $locations['after']['filter'] && !is_feed() ) {
+		} elseif ( $locations['after']['filter'] && !is_feed() ) {
 			add_filter( $locations['after']['filter'],  array( $this, 'display_after_content_filter'  ), $locations['after']['priority']  );
 		}
 	}
@@ -202,13 +202,13 @@ class EA_Share_Count_Front {
 
 		// Labels, filterable of course.
 		$labels = apply_filters( 'ea_share_count_email_labels', array(
-				'title'      => 'Share this Article',
-				'recipient'  => 'Friend\'s Email Address',
-				'name'       => 'Your Name',
-				'email'      => 'Your Email Address',
-				'validation' => 'Comments',
-				'submit'     => '<i class="easc-icon-envelope"></i> Send Email',
-				'close'      => '<i class="easc-icon-close close-icon"></i>',
+			'title'      => 'Share this Article',
+			'recipient'  => 'Friend\'s Email Address',
+			'name'       => 'Your Name',
+			'email'      => 'Your Email Address',
+			'validation' => 'Comments',
+			'submit'     => '<i class="easc-icon-envelope"></i> Send Email',
+			'close'      => '<i class="easc-icon-close close-icon"></i>',
 		) );
 		?>
 		<div id="easc-modal-wrap" style="display:none;">
@@ -252,26 +252,28 @@ class EA_Share_Count_Front {
 	 */
 	public function display( $location = '', $echo = true, $style = false ) {
 
-		$options = ea_share()->admin->options();
-		$services  = '';
+		$options  = ea_share()->admin->options();
+		$services = '';
 
-		if( ! $style && isset( $options['style'] ) ) {
+		if ( ! $style && isset( $options['style'] ) ) {
 			$style = esc_attr( $options['style'] );
-		} elseif( ! $style )
+		} elseif ( ! $style ) {
 			$style = 'generic';
+		}
 
-		foreach( $options['included_services'] as $service ) {
+		foreach ( $options['included_services'] as $service ) {
 			$services .= $this->link( $service, false, false, $style );
 		}
 
-		$links = apply_filters( 'ea_share_count_display', $services, $location );
+		$links       = apply_filters( 'ea_share_count_display', $services, $location );
 		$wrap_format = apply_filters( 'ea_share_count_display_wrap_format', '<div class="ea-share-count-wrap %2$s">%1$s</div>', $location );
-		$output = apply_filters( 'ea_share_count_display_output', sprintf( $wrap_format, $links, sanitize_html_class( $location ) ), $location );
+		$output      = apply_filters( 'ea_share_count_display_output', sprintf( $wrap_format, $links, sanitize_html_class( $location ) ), $location );
 
-		if( $echo )
+		if ( $echo ) {
 			echo $output;
-		else
+		} else {
 			return $output;
+		}
 	}
 
 	/**
@@ -387,7 +389,7 @@ class EA_Share_Count_Front {
 				$link['url']   = esc_url( home_url() );
 				$link['title'] = wp_strip_all_tags( get_bloginfo( 'name' ) );
 				$link['img']   = apply_filters( 'ea_share_count_default_image', '' );
-			} elseif( 0 === strpos( $id, 'http' ) ) {
+			} elseif ( 0 === strpos( $id, 'http' ) ) {
 				$link['url']   = esc_url( $id );
 				$link['title'] = '';
 				$link['img']   = apply_filters( 'ea_share_count_default_image', '' );
@@ -396,7 +398,7 @@ class EA_Share_Count_Front {
 				$link['title'] = wp_strip_all_tags( get_the_title( $id ) );
 				$link['img']   = apply_filters( 'ea_share_count_single_image', wp_get_attachment_image_url( get_post_thumbnail_id(), 'full' ), $id );
 			}
-			$link['url'] = apply_filters( 'ea_share_count_link_url', $link['url'] );
+			$link['url']   = apply_filters( 'ea_share_count_link_url', $link['url'] );
 			$link['count'] = ea_share()->core->count( $id, $type, false, $round );
 
 			switch ( $type ) {
