@@ -114,14 +114,14 @@ class EA_Share_Count_Front {
 		// Display share buttons before content
 		if( $locations['before']['hook'] ) {
 			add_action( $locations['before']['hook'], array( $this, 'display_before_content' ), $locations['before']['priority'] );
-		} elseif( $locations['before']['filter'] ) {
+		} elseif( $locations['before']['filter'] && ! is_feed() ) {
 			add_filter( $locations['before']['filter'], array( $this, 'display_before_content_filter' ), $locations['before']['priority'] );
 		}
 
 		// Display share buttons after content
 		if( $locations['after']['hook'] ) {
 			add_action( $locations['after']['hook'],  array( $this, 'display_after_content'  ), $locations['after']['priority']  );
-		} elseif( $locations['after']['filter'] ) {
+		} elseif( $locations['after']['filter'] && !is_feed() ) {
 			add_filter( $locations['after']['filter'],  array( $this, 'display_after_content_filter'  ), $locations['after']['priority']  );
 		}
 	}
