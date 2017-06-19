@@ -17,7 +17,7 @@ EA Share Count is a lean plugin for quickly retrieving, caching, and displaying 
 
 Use the "Retrieve Share Counts From" checkboxes to select which APIs you'd like to query for share counts. By default it will not receive any share counts. The Facebook API requires you to provide an Access Token.
 
-The "Share Buttons to Display" field lets you control which share buttons to display and in what order. They can be automatically added before and/or after your site's content by selecting a Theme Location. Alternatively you can use `ea_share()->from->display()` in your theme to display the buttons.
+The "Share Buttons to Display" field lets you control which share buttons to display and in what order. They can be automatically added before and/or after your site's content by selecting a Theme Location. Alternatively you can use `ea_share()->front->display()` in your theme to display the buttons.
 
 ## Screenshots ##
 
