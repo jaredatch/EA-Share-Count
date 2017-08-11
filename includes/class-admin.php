@@ -475,6 +475,7 @@ class EA_Share_Count_Admin {
 		}
 
 		$output  = '';
+		$output .= '<li>Facebook Total: <strong>' . ( !empty( $counts['Facebook']['total_count'] ) ? number_format( absint( $counts['Facebook']['total_count'] ) ) : '0'  ) . '</strong></li>';
 		$output .= '<li>Facebook Likes: <strong>' . ( !empty( $counts['Facebook']['like_count'] ) ? number_format( absint( $counts['Facebook']['like_count'] ) ) : '0'  ) . '</strong></li>';
 		$output .= '<li>Facebook Shares: <strong>' . ( !empty( $counts['Facebook']['share_count'] ) ? number_format( absint( $counts['Facebook']['share_count'] ) ) : '0'  ) . '</strong></li>';
 		$output .= '<li>Facebook Comments: <strong>' . ( !empty( $counts['Facebook']['comment_count'] ) ? number_format( absint( $counts['Facebook']['comment_count'] ) ) : '0'  ) . '</strong></li>';
