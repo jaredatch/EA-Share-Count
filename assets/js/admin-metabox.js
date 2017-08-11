@@ -5,8 +5,7 @@ jQuery(document).ready(function($){
 		    post_id = $this.data('postid'),
 		    nonce   = $this.data('nonce');
 
-		$this.prop('disabled',true);
-		$this.text('Loading share counts...');
+		$this.text('Loading share counts...').prop('disabled',true);
 
 		var opts = {
 			url: ajaxurl,
@@ -27,8 +26,7 @@ jQuery(document).ready(function($){
 					$('#ea-share-count-msg').remove();
 					$('#ea-share-count-metabox .inside').prepend('<p id="ea-share-count-msg" class="'+res.data.class+'">'+res.data.msg+'</p>');
 				}
-				$this.text('Refresh Share Counts');
-				$this.prop('disabled',false);
+				$this.text('Refresh Share Counts').prop('disabled',false);
 			},
 			error: function(xhr, textStatus ,e) {
 				console.log(xhr.responseText);
