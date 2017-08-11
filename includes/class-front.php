@@ -216,7 +216,7 @@ class EA_Share_Count_Front {
 				<span class="easc-modal-title"><?php echo $labels['title']; ?></span>
 				<p>
 					<label for="easc-modal-recipient"><?php echo $labels['recipient']; ?></label>
-					<input type="text" id="easc-modal-recipient">
+					<input type="email" id="easc-modal-recipient">
 				</p>
 				<p>
 					<label for="easc-modal-name"><?php echo $labels['name']; ?></label>
@@ -224,7 +224,7 @@ class EA_Share_Count_Front {
 				</p>
 				<p>
 					<label for="easc-modal-email"><?php echo $labels['email']; ?></label>
-					<input type="text" id="easc-modal-email">
+					<input type="email" id="easc-modal-email">
 				</p>
 				<p class="easc-modal-validation">
 					<label for="easc-modal-validation"><?php echo $labels['validation']; ?></label>
@@ -476,6 +476,7 @@ class EA_Share_Count_Front {
 					$link['icon']       = 'easc-icon-envelope';
 					$link['target']     = '';
 					$link['attr_title'] = 'Share via Email';
+					$link['class']      = 'no-scroll';
 					break;
 			}
 
