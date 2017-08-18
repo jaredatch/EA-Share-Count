@@ -431,7 +431,7 @@ class EA_Share_Count_Front {
 					$link['attr_title'] = 'Share on Twitter';
 					break;
 				case 'pinterest':
-					$link['link']       = 'http://pinterest.com/pin/create/link/?url=' . $link['url'] . '&media=' . $link['img'] . ' &description=' . $link['title'];
+					$link['link']       = 'http://pinterest.com/pin/create/button/?url=' . $link['url'] . '&media=' . $link['img'] . '&description=' . $link['title'];
 					$link['label']      = 'Pin';
 					$link['icon']       = 'easc-icon-pinterest-p';
 					$link['target']     = '_blank';
@@ -480,7 +480,7 @@ class EA_Share_Count_Front {
 					break;
 			}
 
-			$link       = apply_filters( 'ea_share_count_link', $link );
+			$link       = apply_filters( 'ea_share_count_link', $link, $id );
 			$target     = !empty( $link['target'] ) ? ' target="' . esc_attr( $link['target'] ) . '" ' : '';
 			$attr_title = !empty( $link['attr_title'] ) ? ' title="' . esc_attr( $link['attr_title'] ) . '" ' : '';
 
