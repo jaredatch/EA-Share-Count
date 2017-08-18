@@ -1,19 +1,25 @@
-jQuery(document).ready(function($){
+/* global ajaxurl, ea_share_count_notice */
 
-	// Save dismiss state
-	$( '.easc-notice.is-dismissible' ).on('click', '.notice-dismiss', function ( event ) {
+'use strict';
+
+jQuery( document ).ready(function($){
+
+	// Save dismiss state.
+	$( '.easc-notice.is-dismissible' ).on( 'click', '.notice-dismiss', function( event ) {
+
 		event.preventDefault();
-		var $this = $(this);
-		if( ! $this.parent().data( 'key' ) ){
+
+		var noticeKey = $( this ).parent().data( 'key' );
+
+		if ( ! noticeKey ) {
 			return;
 		}
+
 		$.post( ajaxurl, {
-			action: "ea_share_count_dismissible_notice",
-			url: ajaxurl,
-			notice: $this.parent().data( 'key' ),
-			nonce: ea_share_count_notice.nonce || ''
+			action: 'ea_share_count_dismissible_notice',
+			url:    ajaxurl,
+			notice: noticeKey,
+			nonce:  ea_share_count_notice.nonce || ''
 		});
-
 	});
-
 });
