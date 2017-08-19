@@ -19,21 +19,23 @@ class EA_Share_Count_Admin {
 	 */
 	public function __construct() {
 
-		// Settings
+		// Settings.
 		add_action( 'admin_init',                                 array( $this, 'settings_init'   )        );
 		add_action( 'admin_menu',                                 array( $this, 'settings_add'    )        );
 		add_action( 'admin_enqueue_scripts',                      array( $this, 'settings_assets' )        );
 		add_filter( 'plugin_action_links_' . EA_SHARE_COUNT_BASE, array( $this, 'settings_link'   )        );
 		add_filter( 'plugin_row_meta',                            array( $this, 'author_links'    ), 10, 2 );
-		// Metabox
+
+		// Metabox.
 		add_action( 'admin_init',                                 array( $this, 'metabox_add'     )        );
 		add_action( 'wp_ajax_ea_share_refresh',                   array( $this, 'metabox_ajax'    )        );
 		add_action( 'admin_enqueue_scripts',                      array( $this, 'metabox_assets'  )        );
 		add_action( 'save_post',                                  array( $this, 'metabox_save'    ), 10, 2 );
-		// Notices
-		add_action( 'admin_notices',                              array( $this, 'admin_notices' )          );
-		add_action( 'admin_enqueue_scripts',                      array( $this, 'notice_assets' )          );
-		add_action( 'wp_ajax_ea_share_count_dismissible_notice',  array( $this, 'notice_dismissal_ajax'  ) );
+
+		// Notices.
+		add_action( 'admin_notices',                              array( $this, 'admin_notices'         )   );
+		add_action( 'admin_enqueue_scripts',                      array( $this, 'notice_assets'         )   );
+		add_action( 'wp_ajax_ea_share_count_dismissible_notice',  array( $this, 'notice_dismissal_ajax' )   );
 	}
 
 	/**
@@ -42,6 +44,7 @@ class EA_Share_Count_Admin {
 	 * @since 1.1.0
 	 */
 	public function settings_init() {
+
 		register_setting( 'ea_share_count_options', 'ea_share_count_options', array( $this, 'settings_sanitize' ) );
 	}
 
@@ -51,6 +54,7 @@ class EA_Share_Count_Admin {
 	 * @since 1.1.0
 	 */
 	public function settings_add() {
+
 		add_options_page( __( 'Share Count Settings', 'ea-share-count' ), __( 'Share Count', 'ea-share-count' ), 'manage_options', 'ea_share_count_options', array( $this, 'settings_page' ) );
 	}
 
@@ -60,10 +64,11 @@ class EA_Share_Count_Admin {
 	 * @since 1.1.0
 	 */
 	public function settings_page() {
+
 		?>
 		<div class="wrap">
 
-			<h2><?php _e( 'Share Count Settings', 'ea-share-count' );?></h2>
+			<h2><?php esc_html_e( 'Share Count Settings', 'ea-share-count' ); ?></h2>
 
 			<form method="post" action="options.php">
 
@@ -75,45 +80,45 @@ class EA_Share_Count_Admin {
 				<table class="form-table">
 
 					<tr valign="top">
-						<th scope="row"><?php _e( 'Retrieve Share Counts From', 'ea-share-count' );?></th>
+						<th scope="row"><?php esc_html_e( 'Retrieve Share Counts From', 'ea-share-count' ); ?></th>
 						<td>
 							<fieldset>
 							<?php
 							$services      = $this->query_services();
 							$services_notes = '';
-							foreach( $services as $service ) {
-								echo '<label for="ea-query-service-' . sanitize_html_class( $service['key'] )  . '">';
-									echo '<input type="checkbox" name="ea_share_count_options[query_services][]" value="' . esc_attr( $service['key'] ). '" id="ea-query-service-' . sanitize_html_class( $service['key'] ) . '" ' . checked( in_array( $service['key'], $this->settings_value( 'query_services' ) ), true, false ) . ' ' . disabled( $service['disabled'], true, false ) . ' class="ea-share-count-services-check" data-key="' . sanitize_html_class( $service['key'] ) . '">';
+							foreach ( $services as $service ) {
+								echo '<label for="ea-query-service-' . sanitize_html_class( $service['key'] ) . '">';
+									echo '<input type="checkbox" name="ea_share_count_options[query_services][]" value="' . esc_attr( $service['key'] ) . '" id="ea-query-service-' . sanitize_html_class( $service['key'] ) . '" ' . checked( in_array( $service['key'], $this->settings_value( 'query_services' ), true ), true, false ) . ' ' . disabled( $service['disabled'], true, false ) . ' class="ea-share-count-services-check" data-key="' . sanitize_html_class( $service['key'] ) . '">';
 									echo esc_html( $service['label'] );
 									if ( $service['disabled'] && isset( $service['disabled_message'] ) ) {
 										echo ' - <em>' . esc_html( $service['disabled_message'] ) . '</em>';
 									}
 								echo '</label>';
 								echo '<br>';
-								if ( !empty( $service['note'] ) ) {
-									$note_visibility = ! in_array( $service['key'], $this->settings_value( 'query_services' ) ) ? 'style="display:none;"' : '';
+								if ( ! empty( $service['note'] ) ) {
+									$note_visibility = ! in_array( $service['key'], $this->settings_value( 'query_services' ), true ) ? 'style="display:none;"' : '';
 									$services_notes .= '<p id="ea-service-note-' . sanitize_html_class( $service['key'] ) . '" ' . $note_visibility . '>' . $service['note'] . '</p>';
 								}
 							}
 							?>
 							</fieldset>
-							<p><?php _e( 'Each service requires a separate API request, so using many services could cause performance issues.', 'ea-share-count' );?></p>
+							<p><?php esc_html_e( 'Each service requires a separate API request, so using many services could cause performance issues.', 'ea-share-count' ); ?></p>
 							<?php echo $services_notes; ?>
 						</td>
 					</tr>
 
 					<tr valign="top">
-						<th scope="row"><?php _e( 'Facebook Access Token', 'ea-share-count' );?></th>
+						<th scope="row"><?php esc_html_e( 'Facebook Access Token', 'ea-share-count' ); ?></th>
 						<td>
 							<input type="text" name="ea_share_count_options[fb_access_token]" value="<?php echo $this->settings_value( 'fb_access_token' ); ?>" class="regular-text" /><br />
-							<?php _e( 'If you have trouble receiving Facebook counts, you may need to setup an access token.', 'ea-share-count' );?> <a href="https://smashballoon.com/custom-facebook-feed/access-token/" target="_blank"><?php _e( 'Follow these instructions.', 'ea-share-count' );?></a>
+							<?php esc_html_e( 'If you have trouble receiving Facebook counts, you may need to setup an access token.', 'ea-share-count' ); ?> <a href="https://smashballoon.com/custom-facebook-feed/access-token/" target="_blank"><?php esc_html_e( 'Follow these instructions.', 'ea-share-count' ); ?></a>
 						</td>
 					</tr>
 
 					<tr valign="top">
-						<th scope="row"><?php _e( 'Share Buttons to Display', 'ea-share-count' );?></th>
+						<th scope="row"><?php esc_html_e( 'Share Buttons to Display', 'ea-share-count' ); ?></th>
 						<td>
-							<input type="hidden" name="ea_share_count_options[included_services_raw]" value="<?php echo $this->settings_value( 'included_services_raw' );?>" class="share-count-services-raw">
+							<input type="hidden" name="ea_share_count_options[included_services_raw]" value="<?php echo $this->settings_value( 'included_services_raw' ); ?>" class="share-count-services-raw">
 							<select name="ea_share_count_options[included_services][]" class="share-count-services" multiple="multiple" style="min-width:350px;">
 							<?php
 							$services = array(
@@ -130,11 +135,11 @@ class EA_Share_Count_Admin {
 								'email'           => 'Email',
 							);
 							$services = apply_filters( 'ea_share_count_admin_services', $services );
-							if ( !empty( $options['included_services_raw'] ) ) {
+							if ( ! empty( $options['included_services_raw'] ) ) {
 								$services = array_merge( array_flip( $options['included_services'] ), $services );
 							}
 							foreach ( $services as $key => $service ) {
-								echo '<option value="' . $key . '" ' . selected( in_array( $key, $this->settings_value( 'included_services' ) ), true, false ) . '>' . $service . '</option>';
+								echo '<option value="' . $key . '" ' . selected( in_array( $key, $this->settings_value( 'included_services' ), true ), true, false ) . '>' . $service . '</option>';
 							}
 							?>
 							</select>
@@ -142,7 +147,7 @@ class EA_Share_Count_Admin {
 					</tr>
 
 					<tr valign="top">
-						<th scope="row"><?php _e( 'Share Button Style', 'ea-share-count' );?></th>
+						<th scope="row"><?php esc_html_e( 'Share Button Style', 'ea-share-count' ); ?></th>
 						<td>
 							<select name="ea_share_count_options[style]">
 							<?php
@@ -157,7 +162,7 @@ class EA_Share_Count_Admin {
 					</tr>
 
 					<tr valign="top">
-						<th scope="row"><?php _e( 'Theme Location', 'ea-share-count' );?></th>
+						<th scope="row"><?php esc_html_e( 'Theme Location', 'ea-share-count' ); ?></th>
 						<td>
 							<select name="ea_share_count_options[theme_location]">
 								<?php
@@ -176,7 +181,7 @@ class EA_Share_Count_Admin {
 					</tr>
 
 					<tr valign="top">
-						<th scope="row"><?php _e( 'Supported Post Types', 'ea-share-count' );?></th>
+						<th scope="row"><?php esc_html_e( 'Supported Post Types', 'ea-share-count' ); ?></th>
 						<td>
 							<fieldset>
 							<?php
@@ -185,8 +190,8 @@ class EA_Share_Count_Admin {
 								unset( $post_types['attachment'] );
 							}
 							foreach ( $post_types as $post_type ) {
-								echo '<label for="ea-cpt-' . sanitize_html_class( $post_type )  . '">';
-									echo '<input type="checkbox" name="ea_share_count_options[post_type][]" value="' . esc_attr( $post_type ). '" id="ea-cpt-' . sanitize_html_class( $post_type ) . '" ' . checked( in_array( $post_type, $this->settings_value( 'post_type') ), true, false ) . '>';
+								echo '<label for="ea-cpt-' . sanitize_html_class( $post_type ) . '">';
+									echo '<input type="checkbox" name="ea_share_count_options[post_type][]" value="' . esc_attr( $post_type ) . '" id="ea-cpt-' . sanitize_html_class( $post_type ) . '" ' . checked( in_array( $post_type, $this->settings_value( 'post_type'), true ), true, false ) . '>';
 									echo esc_html( $post_type );
 								echo '</label>';
 								echo '<br>';
@@ -197,7 +202,7 @@ class EA_Share_Count_Admin {
 					</tr>
 
 					<tr valign="top">
-						<th scope="row"><?php _e( 'Share Count Number', 'ea-share-count' );?></th>
+						<th scope="row"><?php esc_html_e( 'Share Count Number', 'ea-share-count' ); ?></th>
 						<td>
 							<select name="ea_share_count_options[number]">
 							<?php
@@ -211,7 +216,7 @@ class EA_Share_Count_Admin {
 					</tr>
 
 					<tr valign="top">
-						<th scope="row"><?php _e( 'Show Empty Counts', 'ea-share-count' );?></th>
+						<th scope="row"><?php esc_html_e( 'Show Empty Counts', 'ea-share-count' ); ?></th>
 						<td>
 							<select name="ea_share_count_options[show_empty]">
 							<?php
@@ -227,7 +232,7 @@ class EA_Share_Count_Admin {
 				</table>
 
 				<p class="submit">
-					<input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'ea-share-count' ); ?>" />
+					<input type="submit" class="button-primary" value="<?php esc_html_e( 'Save Changes', 'ea-share-count' ); ?>" />
 				</p>
 
 			</form>
@@ -244,10 +249,10 @@ class EA_Share_Count_Admin {
 	 */
 	public function settings_assets( $hook ) {
 
-		if ( 'settings_page_ea_share_count_options' == $hook ) {
+		if ( 'settings_page_ea_share_count_options' === $hook ) {
 
 			wp_enqueue_style( 'select2', EA_SHARE_COUNT_URL . 'assets/css/select2.css', array(), EA_SHARE_COUNT_VERSION );
-			wp_enqueue_script( 'select2', EA_SHARE_COUNT_URL  . 'assets/js/select2.min.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, false );
+			wp_enqueue_script( 'select2', EA_SHARE_COUNT_URL . 'assets/js/select2.min.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, false );
 			wp_enqueue_script( 'share-count-settings', EA_SHARE_COUNT_URL . 'assets/js/admin-settings.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, false );
 		}
 	}
@@ -277,16 +282,18 @@ class EA_Share_Count_Admin {
 	 * Return settings value.
 	 *
 	 * @since 1.7.0
+	 * @param string $key
+	 * @return bool|string
 	 */
 	function settings_value( $key = false ) {
 
 		$defaults = $this->settings_default();
 		$options  = get_option( 'ea_share_count_options', $defaults );
 
-		if ( isset( $options[$key] ) ) {
-			return $options[$key];
-		} elseif ( isset( $defaults[$key] ) ) {
-			return $defaults[$key];
+		if ( isset( $options[ $key ] ) ) {
+			return $options[ $key ];
+		} elseif ( isset( $defaults[ $key ] ) ) {
+			return $defaults[ $key ];
 		} else {
 			return false;
 		}
@@ -305,13 +312,13 @@ class EA_Share_Count_Admin {
 				'key'              => 'facebook',
 				'label'            => 'Facebook',
 				'disabled'         => false,
-				'disabled_message' => 'You must provide a Facebook Access Token'
+				'disabled_message' => __( 'You must provide a Facebook Access Token', 'ea-share-count' ),
 			),
 			array(
 				'key'              => 'twitter',
 				'label'            => 'Twitter',
 				'disabled'         => false,
-				'note'             => 'To use Twitter counts you must sign up for an account with <a href="http://newsharecounts.com/" target="blank" rel="noopener noreferrer">newsharedcounts.com</a>',
+				'note'             => __( 'To use Twitter counts you must sign up for an account with <a href="http://newsharecounts.com/" target="blank" rel="noopener noreferrer">newsharedcounts.com</a>', 'ea-share-count' ),
 			),
 			array(
 				'key'              => 'pinterest',
@@ -332,7 +339,7 @@ class EA_Share_Count_Admin {
 				'key'              => 'stumbleupon',
 				'label'            => 'StumbleUpon',
 				'disabled'         => false,
-			)
+			),
 		);
 
 		$services = apply_filters( 'ea_share_count_query_services', $services );
@@ -344,10 +351,12 @@ class EA_Share_Count_Admin {
 	 * Sanitize saved settings.
 	 *
 	 * @since 1.1.0
+	 * @param array $input
+	 * @return array
 	 */
 	public function settings_sanitize( $input ) {
 
-		// Reorder services based on the order they were provided
+		// Reorder services based on the order they were provided.
 		$services_array = array();
 		$services_raw   = explode( ',', $input['included_services_raw'] );
 
@@ -365,13 +374,13 @@ class EA_Share_Count_Admin {
 		$input['included_services']     = array_map( 'esc_attr', $services_array );
 		$input['included_services_raw'] = esc_attr( $input['included_services_raw'] );
 
-		// Remove query services if they are disabled
+		// Remove query services if they are disabled.
 		$services = $this->query_services();
-		if ( !empty( $input['query_services'] ) && !empty( $services ) ) {
+		if ( ! empty( $input['query_services'] ) && ! empty( $services ) ) {
 			foreach ( $services as $service ) {
-				if ( $service['disabled'] && in_array( $service['key'], $input['query_services'] ) ) {
+				if ( $service['disabled'] && in_array( $service['key'], $input['query_services'], true ) ) {
 					$key = array_search( $service['key'], $input['query_services'] );
-					unset( $input['query_services'][$key] );
+					unset( $input['query_services'][ $key ] );
 				}
 			}
 		}
@@ -394,11 +403,12 @@ class EA_Share_Count_Admin {
 	}
 
 	/**
-	 * Plugin author name links
+	 * Plugin author name links.
 	 *
 	 * @since 1.5.2
-	 * @param array $link
+	 * @param array $links
 	 * @param string $file
+	 * @return string
 	 */
 	function author_links( $links, $file ) {
 
@@ -416,7 +426,7 @@ class EA_Share_Count_Admin {
 	public function metabox_add() {
 
 		$options = $this->options();
-		if ( !empty( $options['post_type'] ) ) {
+		if ( ! empty( $options['post_type'] ) ) {
 			$post_types = (array) $options['post_type'];
 			foreach ( $post_types as $post_type ) {
 				add_meta_box( 'ea-share-count-metabox', __( 'Share Counts', 'ea-share-count' ), array( $this, 'metabox' ), $post_type, 'side', 'low' );
@@ -433,32 +443,31 @@ class EA_Share_Count_Admin {
 
 		global $post;
 
-		if ( 'publish' != $post->post_status ) {
+		if ( 'publish' !== $post->post_status ) {
 			echo '<p>' . __( 'Entry must be published to view share counts.', 'ea-share-count' ) . '</p>';
 			return;
 		}
 
 		$counts = get_post_meta( $post->ID, 'ea_share_count', true );
 
-		if ( !empty( $counts ) ) {
+		if ( ! empty( $counts ) ) {
 			$counts = json_decode( $counts, true );
 			echo '<ul id="ea-share-count-list">';
 				echo $this->metabox_counts( $counts, $post->ID );
 			echo '</ul>';
 			$date = get_post_meta( $post->ID, 'ea_share_count_datetime', true );
-			$date = $date+( get_option( 'gmt_offset' ) * 3600 );
+			$date = $date + ( get_option( 'gmt_offset' ) * 3600 );
 			echo '<p id="ea-share-count-date">Last updated ' . date( 'M j, Y g:ia', $date ) . '</span></p>';
 		} else {
 			echo '<p id="ea-share-count-empty">' . __( 'No share counts downloaded for this entry', 'ea-share-count' ) . '</p>';
 		}
 
-		echo '<button class="button" id="ea-share-count-refresh" data-nonce="' . wp_create_nonce( 'ea-share-count-refresh-' . $post->ID ) . '" data-postid="' . $post->ID . '">'. __( 'Refresh Share Counts', 'ea-share-count' ) . '</button>';
+		echo '<button class="button" id="ea-share-count-refresh" data-nonce="' . wp_create_nonce( 'ea-share-count-refresh-' . $post->ID ) . '" data-postid="' . $post->ID . '">' . __( 'Refresh Share Counts', 'ea-share-count' ) . '</button>';
 
 		wp_nonce_field( 'ea_share_count', 'ea_share_count_nonce' );
 		$exclude = intval( get_post_meta( $post->ID, 'ea_share_count_exclude', true ) );
 		$post_type_object = get_post_type_object( get_post_type( $post->ID ) );
 		echo '<p><input type="checkbox" name="ea_share_count_exclude" id="ea_share_count_exclude" value="' . $exclude . '" ' . checked( 1, $exclude, false ) . ' /> <label for="ea_share_count_exclude">' . __( 'Don\'t display buttons on this', 'ea-share-count' ) . ' ' . strtolower( $post_type_object->labels->singular_name ) . '</label></p>';
-
 	}
 
 	/**
@@ -466,27 +475,28 @@ class EA_Share_Count_Admin {
 	 *
 	 * @since 1.3.0
 	 * @param array $counts
+	 * @param int $post_id
 	 * @return string
 	 */
 	public function metabox_counts( $counts, $post_id ) {
 
-		if ( empty( $counts ) || !is_array( $counts ) ) {
+		if ( empty( $counts ) || ! is_array( $counts ) ) {
 			return;
 		}
 
 		$output  = '';
-		$output .= '<li>Facebook Total: <strong>' . ( !empty( $counts['Facebook']['total_count'] ) ? number_format( absint( $counts['Facebook']['total_count'] ) ) : '0'  ) . '</strong></li>';
-		$output .= '<li>Facebook Likes: <strong>' . ( !empty( $counts['Facebook']['like_count'] ) ? number_format( absint( $counts['Facebook']['like_count'] ) ) : '0'  ) . '</strong></li>';
-		$output .= '<li>Facebook Shares: <strong>' . ( !empty( $counts['Facebook']['share_count'] ) ? number_format( absint( $counts['Facebook']['share_count'] ) ) : '0'  ) . '</strong></li>';
-		$output .= '<li>Facebook Comments: <strong>' . ( !empty( $counts['Facebook']['comment_count'] ) ? number_format( absint( $counts['Facebook']['comment_count'] ) ) : '0'  ) . '</strong></li>';
-		$output .= '<li>Twitter: <strong>' . ( !empty( $counts['Twitter'] ) ? number_format( absint( $counts['Twitter'] ) ) : '0'  ) . '</strong></li>';
-		$output .= '<li>Pinterest: <strong>' . ( !empty( $counts['Pinterest'] ) ? number_format( absint( $counts['Pinterest'] ) ) : '0'  ) . '</strong></li>';
-		$output .= '<li>LinkedIn: <strong>' . ( !empty( $counts['LinkedIn'] ) ? number_format( absint( $counts['LinkedIn'] ) ) : '0'  ) . '</strong></li>';
-		$output .= '<li>StumbleUpon: <strong>' . ( !empty( $counts['StumbleUpon'] ) ? number_format( absint( $counts['StumbleUpon'] ) ) : '0'  ) . '</strong></li>';
+		$output .= '<li>Facebook Total: <strong>' . ( ! empty( $counts['Facebook']['total_count'] ) ? number_format( absint( $counts['Facebook']['total_count'] ) ) : '0'  ) . '</strong></li>';
+		$output .= '<li>Facebook Likes: <strong>' . ( ! empty( $counts['Facebook']['like_count'] ) ? number_format( absint( $counts['Facebook']['like_count'] ) ) : '0'  ) . '</strong></li>';
+		$output .= '<li>Facebook Shares: <strong>' . ( ! empty( $counts['Facebook']['share_count'] ) ? number_format( absint( $counts['Facebook']['share_count'] ) ) : '0'  ) . '</strong></li>';
+		$output .= '<li>Facebook Comments: <strong>' . ( ! empty( $counts['Facebook']['comment_count'] ) ? number_format( absint( $counts['Facebook']['comment_count'] ) ) : '0'  ) . '</strong></li>';
+		$output .= '<li>Twitter: <strong>' . ( ! empty( $counts['Twitter'] ) ? number_format( absint( $counts['Twitter'] ) ) : '0'  ) . '</strong></li>';
+		$output .= '<li>Pinterest: <strong>' . ( ! empty( $counts['Pinterest'] ) ? number_format( absint( $counts['Pinterest'] ) ) : '0'  ) . '</strong></li>';
+		$output .= '<li>LinkedIn: <strong>' . ( ! empty( $counts['LinkedIn'] ) ? number_format( absint( $counts['LinkedIn'] ) ) : '0'  ) . '</strong></li>';
+		$output .= '<li>StumbleUpon: <strong>' . ( ! empty( $counts['StumbleUpon'] ) ? number_format( absint( $counts['StumbleUpon'] ) ) : '0'  ) . '</strong></li>';
 
-		// Show Email shares if enabled
+		// Show Email shares if enabled.
 		$options = $this->options();
-		if ( in_array( 'email', $options['included_services'] ) ) {
+		if ( in_array( 'email', $options['included_services'], true ) ) {
 			$output .= '<li>Email: <strong>' . absint( get_post_meta( $post_id, 'ea_share_count_email', 'true' ) ) . '</strong></li>';
 		}
 
@@ -500,19 +510,19 @@ class EA_Share_Count_Admin {
 	 */
 	function metabox_ajax() {
 
-		// Run a security check
+		// Run a security check.
 		if ( ! wp_verify_nonce( $_POST['nonce'], 'ea-share-count-refresh-' . $_POST['post_id'] ) ) {
 			wp_send_json_error( array( 'msg' => __( 'Failed security', 'ea-share-count' ), 'class' => 'error' ) );
 		}
 
-		// Check for permissions
-		if ( !current_user_can( 'manage_options' ) ) {
+		// Check for permissions.
+		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( array( 'msg' => __( 'You do not have permission', 'ea-share-count' ), 'class' => 'error' ) );
 		}
 
 		$id     = absint( $_POST['post_id'] );
 		$counts = ea_share()->core->counts( $id, true, true );
-		$date   = '<p id="ea-share-count-date">Last updated ' . date( 'M j, Y g:ia', time()+( get_option( 'gmt_offset' ) * 3600 ) ) . '</span></p>';
+		$date   = '<p id="ea-share-count-date">Last updated ' . date( 'M j, Y g:ia', time() + ( get_option( 'gmt_offset' ) * 3600 ) ) . '</span></p>';
 		$list   = '<ul id="ea-share-count-list">' . $this->metabox_counts( $counts, $id ) . '<ul>';
 
 		wp_send_json_success( array(
@@ -525,7 +535,7 @@ class EA_Share_Count_Admin {
 	}
 
 	/**
-	 * Load metabox assets
+	 * Load metabox assets.
 	 *
 	 * @since 1.0.0
 	 * @param string $hook
@@ -539,18 +549,21 @@ class EA_Share_Count_Admin {
 			return;
 		}
 
-		if ( 'post.php' == $hook && in_array( $post->post_type, $options['post_type'] )  ) {
+		if ( 'post.php' === $hook && in_array( $post->post_type, $options['post_type'], true )  ) {
 			wp_enqueue_script( 'share-count-settings', EA_SHARE_COUNT_URL . 'assets/js/admin-metabox.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, false );
 		}
 	}
 
 	/**
-	 * Save the Metabox
+	 * Save the Metabox.
 	 *
+	 * @since 1.0.0
+	 * @param int $post_id
+	 * @param object $post
 	 */
 	function metabox_save( $post_id, $post ) {
 
-		// Security check
+		// Security check.
 		if ( ! isset( $_POST['ea_share_count_nonce'] ) || ! wp_verify_nonce( $_POST['ea_share_count_nonce'], 'ea_share_count' ) ) {
 			return;
 		}
@@ -594,14 +607,13 @@ class EA_Share_Count_Admin {
 	}
 
 	/**
-	 * Admin Notices
+	 * Admin Notices.
 	 *
 	 * @since 1.7.0
-	 *
 	 */
 	function admin_notices() {
 
-		// Only display notices to users who can edit the plugin settings
+		// Only display notices to users who can edit the plugin settings.
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
@@ -617,40 +629,43 @@ class EA_Share_Count_Admin {
 					__( 'EA Share Count must be <a href="%s">configured</a> due to recent Facebook API changes. <a href="%s" target="_blank">More information here</a>.', 'ea-share-count' ),
 					admin_url( 'options-general.php?page=ea_share_count_options' ),
 					esc_url( 'https://github.com/jaredatch/EA-Share-Count/wiki/No-longer-using-SharedCount.com' )
-				)
-			)
+				),
+			),
 		);
 
 		$dismissed = $this->settings_value( 'dismissed_notices' );
+
 		foreach ( $notices as $notice ) {
-			if ( $notice['display'] && !in_array( $notice['key'], $dismissed ) ) {
+			if ( $notice['display'] && ! in_array( $notice['key'], $dismissed, true ) ) {
 				echo '<div class="' . esc_attr( $notice['class'] ) . '" data-key="' . sanitize_key( $notice['key'] ) . '"><p>' . $notice['message'] . '</p></div>';
 			}
 		}
 	}
 
 	/**
-	 * Admin Notice Assets
+	 * Admin Notice Assets.
 	 *
 	 * @since 1.7.0
-	 *
 	 */
 	function notice_assets() {
 
+		// Load JS.
 		wp_enqueue_script( 'ea-share-count-notice', EA_SHARE_COUNT_URL . 'assets/js/share-count-notice.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, false );
+
+		// Add nonce.
 		wp_localize_script( 'ea-share-count-notice', 'ea_share_count_notice', array(
 			'nonce' => wp_create_nonce( 'ea-share-count-notice' ),
 		) );
 	}
 
 	/**
-	 * AJAX Callback for Admin Notice Dismissal
+	 * AJAX Callback for Admin Notice Dismissal.
 	 *
 	 * @since 1.7.0
 	 */
 	function notice_dismissal_ajax() {
 
-		if (  ! isset( $_POST[ 'nonce' ] ) || ! wp_verify_nonce( $_POST[ 'nonce' ], 'ea-share-count-notice' ) || ! current_user_can( 'manage_options' ) ) {
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'ea-share-count-notice' ) || ! current_user_can( 'manage_options' ) ) {
 			return false;
 		}
 

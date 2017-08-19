@@ -27,11 +27,13 @@
  * @copyright  Copyright (c) 2015
  */
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
- * Main class
+ * Main class.
  *
  * @since 1.0.0
  * @package EA_Share_Count
@@ -88,8 +90,9 @@ final class EA_Share_Count {
 
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof EA_Share_Count ) ) {
 
-			self::$instance = new EA_Share_Count;
+			self::$instance = new EA_Share_Count();
 			self::$instance->constants();
+			self::$instance->load_textdomain();
 			self::$instance->includes();
 
 			add_action( 'init', array( self::$instance, 'init' ) );
@@ -104,20 +107,30 @@ final class EA_Share_Count {
 	 */
 	public function constants() {
 
-		// Version
+		// Version.
 		define( 'EA_SHARE_COUNT_VERSION', $this->version );
 
-		// Directory path
+		// Directory path.
 		define( 'EA_SHARE_COUNT_DIR', plugin_dir_path( __FILE__ ) );
 
-		// Directory URL
+		// Directory URL.
 		define( 'EA_SHARE_COUNT_URL', plugin_dir_url( __FILE__ ) );
 
-		// Base name
+		// Base name.
 		define( 'EA_SHARE_COUNT_BASE', plugin_basename( __FILE__ ) );
 
-		// Plugin root file
+		// Plugin root file.
 		define( 'EA_SHARE_COUNT_FILE', __FILE__ );
+	}
+
+	/**
+	 * Loads the plugin language files.
+	 *
+	 * @since 2.0.0
+	 */
+	public function load_textdomain() {
+
+		 load_plugin_textdomain( 'ea-share-count', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 	/**
@@ -132,7 +145,6 @@ final class EA_Share_Count {
 		require_once EA_SHARE_COUNT_DIR . 'includes/class-admin.php';
 		require_once EA_SHARE_COUNT_DIR . 'includes/class-front.php';
 		require_once EA_SHARE_COUNT_DIR . 'includes/github-updater.php';
-
 	}
 
 	/**
@@ -142,18 +154,25 @@ final class EA_Share_Count {
 	 */
 	public function init() {
 
-		$this->core  = new EA_Share_Count_Core;
-		$this->admin = new EA_Share_Count_Admin;
-		$this->front = new EA_Share_Count_Front;
+		$this->core  = new EA_Share_Count_Core();
+		$this->admin = new EA_Share_Count_Admin();
+		$this->front = new EA_Share_Count_Front();
 	}
 
 	/**
 	 * Helper to access link method directly, for backwards compatibility.
 	 *
 	 * @since 1.3.0
+	 * @param array $types
+	 * @param int $id
+	 * @param bool $echo
+	 * @param string $style
+	 * @param int $round
+	 * @param mixed $show_empty
 	 * @return string
 	 */
 	public function link( $types = 'facebook', $id = false, $echo = true, $style = 'generic', $round = 2, $show_empty = '' ) {
+
 		return $this->front->link( $types, $id, $echo, $style, $round, $show_empty );
 	}
 
@@ -161,9 +180,14 @@ final class EA_Share_Count {
 	 * Helper to access count method directly, for backwards compatibility.
 	 *
 	 * @since 1.3.0
+	 * @param int $id
+	 * @param string $type
+	 * @param bool $echo
+	 * @param int $round
 	 * @return string
 	 */
 	public function count( $id = false, $type = 'facebook', $echo = false, $round = 2 ) {
+
 		return $this->core->count( $id, $type, $echo, $round );
 	}
 }
@@ -178,6 +202,7 @@ final class EA_Share_Count {
  * @return object
  */
 function ea_share() {
+
 	return EA_Share_Count::instance();
 }
 ea_share();

@@ -10,10 +10,10 @@
  * @license    GPL-2.0+
  * @copyright  Copyright (c) 2015
  */
-class EA_Share_Count_Core{
+class EA_Share_Count_Core {
 
 	/**
-	 * Holds list of posts that need share count refreshed
+	 * Holds list of posts that need share count refreshed.
 	 *
 	 * @since 1.0.0
 	 * @var boolean
@@ -39,18 +39,18 @@ class EA_Share_Count_Core{
 	 */
 	public function email_ajax() {
 
-		// Check spam honeypot
-		if ( !empty( $_POST['validation'] ) ) {
+		// Check spam honeypot.
+		if ( ! empty( $_POST['validation'] ) ) {
 			wp_send_json_error( 'Honeypot triggered' );
 		}
 
-		// Check required fields
+		// Check required fields.
 		if ( empty( $_POST['recipient'] ) || empty( $_POST['name'] ) || empty( $_POST['email'] ) ) {
 			wp_send_json_error( 'Required field missing' );
 		}
 
-		// Check email addresses
-		if ( !is_email( $_POST['recipient'] ) || !is_email( $_POST['email'] ) ) {
+		// Check email addresses.
+		if ( ! is_email( $_POST['recipient'] ) || ! is_email( $_POST['email'] ) ) {
 			wp_send_json_error( 'Invalid email' );
 		}
 
@@ -60,17 +60,17 @@ class EA_Share_Count_Core{
 		$from_name  = sanitize_text_field( strip_tags( $_POST['name'] ) );
 		$site_name  = sanitize_text_field( get_bloginfo( 'name' ) );
 		$site_root  = strtolower( $_SERVER['SERVER_NAME'] );
-        if ( substr( $site_root, 0, 4 ) == 'www.' ) {
-            $site_root = substr( $site_root, 4 );
-        }
+		if ( substr( $site_root, 0, 4 ) === 'www.' ) {
+			$site_root = substr( $site_root, 4 );
+		}
 
 		$headers = array(
 			'From'     => "$site_name <noreply@$site_root>",
 			'Reply-To' => "$from_name <$from_email>"
 		);
 		$subject = "Your friend $from_name has shared an article with you";
-		$body    =  html_entity_decode( get_the_title( $post_id ), ENT_QUOTES ) . "\r\n";
-		$body   .=  get_permalink( $post_id ) . "\r\n";
+		$body    = html_entity_decode( get_the_title( $post_id ), ENT_QUOTES ) . "\r\n";
+		$body   .= get_permalink( $post_id ) . "\r\n";
 
 		wp_mail(
 			$recipient,
@@ -89,24 +89,24 @@ class EA_Share_Count_Core{
 	 * Retreive share counts for site or post.
 	 *
 	 * @since 1.0.0
-	 * @param int/string $id, pass 'site' for full site stats
-	 * @param boolean $array, return json o
-	 * @param boolean $force, force refresh
+	 * @param int/string $id pass 'site' for full site stats.
+	 * @param bool $array return json o.
+	 * @param bool $force force refresh.
 	 * @return object $share_count
 	 */
 	public function counts( $id = false, $array = false, $force = false ) {
 
-		// Primary site URL or Offsite/non post URL
-		if ( 'site' == $id || 0 === strpos( $id, 'http') ) {
+		// Primary site URL or Offsite/non post URL.
+		if ( 'site' === $id || 0 === strpos( $id, 'http') ) {
 
 			$post_date    = true;
-			$post_url     = 'site' == $id ? apply_filters( 'ea_share_count_site_url', home_url() ) : esc_url( $id );
+			$post_url     = 'site' === $id ? apply_filters( 'ea_share_count_site_url', home_url() ) : esc_url( $id );
 			$hash         = md5( $post_url );
 			$share_option = get_option( 'ea_share_count_urls', array() );
-			$share_count  = !empty( $share_option[$hash]['count'] ) ? $share_option[$hash]['count'] : false;
-			$last_updated = !empty( $share_option[$hash]['datetime'] ) ? $share_option[$hash]['datetime'] : false;
+			$share_count  = ! empty( $share_option[ $hash ]['count'] ) ? $share_option[ $hash ]['count'] : false;
+			$last_updated = ! empty( $share_option[ $hash ]['datetime'] ) ? $share_option[ $hash ]['datetime'] : false;
 
-		// Post type URL
+		// Post type URL.
 		} else {
 
 			$post_id      = $id ? $id : get_the_ID();
@@ -116,22 +116,22 @@ class EA_Share_Count_Core{
 			$last_updated = get_post_meta( $post_id, 'ea_share_count_datetime', true );
 		}
 
-		// Rebuild and update meta if necessary
+		// Rebuild and update meta if necessary.
 		if ( ! $share_count || ! $last_updated || $this->needs_updating( $last_updated, $post_date ) || $force ) {
 
 			$id = isset( $post_id ) ? $post_id : $id;
 
-			$this->update_queue[$id] = $post_url;
+			$this->update_queue[ $id ] = $post_url;
 
 			// If this update was forced then we process immediately. Otherwise
-			// add the the queue which processes on shutdown (for now)
+			// add the the queue which processes on shutdown (for now).
 			if ( $force ) {
 				$this->update_share_counts();
 				$share_count = $this->counts( $id );
 			}
 		}
 
-		if ( $share_count && $array == true ) {
+		if ( $share_count && true === $array ) {
 			$share_count = json_decode( $share_count, true );
 		}
 
@@ -142,10 +142,10 @@ class EA_Share_Count_Core{
 	 * Retreive a single share count for a site or post.
 	 *
 	 * @since 1.0.0
-	 * @param int/string $id, pass 'site' for full site stats
+	 * @param int/string $id pass 'site' for full site stats.
 	 * @param string $type
 	 * @param boolean $echo
-	 * @param int $round, how many significant digits on count
+	 * @param int $round how many significant digits on count.
 	 * @return int
 	 */
 	public function count( $id = false, $type = 'facebook', $echo = false, $round = 2 ) {
@@ -153,7 +153,7 @@ class EA_Share_Count_Core{
 		$counts = $this->counts( $id, true );
 		$total  = $this->total_count( $counts );
 
-		if ( $counts == false ) {
+		if ( $counts === false ) {
 			$share_count = '0';
 		} else {
 			switch ( $type ) {
@@ -187,10 +187,10 @@ class EA_Share_Count_Core{
 				case 'included_total':
 					$share_count = '0';
 					$options = ea_share()->admin->options();
-					// Service total only applies to services we are displaying
-					if ( !empty( $options['included_services'] ) ) {
+					// Service total only applies to services we are displaying.
+					if ( ! empty( $options['included_services'] ) ) {
 						foreach ( $options['included_services'] as $service ) {
-							if ( 'included_total' != $service ) {
+							if ( 'included_total' !== $service ) {
 								$share_count = $share_count + $this->count( $id, $service, false, false );
 							}
 						}
@@ -244,7 +244,7 @@ class EA_Share_Count_Core{
 		foreach ( $share_count as $service => $count ) {
 			if ( is_int( $count ) ) {
 				$total += (int) $count;
-			} elseif( is_array( $count ) && isset( $count['total_count'] ) ) {
+			} elseif ( is_array( $count ) && isset( $count['total_count'] ) ) {
 				$total += (int) $count['total_count'];
 			}
 		}
@@ -256,13 +256,13 @@ class EA_Share_Count_Core{
 	 * Round to Significant Figures
 	 *
 	 * @since 1.0.0
-	 * @param int $num, actual number
-	 * @param int $n, significant digits to round to
-	 * @return $num, rounded number
+	 * @param int $num actual number.
+	 * @param int $n significant digits to round to.
+	 * @return $num rounded number.
 	 */
 	public function round_count( $num = 0, $n = 0 ) {
 
-		if ( $num == 0 ) {
+		if ( 0 == $num ) {
 			return 0;
 		}
 
@@ -271,7 +271,7 @@ class EA_Share_Count_Core{
 		$power     = $n - $d;
 		$magnitude = pow( 10, $power );
 		$shifted   = round( $num * $magnitude );
-		$output    = $shifted/$magnitude;
+		$output    = $shifted / $magnitude;
 
 		if ( $output >= 1000000 ) {
 			$output = $output / 1000000 . 'm';
@@ -286,8 +286,8 @@ class EA_Share_Count_Core{
 	 * Check if share count needs updating.
 	 *
 	 * @since 1.0.0
-	 * @param int $last_updated, unix timestamp
-	 * @param int $post_date, unix timestamp
+	 * @param int $last_updated unix timestamp.
+	 * @param int $post_date unix timestamp.
 	 * @return bool $needs_updating
 	 */
 	public function needs_updating( $last_updated = false, $post_date ) {
@@ -303,7 +303,7 @@ class EA_Share_Count_Core{
 			),
 			array(
 				'post_date' => strtotime( '-5 days' ),
-				'increment' => strtotime( '-6 hours' )
+				'increment' => strtotime( '-6 hours' ),
 			),
 			array(
 				'post_date' => 0,
@@ -351,14 +351,14 @@ class EA_Share_Count_Core{
 			'Pinterest'     => 0,
 			'LinkedIn'      => 0,
 			'GooglePlusOne' => 0,
-			'StumbleUpon'   => 0
+			'StumbleUpon'   => 0,
 		);
 
 		// Provide a filter so certain service queries can be bypassed. Helpful
 		// if you want to run your own request against other APIs.
 		$services = apply_filters( 'ea_share_count_query_requests', $services, $global_args );
 
-		if ( !empty( $services ) ) {
+		if ( ! empty( $services ) ) {
 
 			foreach ( $services as $service ) {
 
@@ -379,7 +379,7 @@ class EA_Share_Count_Core{
 
 							$body = json_decode( wp_remote_retrieve_body( $results ) );
 
-							// Not sure why Facebook returns the data in different formats sometimes
+							// Not sure why Facebook returns the data in different formats sometimes.
 							if ( isset( $body->shares ) ) {
 								$share_count['Facebook']['share_count'] = $body->shares;
 							} elseif ( isset( $body->share->share_count ) ) {
@@ -403,7 +403,7 @@ class EA_Share_Count_Core{
 
 						if ( ! is_wp_error( $results ) && 200 == wp_remote_retrieve_response_code( $results ) ) {
 
-							$raw_json = preg_replace('/^receiveCount\((.*)\)$/', "\\1", wp_remote_retrieve_body( $results ) );
+							$raw_json = preg_replace( '/^receiveCount\((.*)\)$/', "\\1", wp_remote_retrieve_body( $results ) );
 							$body     = json_decode( $raw_json );
 
 							if ( isset( $body->count ) ) {
@@ -462,7 +462,6 @@ class EA_Share_Count_Core{
 						$query_args = array( 'url' => $global_args['url'] );
 						$query      = add_query_arg( $query_args, 'http://public.newsharecounts.com/count.json' );
 						$results    = wp_remote_get( $query, array( 'sslverify' => false, 'user-agent' => 'EA Share Counts' ) );
-						error_log( print_r( $results, true ) );
 						if ( ! is_wp_error( $results ) && 200 == wp_remote_retrieve_response_code( $results ) ) {
 
 							$body = json_decode( wp_remote_retrieve_body( $results ) );
@@ -476,14 +475,14 @@ class EA_Share_Count_Core{
 			}
 		}
 
-		// Modify API query results, or query additional APIs
+		// Modify API query results, or query additional APIs.
 		$share_count = apply_filters( 'ea_share_count_query_api', $share_count, $global_args );
 
-		// Sanitize
+		// Sanitize.
 		array_walk_recursive( $share_count, 'absint' );
 
-		// Final counts
-		return json_encode( $share_count );
+		// Final counts.
+		return wp_json_encode( $share_count );
 	}
 
 	/**
@@ -495,24 +494,24 @@ class EA_Share_Count_Core{
 
 		$queue = apply_filters( 'ea_share_count_update_queue', $this->update_queue );
 
-		if ( !empty( $queue ) ) {
+		if ( ! empty( $queue ) ) {
 
 			foreach ( $queue as $id => $post_url ) {
 
 				$share_count = $this->query_api( $post_url );
 
-				if ( $share_count && ( 'site' == $id || 0 === strpos( $id, 'http' ) ) ) {
+				if ( $share_count && ( 'site' === $id || 0 === strpos( $id, 'http' ) ) ) {
 
-					$share_option                    = get_option( 'ea_share_count_urls', array() );
-					$hash                            = md5( $post_url );
-					$share_option[$hash]['count']    = $share_count;
-					$share_option[$hash]['datetime'] = time();
-					$share_option[$hash]['url']      = $post_url;
+					$share_option                      = get_option( 'ea_share_count_urls', array() );
+					$hash                              = md5( $post_url );
+					$share_option[ $hash ]['count']    = $share_count;
+					$share_option[ $hash ]['datetime'] = time();
+					$share_option[ $hash ]['url']      = $post_url;
 
 					$total = $this->total_count( $share_count );
 
 					if ( $total ) {
-						$share_option[$hash]['total'] = $share_count;
+						$share_option[ $hash ]['total'] = $share_count;
 					}
 
 					update_option( 'ea_share_count_urls', $share_option );
@@ -529,23 +528,23 @@ class EA_Share_Count_Core{
 					}
 				}
 
-				// After processing remove from queue
-				unset( $this->update_queue[$id] );
+				// After processing remove from queue.
+				unset( $this->update_queue[ $id ] );
 			}
 		}
 	}
 
 	/**
-	 * Prime the pump
+	 * Prime the pump.
 	 *
 	 * Ensure we have share count data for at least 100 posts.
 	 * Useful when querying based on share count data.
-	 * @link https://gist.github.com/billerickson/0f316f75430f3fd3a87c
 	 *
+	 * @link https://gist.github.com/billerickson/0f316f75430f3fd3a87c
 	 * @since 1.1.0
-	 * @param int $count, how many posts should have sharing data
-	 * @param int $interval, how many should be updated at once
-	 * @param bool $messages, whether to display messages during the update
+	 * @param int $count how many posts should have sharing data.
+	 * @param int $interval how many should be updated at once.
+	 * @param bool $messages whether to display messages during the update.
 	 */
 	public function prime_the_pump( $count = 100, $interval = 20, $messages = false ) {
 
@@ -556,8 +555,8 @@ class EA_Share_Count_Core{
 				array(
 					'key'     => 'ea_share_count',
 					'compare' => 'EXISTS',
-				)
-			)
+				),
+			),
 		) );
 		$current = count( $current->posts );
 
@@ -575,8 +574,8 @@ class EA_Share_Count_Core{
 						'key'     => 'ea_share_count',
 						'value'   => 1,
 						'compare' => 'NOT EXISTS',
-					)
-				)
+					),
+				),
 			) );
 
 			if ( $update->have_posts() ) {
