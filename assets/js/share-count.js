@@ -43,8 +43,8 @@ jQuery( document ).ready(function($){
 		event.preventDefault();
 
 		// Show modal and focus on first field.
-		$('#easc-modal-wrap').fadeIn();
-		$('#easc-modal-recipient').focus();
+		$( '#easc-modal-wrap' ).fadeIn();
+		$( '#easc-modal-recipient' ).focus();
 
 		// Set data needed to send.
 		easc_id    = $( this ).data( 'postid' );
@@ -67,11 +67,11 @@ jQuery( document ).ready(function($){
 		event.preventDefault();
 
 		var empty       = false,
-			$this       = $(this),
-			$recipient  = $('#easc-modal-recipient'),
-			$name       = $('#easc-modal-name'),
-			$email      = $('#easc-modal-email'),
-			$validation = $('#easc-modal-validation'),
+			$this       = $( this ),
+			$recipient  = $( '#easc-modal-recipient' ),
+			$name       = $( '#easc-modal-name' ),
+			$email      = $( '#easc-modal-email' ),
+			$validation = $( '#easc-modal-validation' ),
 			data        = {
 				action:    'easc_email',
 				postid:     easc_id,
@@ -84,7 +84,7 @@ jQuery( document ).ready(function($){
 
 		// Check if any of the required fields are empty.
 		$( $recipient, $name, $email ).each(function() {
-			if ( ! $(this).val() || $(this).val() === '' ) {
+			if ( ! $( this ).val() || $( this ).val() === '' ) {
 				empty = true;
 			}
 		});
