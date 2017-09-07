@@ -5,20 +5,20 @@
 	<arg name="extensions" value="php"/>
 	<rule ref="WordPress">
 		<!-- <exclude name="Generic.WhiteSpace.ScopeIndent.Incorrect"/>
-		<exclude name="Squiz.Commenting.InlineComment.InvalidEndChar"/>
-		<exclude name="Squiz.Commenting.InlineComment.SpacingAfter"/>
-		<exclude name="WordPress.XSS.EscapeOutput.UnsafePrintingFunction"/> -->
+		<exclude name="Squiz.Commenting.InlineComment.InvalidEndChar"/> -->
 		<!-- Our file names don't follow the verbose class WP core format -->
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
 		<!-- I like to be able to indent my PHP how I want -->
 		<exclude name="Generic.WhiteSpace.ScopeIndent.IncorrectExact"/>
 		<!-- I get tired of being yelled at -->
+		<exclude name="WordPress.XSS.EscapeOutput.UnsafePrintingFunction"/>
 		<exclude name="WordPress.XSS.EscapeOutput.OutputNotEscaped"/>
 		<exclude name="WordPress.CSRF.NonceVerification"/>
 		<!-- Disable rules that don't like our alignment methods -->
 		<exclude name="PEAR.Functions.FunctionCallSignature.SpaceBeforeCloseBracket"/>
 		<exclude name="WordPress.Arrays.ArrayDeclarationSpacing.SpaceBeforeArrayCloser"/>
 		<!-- Don't make comment formatting quite as strict -->
+		<exclude name="Squiz.Commenting.InlineComment.SpacingAfter"/>
 		<exclude name="Squiz.Commenting.FileComment.Missing"/>
 		<exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType"/>
 		<exclude name="Squiz.Commenting.FunctionComment.MissingParamComment"/>
