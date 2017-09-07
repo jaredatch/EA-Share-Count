@@ -41,23 +41,41 @@ class EA_Share_Count_Core {
 
 		// Check spam honeypot.
 		if ( ! empty( $_POST['validation'] ) ) {
-			wp_send_json_error( 'Honeypot triggered' );
+			wp_send_json_error( __( 'Honeypot triggered.', 'ea-share-count' ) );
 		}
 
 		// Check required fields.
 		if ( empty( $_POST['recipient'] ) || empty( $_POST['name'] ) || empty( $_POST['email'] ) ) {
-			wp_send_json_error( 'Required field missing' );
+			wp_send_json_error( __( 'Required field missing.', 'ea-share-count' ) );
 		}
 
 		// Check email addresses.
 		if ( ! is_email( $_POST['recipient'] ) || ! is_email( $_POST['email'] ) ) {
-			wp_send_json_error( 'Invalid email' );
+			wp_send_json_error( __( 'Invalid email.', 'ea-share-count' ) );
+		}
+
+		// Check if reCAPTCHA is enabled.
+		$options   = ea_share()->admin->options();
+		$recaptcha = ! empty( $options['recaptcha'] ) && ! empty( $options['recaptcha_site_key'] ) && ! empty( $options['recaptcha_secret_key'] );
+
+		// reCAPTCHA is enabled, so verify it.
+		if ( $recaptcha ) {
+
+			if ( empty( $_POST['recaptcha'] ) ) {
+				wp_send_json_error( __( 'reCAPTCHA is required.', 'ea-share-count' ) );
+			}
+
+			$data  = wp_remote_get( 'https://www.google.com/recaptcha/api/siteverify?secret=' . $options['recaptcha_secret_key'] . '&response=' . $_POST['recaptcha'] );
+			$data  = json_decode( wp_remote_retrieve_body( $data ) );
+			if ( empty( $data->success ) ) {
+				wp_send_json_error( __( 'Incorrect reCAPTCHA, please try again.', 'ea-share-count' ) );
+			}
 		}
 
 		$post_id    = absint( $_POST['postid'] );
-		$recipient  = sanitize_text_field( strip_tags( $_POST['recipient'] ) );
-		$from_email = sanitize_text_field( strip_tags( $_POST['email'] ) );
-		$from_name  = sanitize_text_field( strip_tags( $_POST['name'] ) );
+		$recipient  = sanitize_text_field( $_POST['recipient'] );
+		$from_email = sanitize_text_field( $_POST['email'] );
+		$from_name  = sanitize_text_field( $_POST['name'] );
 		$site_name  = sanitize_text_field( get_bloginfo( 'name' ) );
 		$site_root  = strtolower( $_SERVER['SERVER_NAME'] );
 		if ( substr( $site_root, 0, 4 ) === 'www.' ) {
@@ -66,7 +84,7 @@ class EA_Share_Count_Core {
 
 		$headers = array(
 			'From'     => "$site_name <noreply@$site_root>",
-			'Reply-To' => "$from_name <$from_email>"
+			'Reply-To' => "$from_name <$from_email>",
 		);
 		$subject = "Your friend $from_name has shared an article with you";
 		$body    = html_entity_decode( get_the_title( $post_id ), ENT_QUOTES ) . "\r\n";

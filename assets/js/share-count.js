@@ -1,4 +1,4 @@
-/* global ajaxurl, easc */
+/* global ajaxurl, easc, grecaptcha */
 
 'use strict';
 
@@ -49,6 +49,13 @@ jQuery( document ).ready(function($){
 		// Set data needed to send.
 		easc_id    = $( this ).data( 'postid' );
 		easc_nonce = $( this ).data( 'nonce' );
+
+		// Maybe load reCAPTCHA.
+		if ( easc.recaptchaSitekey ) {
+			grecaptcha.render( 'easc-modal-recaptcha', {
+				sitekey:  easc.recaptchaSitekey
+			} );
+		}
 	});
 
 	// Close email modal.
@@ -72,6 +79,7 @@ jQuery( document ).ready(function($){
 			$name       = $( '#easc-modal-name' ),
 			$email      = $( '#easc-modal-email' ),
 			$validation = $( '#easc-modal-validation' ),
+			$recaptcha  = $( '#g-recaptcha-response' ),
 			data        = {
 				action:    'easc_email',
 				postid:     easc_id,
@@ -79,6 +87,7 @@ jQuery( document ).ready(function($){
 				name:       $name.val(),
 				email:      $email.val(),
 				validation: $validation.val(),
+				recaptcha:  $recaptcha.val(),
 				nonce:      easc_nonce
 			};
 
@@ -103,21 +112,21 @@ jQuery( document ).ready(function($){
 
 			if ( res.success ){
 				console.log( 'Article successfully shared.' );
+
+				// Clear values for future shares.
+				$( $recipient, $name, $email ).val( '' );
+
+				alert( res.data );
+
+				$( '#easc-modal-wrap').fadeOut();
+
+			} else {
+
+				alert( res.data );
 			}
-
-			// Hide modal.
-			$( '#easc-modal-sent' ).fadeIn();
-
-			// Clear values for future shares.
-			$( $recipient, $name, $email ).val( '' );
 
 			// Enable submit button.
 			$this.prop( 'disabled', false );
-
-			// Temporarily show success message.
-			setTimeout( function(){
-				$( '#easc-modal-wrap, #easc-modal-sent' ).fadeOut();
-			}, 2000 );
 
 		}).fail( function( xhr ) {
 			console.log( xhr.responseText );

@@ -134,8 +134,8 @@ class EA_Share_Count_Front {
 	public function header_assets() {
 
 		// Register assets.
-		wp_register_style( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/css/share-count.css', array(), EA_SHARE_COUNT_VERSION );
-		wp_register_script( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/js/share-count.js', array( 'jquery' ), EA_SHARE_COUNT_VERSION, true );
+		wp_register_style( ' ea-share-count', EA_SHARE_COUNT_URL . 'assets/css/share-count.css', array(),           EA_SHARE_COUNT_VERSION       );
+		wp_register_script( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/js/share-count.js',   array( 'jquery' ), EA_SHARE_COUNT_VERSION, true );
 
 		$options = ea_share()->admin->options();
 
@@ -143,14 +143,6 @@ class EA_Share_Count_Front {
 
 			$this->share_link = true;
 			$this->load_assets();
-		}
-
-		// Email sharing js if enabled.
-		if ( in_array( 'email', $options['included_services'], true ) || apply_filters( 'ea_share_count_email_modal', false ) ) {
-			$args = array(
-				'url' => admin_url( 'admin-ajax.php' ),
-			);
-			wp_localize_script( 'ea-share-count', 'easc', $args );
 		}
 	}
 
@@ -166,6 +158,9 @@ class EA_Share_Count_Front {
 			return;
 		}
 
+		$options   = ea_share()->admin->options();
+		$recaptcha = ! empty( $options['recaptcha'] ) && ! empty( $options['recaptcha_site_key'] ) && ! empty( $options['recaptcha_secret_key'] );
+
 		// Load CSS.
 		if ( apply_filters( 'ea_share_count_load_css', true ) ) {
 			wp_enqueue_style( 'ea-share-count' );
@@ -174,7 +169,28 @@ class EA_Share_Count_Front {
 		// Load JS.
 		if ( apply_filters( 'ea_share_count_load_js', true ) ) {
 			wp_enqueue_script( 'ea-share-count' );
+
+			if ( $recaptcha ) {
+				wp_enqueue_script(
+					'recaptcha',
+					'https://www.google.com/recaptcha/api.js',
+					array(),
+					null,
+					true
+				);
+			}
 		}
+
+		// Localize.
+		$args = array(
+			'url' => admin_url( 'admin-ajax.php' ),
+		);
+
+		// Localize recaptcha site key if enabled.
+		if ( $recaptcha ) {
+			$args['recaptchaSitekey'] = sanitize_text_field( $options['recaptcha_site_key'] );
+		}
+		wp_localize_script( 'ea-share-count', 'easc', $args );
 	}
 
 	/**
@@ -196,18 +212,21 @@ class EA_Share_Count_Front {
 		// filter can be used to enable the modal in use cases where the share
 		// button is manually being called.
 		$options = ea_share()->admin->options();
-		if ( !in_array( 'email', $options['included_services'] ) && ! apply_filters( 'ea_share_count_email_modal', false ) ) {
+		if ( ! in_array( 'email', $options['included_services'], true ) && ! apply_filters( 'ea_share_count_email_modal', false ) ) {
 			return;
 		}
 
+		// Check for reCAPTCHA settings.
+		$recaptcha = ! empty( $options['recaptcha'] ) && ! empty( $options['recaptcha_site_key'] ) && ! empty( $options['recaptcha_secret_key'] );
+
 		// Labels, filterable of course.
 		$labels = apply_filters( 'ea_share_count_email_labels', array(
-			'title'      => 'Share this Article',
-			'recipient'  => 'Friend\'s Email Address',
-			'name'       => 'Your Name',
-			'email'      => 'Your Email Address',
-			'validation' => 'Comments',
-			'submit'     => '<i class="easc-icon-envelope"></i> Send Email',
+			'title'      => __( 'Share this Article', 'ea-share-count' ),
+			'recipient'  => __( 'Friend\'s Email Address', 'ea-share-count' ),
+			'name'       => __( 'Your Name', 'ea-share-count' ),
+			'email'      => __( 'Your Email Address', 'ea-share-count' ),
+			'validation' => __( 'Comments', 'ea-share-count' ),
+			'submit'     => '<i class="easc-icon-envelope"></i> ' . __( 'Send Email', 'ea-share-count' ),
 			'close'      => '<i class="easc-icon-close close-icon"></i>',
 		) );
 		?>
@@ -226,6 +245,11 @@ class EA_Share_Count_Front {
 					<label for="easc-modal-email"><?php echo $labels['email']; ?></label>
 					<input type="email" id="easc-modal-email">
 				</p>
+				<?php
+				if ( $recaptcha ) {
+					echo '<div id="easc-modal-recaptcha"></div>';
+				}
+				?>
 				<p class="easc-modal-validation">
 					<label for="easc-modal-validation"><?php echo $labels['validation']; ?></label>
 					<input type="text" id="easc-modal-validation" autocomplete="off">
@@ -234,7 +258,7 @@ class EA_Share_Count_Front {
 					<button id="easc-modal-submit"><?php echo $labels['submit']; ?></button>
 				</p>
 				<a href="#" id="easc-modal-close"><?php echo $labels['close']; ?></a>
-				<div id="easc-modal-sent">Email sent!</div>
+				<div id="easc-modal-sent"><?php esc_html_e( 'Email sent!', 'ea-share-count' ); ?></div>
 			</div>
 		</div>
 		<?php
