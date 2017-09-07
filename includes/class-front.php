@@ -435,7 +435,7 @@ class EA_Share_Count_Front {
 					$link['attr_title'] = 'Share on Facebook';
 					break;
 				case 'facebook_likes':
-					$link['link']       = 'http://www.facebook.com/plugins/like.php?href=' . $link['url'];
+					$link['link']       = 'https://www.facebook.com/plugins/like.php?href=' . $link['url'];
 					$link['label']      = 'Like';
 					$link['icon']       = 'easc-icon-facebook';
 					$link['target']     = '_blank';
@@ -456,28 +456,28 @@ class EA_Share_Count_Front {
 					$link['attr_title'] = 'Share on Twitter';
 					break;
 				case 'pinterest':
-					$link['link']       = 'http://pinterest.com/pin/create/button/?url=' . $link['url'] . '&media=' . $link['img'] . '&description=' . $link['title'];
+					$link['link']       = 'https://pinterest.com/pin/create/button/?url=' . $link['url'] . '&media=' . $link['img'] . '&description=' . $link['title'];
 					$link['label']      = 'Pin';
 					$link['icon']       = 'easc-icon-pinterest-p';
 					$link['target']     = '_blank';
 					$link['attr_title'] = 'Share on Pinterest';
 					break;
 				case 'linkedin':
-					$link['link']       = 'http://www.linkedin.com/shareArticle?mini=true&url=' . $link['url'];
+					$link['link']       = 'https://www.linkedin.com/shareArticle?mini=true&url=' . $link['url'];
 					$link['label']      = 'LinkedIn';
 					$link['icon']       = 'easc-icon-linkedin';
 					$link['target']     = '_blank';
 					$link['attr_title'] = 'Share on LinkedIn';
 					break;
 				case 'google':
-					$link['link']       = 'http://plus.google.com/share?url=' . $link['url'];
+					$link['link']       = 'https://plus.google.com/share?url=' . $link['url'];
 					$link['label']      = 'Google+';
 					$link['icon']       = 'easc-icon-google-plus';
 					$link['target']     = '_blank';
 					$link['attr_title'] = 'Share on Google+';
 					break;
 				case 'stumbleupon':
-					$link['link']       = 'http://www.stumbleupon.com/submit?url=' . $link['url'] . '&title=' . $link['title'];
+					$link['link']       = 'https://www.stumbleupon.com/submit?url=' . $link['url'] . '&title=' . $link['title'];
 					$link['label']      = 'StumbleUpon';
 					$link['icon']       = 'easc-icon-stumbleupon';
 					$link['target']     = '_blank';
