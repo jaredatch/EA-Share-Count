@@ -527,10 +527,6 @@ class EA_Share_Count_Admin {
 				'label' => 'LinkedIn',
 			),
 			array(
-				'key'   => 'google',
-				'label' => 'Google+',
-			),
-			array(
 				'key'   => 'stumbleupon',
 				'label' => 'StumbleUpon',
 			),
@@ -613,6 +609,12 @@ class EA_Share_Count_Admin {
 	public function metabox_add() {
 
 		$options = $this->options();
+
+		// If we are not collecting share counts, disable the metabox.
+		if ( ! empty( $options['count_source'] ) && 'none' === $options['count_source'] ) {
+			return;
+		}
+
 		if ( ! empty( $options['post_type'] ) ) {
 			$post_types = (array) $options['post_type'];
 			foreach ( $post_types as $post_type ) {
