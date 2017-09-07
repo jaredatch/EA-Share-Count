@@ -348,16 +348,15 @@ class EA_Share_Count_Core {
 	 * @param string $url
 	 * @return object $share_count
 	 */
-	public function query_api( $url = false ) {
+	public function query_api( $url = false, $id = '' ) {
 
-		$options     = ea_share()->admin->options();
-		$services    = ea_share()->admin->settings_value( 'query_services' );
-		$global_args = apply_filters( 'ea_share_count_api_params', array( 'url' => $url ) );
-
-		if ( empty( $services ) || empty( $url ) ) {
+		if ( empty( $url ) ) {
 			return;
 		}
 
+		$source = ea_share()->admin->settings_value( 'count_source' );
+
+		// Default share counts, filterable.
 		$share_count = array(
 			'Facebook'      => array(
 				'share_count'   => 0,
@@ -371,6 +370,111 @@ class EA_Share_Count_Core {
 			'GooglePlusOne' => 0,
 			'StumbleUpon'   => 0,
 		);
+		$share_count = apply_filters( 'ea_share_count_default_counts', $share_count, $url, $id );
+
+		if ( 'sharedcount' === $source ) {
+			$share_count = $this->query_sharedcount_api( $url, $share_count );
+		} elseif ( 'native' === $source ) {
+			$share_count = $this->query_native_api( $url, $share_count );
+		}
+
+		// Modify API query results, or query additional APIs.
+		$share_count = apply_filters( 'ea_share_count_query_api', $share_count, $global_args, $url, $id );
+
+		// Sanitize.
+		array_walk_recursive( $share_count, 'absint' );
+
+		// Final counts.
+		return wp_json_encode( $share_count );
+	}
+
+	/**
+	 * Retrieve counts from SharedCounts.com.
+	 *
+	 * @since 2.0.0
+	 * @param string $url
+	 * @param array $share_count
+	 * @return array
+	 */
+	public function query_sharedcount_api( $url, $share_count ) {
+
+		$api_key = ea_share()->admin->settings_value( 'sharedcount_key' );
+
+		if ( empty( $api_key ) ) {
+			return $share_count;
+		}
+
+		// Fetch counts from SharedCount API.
+		$args         = apply_filters( 'ea_share_count_api_params', array( 'url' => $url ) );
+		$api_query    = add_query_arg( array( 'url' => $args['url'], 'apikey' => trim( $api_key ) ), 'https://api.sharedcount.com/v1.0/' );
+		$api_response = wp_remote_get( $api_query, array( 'sslverify' => false, 'user-agent' => 'LC ShareCounts' ) );
+
+		if ( ! is_wp_error( $api_response ) && 200 == wp_remote_retrieve_response_code( $api_response ) ) {
+
+			$results = json_decode( wp_remote_retrieve_body( $api_response ), true );
+
+			// Update counts.
+			$share_count['Facebook']['comment_count'] = isset( $results['Facebook']['comment_count'] ) ? $results['Facebook']['comment_count'] : $share_count['Facebook']['comment_count'];
+			$share_count['Facebook']['share_count']   = isset( $results['Facebook']['share_count'] ) ? $results['Facebook']['share_count'] : $share_count['Facebook']['share_count'];
+			$share_count['Facebook']['total_count']   = isset( $results['Facebook']['total_count'] ) ? $results['Facebook']['total_count'] : $share_count['Facebook']['total_count'];
+			$share_count['Pinterest']                 = isset( $results['Pinterest'] ) ? $results['Pinterest'] : $share_count['Pinterest'];
+			$share_count['StumbleUpon']               = isset( $results['StumbleUpon'] ) ? $results['StumbleUpon'] : $share_count['StumbleUpon'];
+			$share_count['LinkedIn']                  = isset( $results['LinkedIn'] ) ? $results['LinkedIn'] : $share_count['LinkedIn'];
+			$share_count['GooglePlusOne']             = isset( $results['GooglePlusOne'] ) ? $results['GooglePlusOne'] : $share_count['GooglePlusOne'];
+		}
+
+		// Check if we also need to fetch Twitter counts.
+		$twitter = ea_share()->admin->settings_value( 'twitter_counts' );
+
+		// Fetch Twitter counts if needed.
+		if ( '1' === $twitter ) {
+			$twitter_count = $this->query_newsharecounts_api( $args['url'] );
+			$share_count['Twitter'] = false !== $twitter_count ? $twitter_count : $share_count['Twitter'];
+		}
+
+		return $share_count;
+	}
+
+	/**
+	 * Retrieve counts from SharedCounts.com.
+	 *
+	 * @since 2.0.0
+	 * @param string $url
+	 * @return int|false
+	 */
+	public function query_newsharecounts_api( $url ) {
+
+		$api_query    = add_query_arg( array( 'url' => $url ), 'https://public.newsharecounts.com/count.json' );
+		$api_response = wp_remote_get( $api_query, array( 'sslverify' => false, 'user-agent' => 'EA Share Counts' ) );
+
+		if ( ! is_wp_error( $results ) && 200 == wp_remote_retrieve_response_code( $results ) ) {
+
+			$body = json_decode( wp_remote_retrieve_body( $results ) );
+
+			if ( isset( $body->count ) ) {
+				return $body->count;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Retrieve counts from SharedCounts.com.
+	 *
+	 * @since 2.0.0
+	 * @param string $url
+	 * @param array $share_count
+	 * @return int|false
+	 */
+	public function query_native_api( $url, $share_count ) {
+
+		$services    = ea_share()->admin->settings_value( 'query_services' );
+		$global_args = apply_filters( 'ea_share_count_api_params', array( 'url' => $url ) );
+
+		if ( empty( $services ) ) {
+			return $share_count;
+		}
 
 		// Provide a filter so certain service queries can be bypassed. Helpful
 		// if you want to run your own request against other APIs.
@@ -416,7 +520,7 @@ class EA_Share_Count_Core {
 
 					case 'pinterest':
 						$query_args = array( 'callback' => 'receiveCount', 'url' => $global_args['url'] );
-						$query      = add_query_arg( $query_args, 'http://api.pinterest.com/v1/urls/count.json' );
+						$query      = add_query_arg( $query_args, 'https://api.pinterest.com/v1/urls/count.json' );
 						$results    = wp_remote_get( $query );
 
 						if ( ! is_wp_error( $results ) && 200 == wp_remote_retrieve_response_code( $results ) ) {
@@ -432,7 +536,7 @@ class EA_Share_Count_Core {
 
 					case 'linkedin':
 						$query_args = array( 'url' => $global_args['url'], 'format'   => 'json' );
-						$query      = add_query_arg( $query_args, 'http://www.linkedin.com/countserv/count/share' );
+						$query      = add_query_arg( $query_args, 'https://www.linkedin.com/countserv/count/share' );
 						$results    = wp_remote_get( $query );
 
 						if ( ! is_wp_error( $results ) && 200 == wp_remote_retrieve_response_code( $results ) ) {
@@ -463,7 +567,7 @@ class EA_Share_Count_Core {
 
 					case 'stumbleupon':
 						$query_args = array( 'url' => $global_args['url'] );
-						$query      = add_query_arg( $query_args, 'http://www.stumbleupon.com/services/1.01/badge.getinfo' );
+						$query      = add_query_arg( $query_args, 'https://www.stumbleupon.com/services/1.01/badge.getinfo' );
 						$results    = wp_remote_get( $query );
 
 						if ( ! is_wp_error( $results ) && 200 == wp_remote_retrieve_response_code( $results ) ) {
@@ -477,30 +581,14 @@ class EA_Share_Count_Core {
 						break;
 
 					case 'twitter':
-						$query_args = array( 'url' => $global_args['url'] );
-						$query      = add_query_arg( $query_args, 'http://public.newsharecounts.com/count.json' );
-						$results    = wp_remote_get( $query, array( 'sslverify' => false, 'user-agent' => 'EA Share Counts' ) );
-						if ( ! is_wp_error( $results ) && 200 == wp_remote_retrieve_response_code( $results ) ) {
-
-							$body = json_decode( wp_remote_retrieve_body( $results ) );
-
-							if ( isset( $body->count ) ) {
-								$share_count['Twitter'] = $body->count;
-							}
-						}
+						$twitter_count          = $this->query_newsharecounts_api( $global_args['url'] );
+						$share_count['Twitter'] = false !== $twitter_count ? $twitter_count : $share_count['Twitter'];
 						break;
 				}
 			}
 		}
 
-		// Modify API query results, or query additional APIs.
-		$share_count = apply_filters( 'ea_share_count_query_api', $share_count, $global_args );
-
-		// Sanitize.
-		array_walk_recursive( $share_count, 'absint' );
-
-		// Final counts.
-		return wp_json_encode( $share_count );
+		return $share_count;
 	}
 
 	/**
@@ -508,7 +596,7 @@ class EA_Share_Count_Core {
 	 *
 	 * @since 1.0.0
 	 */
-	function update_share_counts() {
+	public function update_share_counts() {
 
 		$queue = apply_filters( 'ea_share_count_update_queue', $this->update_queue );
 
@@ -516,7 +604,7 @@ class EA_Share_Count_Core {
 
 			foreach ( $queue as $id => $post_url ) {
 
-				$share_count = $this->query_api( $post_url );
+				$share_count = $this->query_api( $post_url, $id );
 
 				if ( $share_count && ( 'site' === $id || 0 === strpos( $id, 'http' ) ) ) {
 
