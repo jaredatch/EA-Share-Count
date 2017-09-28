@@ -54,7 +54,7 @@ if ( version_compare( PHP_VERSION, '5.6', '<' ) ) {
 	 */
 	add_action( 'admin_notices', function() {
 
-		echo '<div class="notice notice-warning"><p>' . __( 'Share Count Plugin requires PHP 5.6+. Contact your web host to update.', 'ea-share-count' ) . '</p></div>';
+		echo '<div class="notice notice-warning"><p>' . __( 'Share Count Plugin requires PHP 5.6+. Contact your web host to update.', 'share-count-plugin' ) . '</p></div>';
 
 		if ( isset( $_GET['activate'] ) ) {
 			unset( $_GET['activate'] );
@@ -161,7 +161,7 @@ if ( version_compare( PHP_VERSION, '5.6', '<' ) ) {
 		 */
 		public function load_textdomain() {
 
-			 load_plugin_textdomain( 'ea-share-count', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+			 load_plugin_textdomain( 'share-count-plugin', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		}
 
 		/**

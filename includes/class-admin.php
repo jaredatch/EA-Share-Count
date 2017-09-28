@@ -70,7 +70,7 @@ class EA_Share_Count_Admin {
 	 */
 	public function settings_add() {
 
-		add_options_page( __( 'EA Share Count Settings', 'ea-share-count' ), __( 'Share Count', 'ea-share-count' ), 'manage_options', 'ea_share_count_options', array( $this, 'settings_page' ) );
+		add_options_page( __( 'EA Share Count Settings', 'share-count-plugin' ), __( 'Share Count', 'share-count-plugin' ), 'manage_options', 'ea_share_count_options', array( $this, 'settings_page' ) );
 	}
 
 	/**
@@ -83,9 +83,9 @@ class EA_Share_Count_Admin {
 		?>
 		<div class="wrap">
 
-			<h1><?php esc_html_e( 'EA Share Count Settings', 'ea-share-count' ); ?></h1>
+			<h1><?php esc_html_e( 'EA Share Count Settings', 'share-count-plugin' ); ?></h1>
 
-			<p><?php esc_html_e( 'Welcome to EA Share Count. Our goal is to display share count badges on your site, with just the right amount of options, in a manner that keeps your site fast.', 'ea-share-count' ); ?></p>
+			<p><?php esc_html_e( 'Welcome to EA Share Count. Our goal is to display share count badges on your site, with just the right amount of options, in a manner that keeps your site fast.', 'share-count-plugin' ); ?></p>
 
 			<form method="post" action="<?php echo admin_url( 'options.php' ); ?>" id="easc-settings-form">
 
@@ -96,20 +96,20 @@ class EA_Share_Count_Admin {
 
 				<!-- Count Settings, as in the numbers -->
 
-				<h2 class="title"><?php esc_html_e( 'Share Counts', 'ea-share-count' ); ?></h2>
+				<h2 class="title"><?php esc_html_e( 'Share Counts', 'share-count-plugin' ); ?></h2>
 
 				<table class="form-table">
 
 					<!-- Count Source -->
 					<tr valign="top" id="easc-setting-row-count_source">
-						<th scope="row"><label for="easc-setting-count_source"><?php esc_html_e( 'Count Source', 'ea-share-count' ); ?></label></th>
+						<th scope="row"><label for="easc-setting-count_source"><?php esc_html_e( 'Count Source', 'share-count-plugin' ); ?></label></th>
 						<td>
 							<select name="ea_share_count_options[count_source]" id="easc-setting-count_source">
 								<?php
 								$opts = array(
-									'none'        => __( 'None', 'ea-share-count' ),
-									'sharedcount' => __( 'SharedCount.com', 'ea-share-count' ),
-									'native'      => __( 'Native', 'ea-share-count' ),
+									'none'        => __( 'None', 'share-count-plugin' ),
+									'sharedcount' => __( 'SharedCount.com', 'share-count-plugin' ),
+									'native'      => __( 'Native', 'share-count-plugin' ),
 								);
 								foreach ( $opts as $key => $label ) {
 									printf(
@@ -122,45 +122,45 @@ class EA_Share_Count_Admin {
 								?>
 							</select>
 							<p class="description" style="margin-bottom: 10px;">
-								<?php esc_html_e( 'This determines the source of the share counts.', 'ea-share-count' ); ?>
+								<?php esc_html_e( 'This determines the source of the share counts.', 'share-count-plugin' ); ?>
 							</p>
 							<p class="description" style="margin-bottom: 10px;">
-								<?php _e( '<strong>None</strong>: no counts are displayed and your website will not connect to an outside API, useful if you want simple badges without the counts or associated overhead.', 'ea-share-count' ); ?>
+								<?php _e( '<strong>None</strong>: no counts are displayed and your website will not connect to an outside API, useful if you want simple badges without the counts or associated overhead.', 'share-count-plugin' ); ?>
 							</p>
 							<p class="description" style="margin-bottom: 10px;">
-								<?php _e( '<strong>SharedCount.com</strong>: counts are retrieved from the SharedCount.com API. This is our recommended option for those wanting share counts. This method allows fetching all counts for with only 2 API calls, so it is best for performance.', 'ea-share-count' ); ?>
+								<?php _e( '<strong>SharedCount.com</strong>: counts are retrieved from the SharedCount.com API. This is our recommended option for those wanting share counts. This method allows fetching all counts for with only 2 API calls, so it is best for performance.', 'share-count-plugin' ); ?>
 							</p>
 							<p class="description">
-								<?php _e( '<strong>Native</strong>: counts are retrieved from their native service. Eg Facebook API for Facebook counts, Pinterest API for Pin counts, etc. This method is more "expensive" since depending on the counts desired uses more API calls (6 API calls if all services are enabled).', 'ea-share-count' ); ?>
+								<?php _e( '<strong>Native</strong>: counts are retrieved from their native service. Eg Facebook API for Facebook counts, Pinterest API for Pin counts, etc. This method is more "expensive" since depending on the counts desired uses more API calls (6 API calls if all services are enabled).', 'share-count-plugin' ); ?>
 							</p>
 						</td>
 					</tr>
 
 					<!-- ShareCount API Key (ShareCount only) -->
 					<tr valign="top" id="easc-setting-row-sharedcount_key">
-						<th scope="row"><label for="easc-setting-sharedcount_key"><?php esc_html_e( 'SharedCount API Key', 'ea-share-count' ); ?></label></th>
+						<th scope="row"><label for="easc-setting-sharedcount_key"><?php esc_html_e( 'SharedCount API Key', 'share-count-plugin' ); ?></label></th>
 						<td>
 							<input type="text" name="ea_share_count_options[sharedcount_key]" value="<?php echo esc_attr( $this->settings_value( 'sharedcount_key' ) ); ?>" class="regular-text" />
 							<p class="description">
-								<?php _e( 'Sign up on SharedCount.com for your (free) API key. SharedCount provides 1,000 API requests daily, or 10,000 request daily if you connect to Facebook. With our caching, this works with sites that receive millions of page views a month and is adaquate for most sites.', 'ea-share-count' ); ?>
+								<?php _e( 'Sign up on SharedCount.com for your (free) API key. SharedCount provides 1,000 API requests daily, or 10,000 request daily if you connect to Facebook. With our caching, this works with sites that receive millions of page views a month and is adaquate for most sites.', 'share-count-plugin' ); ?>
 							</p>
 						</td>
 					</tr>
 
 					<!-- Twitter Counts (SharedCount only) -->
 					<tr valign="top" id="easc-setting-row-twitter_counts">
-						<th scope="row"><label for="easc-setting-twitter_counts"><?php esc_html_e( 'Include Twitter Counts', 'ea-share-count' ); ?></label></th>
+						<th scope="row"><label for="easc-setting-twitter_counts"><?php esc_html_e( 'Include Twitter Counts', 'share-count-plugin' ); ?></label></th>
 						<td>
 							<input type="checkbox" name="ea_share_count_options[twitter_counts]" value="1" id="easc-setting-twitter_counts" <?php checked( $this->settings_value( 'twitter_counts' ), 1 ); ?>>
 							<p class="description">
-								<?php esc_html_e( 'SharedCount.com does not provide Twitter counts. Checking this option will seperately pull Twitter counts from NewShareCounts.com, which is the service that tracks Twitter counts.', 'ea-share-count' ); ?><br><a href="http://newsharecounts.com/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Sign up for NewShareCounts.com (free).', 'ea-share-count' ); ?></a>
+								<?php esc_html_e( 'SharedCount.com does not provide Twitter counts. Checking this option will seperately pull Twitter counts from NewShareCounts.com, which is the service that tracks Twitter counts.', 'share-count-plugin' ); ?><br><a href="http://newsharecounts.com/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Sign up for NewShareCounts.com (free).', 'share-count-plugin' ); ?></a>
 							</p>
 						</td>
 					</tr>
 
 					<!-- Retrieve Share Counts From (Native only) -->
 					<tr valign="top" id="easc-setting-row-service">
-						<th scope="row"><?php esc_html_e( 'Retrieve Share Counts From', 'ea-share-count' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Retrieve Share Counts From', 'share-count-plugin' ); ?></th>
 						<td>
 							<fieldset>
 							<?php
@@ -179,41 +179,41 @@ class EA_Share_Count_Admin {
 							?>
 							</fieldset>
 							<p class="description">
-								<?php esc_html_e( 'Each service requires a separate API request, so using many services could cause performance issues. Alternately, consider using SharedCounts for the count source.', 'ea-share-count' ); ?>
-								<br><br><?php esc_html_e( 'Twitter does provide counts; Twitter share counts will pull from NewShareCounts.com, which is the service that tracks Twitter counts.', 'ea-share-count' ); ?><br><a href="http://newsharecounts.com/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Sign up for NewShareCounts.com (free).', 'ea-share-count' ); ?></a>
+								<?php esc_html_e( 'Each service requires a separate API request, so using many services could cause performance issues. Alternately, consider using SharedCounts for the count source.', 'share-count-plugin' ); ?>
+								<br><br><?php esc_html_e( 'Twitter does provide counts; Twitter share counts will pull from NewShareCounts.com, which is the service that tracks Twitter counts.', 'share-count-plugin' ); ?><br><a href="http://newsharecounts.com/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Sign up for NewShareCounts.com (free).', 'share-count-plugin' ); ?></a>
 							</p>
 						</td>
 					</tr>
 
 					<!-- Facebook Access Token (Native only) -->
 					<tr valign="top" id="easc-setting-row-fb_access_token">
-						<th scope="row"><label for="easc-setting-fb_access_token"><?php esc_html_e( 'Facebook Access Token', 'ea-share-count' ); ?></label></th>
+						<th scope="row"><label for="easc-setting-fb_access_token"><?php esc_html_e( 'Facebook Access Token', 'share-count-plugin' ); ?></label></th>
 						<td>
 							<input type="text" name="ea_share_count_options[fb_access_token]" value="<?php echo esc_attr( $this->settings_value( 'fb_access_token' ) ); ?>" id="easc-setting-fb_access_token" class="regular-text" />
 							<p class="description">
-								<?php esc_html_e( 'If you have trouble receiving Facebook counts, you may need to setup an access token.', 'ea-share-count' ); ?><br><a href="https://smashballoon.com/custom-facebook-feed/access-token/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Follow these instructions.', 'ea-share-count' ); ?></a>
+								<?php esc_html_e( 'If you have trouble receiving Facebook counts, you may need to setup an access token.', 'share-count-plugin' ); ?><br><a href="https://smashballoon.com/custom-facebook-feed/access-token/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Follow these instructions.', 'share-count-plugin' ); ?></a>
 							</p>
 						</td>
 					</tr>
 
 					<!-- Count Total Only (SharedCount / Native only) -->
 					<tr valign="top" id="easc-setting-row-total_only">
-						<th scope="row"><label for="easc-setting-total_only"><?php esc_html_e( 'Count Total Only', 'ea-share-count' ); ?></label></th>
+						<th scope="row"><label for="easc-setting-total_only"><?php esc_html_e( 'Count Total Only', 'share-count-plugin' ); ?></label></th>
 						<td>
 							<input type="checkbox" name="ea_share_count_options[total_only]" value="1" id="easc-setting-total_only" <?php checked( $this->settings_value( 'total_only' ), 1 ); ?>>
 							<p class="description">
-								<?php esc_html_e( 'Check this if you would like to only display the share count total. This is useful if you would like to display the total counts (via Total Counts button) but not the individual counts for each service.', 'ea-share-count' ); ?>
+								<?php esc_html_e( 'Check this if you would like to only display the share count total. This is useful if you would like to display the total counts (via Total Counts button) but not the individual counts for each service.', 'share-count-plugin' ); ?>
 							</p>
 						</td>
 					</tr>
 
 					<!-- Empty Counts (SharedCount / Native only) -->
 					<tr valign="top" id="easc-setting-row-hide_empty">
-						<th scope="row"><label for="easc-setting-hide_empty"><?php esc_html_e( 'Hide Empty Counts', 'ea-share-count' ); ?></label></th>
+						<th scope="row"><label for="easc-setting-hide_empty"><?php esc_html_e( 'Hide Empty Counts', 'share-count-plugin' ); ?></label></th>
 						<td>
 							<input type="checkbox" name="ea_share_count_options[hide_empty]" value="1" id="easc-setting-hide_empty" <?php checked( $this->settings_value( 'hide_empty' ), 1 ); ?>>
 							<p class="description">
-								<?php esc_html_e( 'Optionally, empty counts (0) can be hidden.', 'ea-share-count' ); ?>
+								<?php esc_html_e( 'Optionally, empty counts (0) can be hidden.', 'share-count-plugin' ); ?>
 							</p>
 						</td>
 					</tr>
@@ -221,11 +221,11 @@ class EA_Share_Count_Admin {
 					<!-- Preserve non-HTTPS counts -->
 					<?php if ( is_ssl() ) : ?>
 					<tr valign="top" id="easc-setting-row-preserve_http">
-						<th scope="row"><label for="easc-setting-preserve_http"><?php esc_html_e( 'Preserve HTTP Counts', 'ea-share-count' ); ?></label></th>
+						<th scope="row"><label for="easc-setting-preserve_http"><?php esc_html_e( 'Preserve HTTP Counts', 'share-count-plugin' ); ?></label></th>
 						<td>
 							<input type="checkbox" name="ea_share_count_options[preserve_http]" value="1" id="easc-setting-preserve_http" <?php checked( $this->settings_value( 'hide_empty' ), 1 ); ?>>
 							<p class="description">
-								<?php esc_html_e( 'Check this if you would also like to include non-SSL (http://) share counts. This is useful if the site was originally used http:// but has since moved to https://. Enabling this option will double the API calls. ', 'ea-share-count' ); ?>
+								<?php esc_html_e( 'Check this if you would also like to include non-SSL (http://) share counts. This is useful if the site was originally used http:// but has since moved to https://. Enabling this option will double the API calls. ', 'share-count-plugin' ); ?>
 							</p>
 						</td>
 					</tr>
@@ -237,13 +237,13 @@ class EA_Share_Count_Admin {
 
 				<!-- Display settings -->
 
-				<h2 class="title"><?php esc_html_e( 'Display', 'ea-share-count' ); ?></h2>
+				<h2 class="title"><?php esc_html_e( 'Display', 'share-count-plugin' ); ?></h2>
 
 				<table class="form-table">
 
 					<!-- Buttons Display -->
 					<tr valign="top" id="easc-setting-row-included_services">
-						<th scope="row"><?php esc_html_e( 'Share Buttons to Display', 'ea-share-count' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Share Buttons to Display', 'share-count-plugin' ); ?></th>
 						<td>
 							<select name="ea_share_count_options[included_services][]" id="easc-setting-included_services" class="share-count-services" multiple="multiple" style="min-width:350px;">
 								<?php
@@ -289,46 +289,46 @@ class EA_Share_Count_Admin {
 
 					<!-- Enable Email reCAPTCHA (if email button is configured) -->
 					<tr valign="top" id="easc-setting-row-recaptcha">
-						<th scope="row"><label for="easc-setting-recaptcha"><?php esc_html_e( 'Enable Email reCAPTCHA', 'ea-share-count' ); ?></label></th>
+						<th scope="row"><label for="easc-setting-recaptcha"><?php esc_html_e( 'Enable Email reCAPTCHA', 'share-count-plugin' ); ?></label></th>
 						<td>
 							<input type="checkbox" name="ea_share_count_options[recaptcha]" value="1" id="easc-setting-recaptcha" <?php checked( $this->settings_value( 'recaptcha' ), 1 ); ?>>
 							<p class="description">
-								<?php esc_html_e( 'Highly recommended, Google\'s v2 reCAPTCHA will protect the email sharing feature from abuse.', 'ea-share-count' ); ?>
+								<?php esc_html_e( 'Highly recommended, Google\'s v2 reCAPTCHA will protect the email sharing feature from abuse.', 'share-count-plugin' ); ?>
 							</p>
 						</td>
 					</tr>
 
 					<!-- Google reCAPTCHA Site key (if recaptcha is enabled) -->
 					<tr valign="top" id="easc-setting-row-recaptcha_site_key">
-						<th scope="row"><label for="easc-setting-recaptcha_site_key"><?php esc_html_e( 'reCAPTCHA Site Key', 'ea-share-count' ); ?></label></th>
+						<th scope="row"><label for="easc-setting-recaptcha_site_key"><?php esc_html_e( 'reCAPTCHA Site Key', 'share-count-plugin' ); ?></label></th>
 						<td>
 							<input type="text" name="ea_share_count_options[recaptcha_site_key]" value="<?php echo esc_attr( $this->settings_value( 'recaptcha_site_key' ) ); ?>" id="easc-setting-recaptcha_site_key" class="regular-text" />
 							<p class="description">
-								<?php esc_html_e( 'After signing up for Google\'s v2 reCAPTCHA (free), provide your site key here.', 'ea-share-count' ); ?><br><a href="https://www.google.com/recaptcha/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Learn more.', 'ea-share-count' ); ?></a>
+								<?php esc_html_e( 'After signing up for Google\'s v2 reCAPTCHA (free), provide your site key here.', 'share-count-plugin' ); ?><br><a href="https://www.google.com/recaptcha/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Learn more.', 'share-count-plugin' ); ?></a>
 							</p>
 						</td>
 					</tr>
 
 					<!-- Google reCAPTCHA Secret key (if recaptcha is enabled) -->
 					<tr valign="top" id="easc-setting-row-recaptcha_secret_key">
-						<th scope="row"><label for="easc-setting-recaptcha_secret_key"><?php esc_html_e( 'reCAPTCHA Secret Key', 'ea-share-count' ); ?></label></th>
+						<th scope="row"><label for="easc-setting-recaptcha_secret_key"><?php esc_html_e( 'reCAPTCHA Secret Key', 'share-count-plugin' ); ?></label></th>
 						<td>
 							<input type="text" name="ea_share_count_options[recaptcha_secret_key]" value="<?php echo esc_attr( $this->settings_value( 'recaptcha_secret_key' ) ); ?>" id="easc-setting-recaptcha_secret_key" class="regular-text" />
 							<p class="description">
-								<?php esc_html_e( 'After signing up for Google\'s v2 reCAPTCHA (free), provide your secret key here.', 'ea-share-count' ); ?>
+								<?php esc_html_e( 'After signing up for Google\'s v2 reCAPTCHA (free), provide your secret key here.', 'share-count-plugin' ); ?>
 							</p>
 						</td>
 					</tr>
 
 					<!-- Button style -->
 					<tr valign="top" id="easc-setting-row-style">
-						<th scope="row"><label for="easc-setting-style"><?php esc_html_e( 'Share Button Style', 'ea-share-count' ); ?></label></th>
+						<th scope="row"><label for="easc-setting-style"><?php esc_html_e( 'Share Button Style', 'share-count-plugin' ); ?></label></th>
 						<td>
 							<select name="ea_share_count_options[style]" id="easc-setting-style">
 								<?php
 								$opts = apply_filters( 'ea_share_count_styles', array(
-									'fancy'  => esc_html__( 'Fancy', 'ea-share-count' ),
-									'gss'    => esc_html__( 'Slim', 'ea-share-count' ),
+									'fancy'  => esc_html__( 'Fancy', 'share-count-plugin' ),
+									'gss'    => esc_html__( 'Slim', 'share-count-plugin' ),
 								) );
 								foreach ( $opts as $key => $label ) {
 									printf(
@@ -341,22 +341,22 @@ class EA_Share_Count_Admin {
 								?>
 							</select>
 							<p class="description">
-								<?php printf( __( 'Three different share button counts are available; see <a href="%s" target="_blank" rel="noopener noreferrer">our GitHub page</a> for screenshots.', 'ea-share-count' ), 'https://github.com/jaredatch/EA-Share-Count' ); ?>
+								<?php printf( __( 'Three different share button counts are available; see <a href="%s" target="_blank" rel="noopener noreferrer">our GitHub page</a> for screenshots.', 'share-count-plugin' ), 'https://github.com/jaredatch/EA-Share-Count' ); ?>
 							</p>
 						</td>
 					</tr>
 
 					<!-- Theme location -->
 					<tr valign="top" id="easc-setting-row-theme_location">
-						<th scope="row"><label for="easc-setting-theme_location"><?php esc_html_e( 'Theme Location', 'ea-share-count' ); ?></label></th>
+						<th scope="row"><label for="easc-setting-theme_location"><?php esc_html_e( 'Theme Location', 'share-count-plugin' ); ?></label></th>
 						<td>
 							<select name="ea_share_count_options[theme_location]" id="easc-setting-theme_location">
 								<?php
 								$opts = array(
-									''                     => esc_html__( 'None', 'ea-share-count' ),
-									'before_content'       => esc_html__( 'Before Content', 'ea-share-count' ),
-									'after_content'        => esc_html__( 'After Content',  'ea-share-count' ),
-									'before_after_content' => esc_html__( 'Before and After Content', 'ea-share-count' ),
+									''                     => esc_html__( 'None', 'share-count-plugin' ),
+									'before_content'       => esc_html__( 'Before Content', 'share-count-plugin' ),
+									'after_content'        => esc_html__( 'After Content',  'share-count-plugin' ),
+									'before_after_content' => esc_html__( 'Before and After Content', 'share-count-plugin' ),
 								);
 								foreach ( $opts as $key => $label ) {
 									printf(
@@ -369,14 +369,14 @@ class EA_Share_Count_Admin {
 								?>
 							</select>
 							<p class="description">
-								<?php esc_html_e( 'Automagically add the share buttons before and/or after your post content.', 'ea-share-count' ); ?>
+								<?php esc_html_e( 'Automagically add the share buttons before and/or after your post content.', 'share-count-plugin' ); ?>
 							</p>
 						</td>
 					</tr>
 
 					<!-- Supported Post Types (Hide if theme location is None) -->
 					<tr valign="top" id="easc-setting-row-post_type">
-						<th scope="row"><?php esc_html_e( 'Supported Post Types', 'ea-share-count' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Supported Post Types', 'share-count-plugin' ); ?></th>
 						<td>
 							<fieldset>
 							<?php
@@ -403,7 +403,7 @@ class EA_Share_Count_Admin {
 							?>
 							</fieldset>
 							<p class="description">
-								<?php esc_html_e( 'Which content type(s) you would like to display the share buttons on.', 'ea-share-count' ); ?>
+								<?php esc_html_e( 'Which content type(s) you would like to display the share buttons on.', 'share-count-plugin' ); ?>
 							</p>
 						</td>
 					</tr>
@@ -411,7 +411,7 @@ class EA_Share_Count_Admin {
 				</table>
 
 				<p class="submit">
-					<input type="submit" class="button-primary" value="<?php esc_html_e( 'Save Changes', 'ea-share-count' ); ?>" />
+					<input type="submit" class="button-primary" value="<?php esc_html_e( 'Save Changes', 'share-count-plugin' ); ?>" />
 				</p>
 
 			</form>
@@ -588,7 +588,7 @@ class EA_Share_Count_Admin {
 	 */
 	public function settings_link( $links ) {
 
-		$setting_link = sprintf( '<a href="%s">%s</a>', add_query_arg( array( 'page' => 'ea_share_count_options' ), admin_url( 'options-general.php' ) ), __( 'Settings', 'ea-share-count' ) );
+		$setting_link = sprintf( '<a href="%s">%s</a>', add_query_arg( array( 'page' => 'ea_share_count_options' ), admin_url( 'options-general.php' ) ), __( 'Settings', 'share-count-plugin' ) );
 		array_unshift( $links, $setting_link );
 		return $links;
 	}
@@ -632,7 +632,7 @@ class EA_Share_Count_Admin {
 		if ( ! empty( $options['post_type'] ) ) {
 			$post_types = (array) $options['post_type'];
 			foreach ( $post_types as $post_type ) {
-				add_meta_box( 'ea-share-count-metabox', __( 'Share Counts', 'ea-share-count' ), array( $this, 'metabox' ), $post_type, 'side', 'low' );
+				add_meta_box( 'ea-share-count-metabox', __( 'Share Counts', 'share-count-plugin' ), array( $this, 'metabox' ), $post_type, 'side', 'low' );
 			}
 		}
 	}
@@ -647,7 +647,7 @@ class EA_Share_Count_Admin {
 		global $post;
 
 		if ( 'publish' !== $post->post_status ) {
-			echo '<p>' . __( 'Entry must be published to view share counts.', 'ea-share-count' ) . '</p>';
+			echo '<p>' . __( 'Entry must be published to view share counts.', 'share-count-plugin' ) . '</p>';
 			return;
 		}
 
@@ -660,17 +660,17 @@ class EA_Share_Count_Admin {
 			echo '</ul>';
 			$date = get_post_meta( $post->ID, 'ea_share_count_datetime', true );
 			$date = $date + ( get_option( 'gmt_offset' ) * 3600 );
-			echo '<p id="ea-share-count-date">' . __( 'Last updated', 'ea-share-count' ) . ' ' . date( 'M j, Y g:ia', $date ) . '</span></p>';
+			echo '<p id="ea-share-count-date">' . __( 'Last updated', 'share-count-plugin' ) . ' ' . date( 'M j, Y g:ia', $date ) . '</span></p>';
 		} else {
-			echo '<p id="ea-share-count-empty">' . __( 'No share counts downloaded for this entry', 'ea-share-count' ) . '</p>';
+			echo '<p id="ea-share-count-empty">' . __( 'No share counts downloaded for this entry', 'share-count-plugin' ) . '</p>';
 		}
 
-		echo '<button class="button" id="ea-share-count-refresh" data-nonce="' . wp_create_nonce( 'ea-share-count-refresh-' . $post->ID ) . '" data-postid="' . $post->ID . '">' . __( 'Refresh Share Counts', 'ea-share-count' ) . '</button>';
+		echo '<button class="button" id="ea-share-count-refresh" data-nonce="' . wp_create_nonce( 'ea-share-count-refresh-' . $post->ID ) . '" data-postid="' . $post->ID . '">' . __( 'Refresh Share Counts', 'share-count-plugin' ) . '</button>';
 
 		wp_nonce_field( 'ea_share_count', 'ea_share_count_nonce' );
 		$exclude = intval( get_post_meta( $post->ID, 'ea_share_count_exclude', true ) );
 		$post_type_object = get_post_type_object( get_post_type( $post->ID ) );
-		echo '<p><input type="checkbox" name="ea_share_count_exclude" id="ea_share_count_exclude" value="' . $exclude . '" ' . checked( 1, $exclude, false ) . ' /> <label for="ea_share_count_exclude">' . __( 'Don\'t display buttons on this', 'ea-share-count' ) . ' ' . strtolower( $post_type_object->labels->singular_name ) . '</label></p>';
+		echo '<p><input type="checkbox" name="ea_share_count_exclude" id="ea_share_count_exclude" value="' . $exclude . '" ' . checked( 1, $exclude, false ) . ' /> <label for="ea_share_count_exclude">' . __( 'Don\'t display buttons on this', 'share-count-plugin' ) . ' ' . strtolower( $post_type_object->labels->singular_name ) . '</label></p>';
 	}
 
 	/**
@@ -717,7 +717,7 @@ class EA_Share_Count_Admin {
 		if ( ! wp_verify_nonce( $_POST['nonce'], 'ea-share-count-refresh-' . $_POST['post_id'] ) ) {
 			wp_send_json_error(
 				array(
-					'msg'   => __( 'Failed security', 'ea-share-count' ),
+					'msg'   => __( 'Failed security', 'share-count-plugin' ),
 					'class' => 'error',
 				)
 			);
@@ -727,7 +727,7 @@ class EA_Share_Count_Admin {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error(
 				array(
-					'msg'   => __( 'You do not have permission', 'ea-share-count' ),
+					'msg'   => __( 'You do not have permission', 'share-count-plugin' ),
 					'class' => 'error',
 				)
 			);
@@ -739,7 +739,7 @@ class EA_Share_Count_Admin {
 		$list   = '<ul id="ea-share-count-list">' . $this->metabox_counts( $counts, $id ) . '<ul>';
 
 		wp_send_json_success( array(
-			'msg'    => __( 'Share counts updated.', 'ea-share-count' ),
+			'msg'    => __( 'Share counts updated.', 'share-count-plugin' ),
 			'class'  => 'success',
 			'date'   => $date,
 			'list'   => $list,

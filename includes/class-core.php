@@ -41,17 +41,17 @@ class EA_Share_Count_Core {
 
 		// Check spam honeypot.
 		if ( ! empty( $_POST['validation'] ) ) {
-			wp_send_json_error( __( 'Honeypot triggered.', 'ea-share-count' ) );
+			wp_send_json_error( __( 'Honeypot triggered.', 'share-count-plugin' ) );
 		}
 
 		// Check required fields.
 		if ( empty( $_POST['recipient'] ) || empty( $_POST['name'] ) || empty( $_POST['email'] ) ) {
-			wp_send_json_error( __( 'Required field missing.', 'ea-share-count' ) );
+			wp_send_json_error( __( 'Required field missing.', 'share-count-plugin' ) );
 		}
 
 		// Check email addresses.
 		if ( ! is_email( $_POST['recipient'] ) || ! is_email( $_POST['email'] ) ) {
-			wp_send_json_error( __( 'Invalid email.', 'ea-share-count' ) );
+			wp_send_json_error( __( 'Invalid email.', 'share-count-plugin' ) );
 		}
 
 		// Check if reCAPTCHA is enabled.
@@ -62,13 +62,13 @@ class EA_Share_Count_Core {
 		if ( $recaptcha ) {
 
 			if ( empty( $_POST['recaptcha'] ) ) {
-				wp_send_json_error( __( 'reCAPTCHA is required.', 'ea-share-count' ) );
+				wp_send_json_error( __( 'reCAPTCHA is required.', 'share-count-plugin' ) );
 			}
 
 			$data  = wp_remote_get( 'https://www.google.com/recaptcha/api/siteverify?secret=' . $options['recaptcha_secret_key'] . '&response=' . $_POST['recaptcha'] );
 			$data  = json_decode( wp_remote_retrieve_body( $data ) );
 			if ( empty( $data->success ) ) {
-				wp_send_json_error( __( 'Incorrect reCAPTCHA, please try again.', 'ea-share-count' ) );
+				wp_send_json_error( __( 'Incorrect reCAPTCHA, please try again.', 'share-count-plugin' ) );
 			}
 		}
 

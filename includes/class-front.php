@@ -134,7 +134,7 @@ class EA_Share_Count_Front {
 	public function header_assets() {
 
 		// Register assets.
-		wp_register_style( ' ea-share-count', EA_SHARE_COUNT_URL . 'assets/css/share-count.css', array(),           EA_SHARE_COUNT_VERSION       );
+		wp_register_style( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/css/share-count.css', array(),           EA_SHARE_COUNT_VERSION       );
 		wp_register_script( 'ea-share-count', EA_SHARE_COUNT_URL . 'assets/js/share-count.js',   array( 'jquery' ), EA_SHARE_COUNT_VERSION, true );
 
 		$options = ea_share()->admin->options();
@@ -221,12 +221,12 @@ class EA_Share_Count_Front {
 
 		// Labels, filterable of course.
 		$labels = apply_filters( 'ea_share_count_email_labels', array(
-			'title'      => __( 'Share this Article', 'ea-share-count' ),
-			'recipient'  => __( 'Friend\'s Email Address', 'ea-share-count' ),
-			'name'       => __( 'Your Name', 'ea-share-count' ),
-			'email'      => __( 'Your Email Address', 'ea-share-count' ),
-			'validation' => __( 'Comments', 'ea-share-count' ),
-			'submit'     => '<i class="easc-icon-envelope"></i> ' . __( 'Send Email', 'ea-share-count' ),
+			'title'      => __( 'Share this Article', 'share-count-plugin' ),
+			'recipient'  => __( 'Friend\'s Email Address', 'share-count-plugin' ),
+			'name'       => __( 'Your Name', 'share-count-plugin' ),
+			'email'      => __( 'Your Email Address', 'share-count-plugin' ),
+			'validation' => __( 'Comments', 'share-count-plugin' ),
+			'submit'     => '<i class="easc-icon-envelope"></i> ' . __( 'Send Email', 'share-count-plugin' ),
 			'close'      => '<i class="easc-icon-close close-icon"></i>',
 		) );
 		?>
@@ -258,7 +258,7 @@ class EA_Share_Count_Front {
 					<button id="easc-modal-submit"><?php echo $labels['submit']; ?></button>
 				</p>
 				<a href="#" id="easc-modal-close"><?php echo $labels['close']; ?></a>
-				<div id="easc-modal-sent"><?php esc_html_e( 'Email sent!', 'ea-share-count' ); ?></div>
+				<div id="easc-modal-sent"><?php esc_html_e( 'Email sent!', 'share-count-plugin' ); ?></div>
 			</div>
 		</div>
 		<?php
