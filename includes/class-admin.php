@@ -218,6 +218,19 @@ class EA_Share_Count_Admin {
 						</td>
 					</tr>
 
+					<!-- Preserve non-HTTPS counts -->
+					<?php if ( is_ssl() ) : ?>
+					<tr valign="top" id="easc-setting-row-preserve_http">
+						<th scope="row"><label for="easc-setting-preserve_http"><?php esc_html_e( 'Preserve HTTP Counts', 'ea-share-count' ); ?></label></th>
+						<td>
+							<input type="checkbox" name="ea_share_count_options[preserve_http]" value="1" id="easc-setting-preserve_http" <?php checked( $this->settings_value( 'hide_empty' ), 1 ); ?>>
+							<p class="description">
+								<?php esc_html_e( 'Check this if you would also like to include non-SSL (http://) share counts. This is useful if the site was originally used http:// but has since moved to https://. Enabling this option will double the API calls. ', 'ea-share-count' ); ?>
+							</p>
+						</td>
+					</tr>
+					<?php endif; ?>
+
 				</table>
 
 				<hr />
@@ -470,6 +483,7 @@ class EA_Share_Count_Admin {
 			'style'                 => '',
 			'total_only'            => '',
 			'hide_empty'            => '',
+			'preserve_http'         => '',
 			'post_type'             => array( 'post' ),
 			'theme_location'        => '',
 			'included_services'     => array( 'facebook', 'twitter', 'pinterest' ),
@@ -550,6 +564,7 @@ class EA_Share_Count_Admin {
 		$input['count_source']         = sanitize_text_field( $input['count_source'] );
 		$input['total_only']           = isset( $input['total_only'] ) ? '1' : '';
 		$input['hide_empty']           = isset( $input['hide_empty'] ) ? '1' : '';
+		$input['preserve_http']        = isset( $input['preserve_http'] ) ? '1' : '';
 		$input['query_services']       = isset( $input['query_services'] ) ? array_map( 'sanitize_text_field', $input['query_services'] ) : array();
 		$input['fb_access_token']      = sanitize_text_field( $input['fb_access_token'] );
 		$input['sharedcount_key']      = sanitize_text_field( $input['sharedcount_key'] );
