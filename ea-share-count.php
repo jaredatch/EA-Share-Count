@@ -33,176 +33,208 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Main class.
- *
- * @since 1.0.0
- * @package EA_Share_Count
+ * Share Count Plugin requires a modern supported version of PHP (5.6+).
  */
-final class EA_Share_Count {
+if ( version_compare( PHP_VERSION, '5.6', '<' ) ) {
 
 	/**
-	 * Instance of the class.
-	 *
-	 * @since 1.0.0
-	 * @var object
-	 */
-	private static $instance;
-
-	/**
-	 * Plugin version.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	private $version = '2.0.0';
-
-	/**
-	 * Core instance
-	 *
-	 * @since 1.3.0
-	 * @var object
-	 */
-	public $core;
-
-	/**
-	 * Admin instance
-	 *
-	 * @since 1.3.0
-	 * @var object
-	 */
-	public $admin;
-
-	/**
-	 * Front-end instance
-	 *
-	 * @since 1.3.0
-	 * @var object
-	 */
-	public $front;
-
-	/**
-	 * Share Count Instance.
-	 *
-	 * @since 1.0.0
-	 * @return EA_Share_Count
-	 */
-	public static function instance() {
-
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof EA_Share_Count ) ) {
-
-			self::$instance = new EA_Share_Count();
-			self::$instance->constants();
-			self::$instance->load_textdomain();
-			self::$instance->includes();
-
-			add_action( 'init', array( self::$instance, 'init' ) );
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * Define some constants.
-	 *
-	 * @since 1.3.0
-	 */
-	public function constants() {
-
-		// Version.
-		define( 'EA_SHARE_COUNT_VERSION', $this->version );
-
-		// Directory path.
-		define( 'EA_SHARE_COUNT_DIR', plugin_dir_path( __FILE__ ) );
-
-		// Directory URL.
-		define( 'EA_SHARE_COUNT_URL', plugin_dir_url( __FILE__ ) );
-
-		// Base name.
-		define( 'EA_SHARE_COUNT_BASE', plugin_basename( __FILE__ ) );
-
-		// Plugin root file.
-		define( 'EA_SHARE_COUNT_FILE', __FILE__ );
-	}
-
-	/**
-	 * Loads the plugin language files.
+	 * Deactivate plugin.
 	 *
 	 * @since 2.0.0
 	 */
-	public function load_textdomain() {
+	add_action( 'admin_init', function() {
 
-		 load_plugin_textdomain( 'ea-share-count', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		deactivate_plugins( plugin_basename( __FILE__ ) );
+	} );
+
+	/**
+	 * Display notice after deactivation.
+	 *
+	 * @since 2.0.0
+	 */
+	add_action( 'admin_notices', function() {
+
+		echo '<div class="notice notice-warning"><p>' . __( 'Share Count Plugin requires PHP 5.6+. Contact your web host to update.', 'ea-share-count' ) . '</p></div>';
+
+		if ( isset( $_GET['activate'] ) ) {
+			unset( $_GET['activate'] );
+		}
+	} );
+
+} else {
+
+	/**
+	 * Main class.
+	 *
+	 * @since 1.0.0
+	 * @package EA_Share_Count
+	 */
+	final class EA_Share_Count {
+
+		/**
+		 * Instance of the class.
+		 *
+		 * @since 1.0.0
+		 * @var object
+		 */
+		private static $instance;
+
+		/**
+		 * Plugin version.
+		 *
+		 * @since 1.0.0
+		 * @var string
+		 */
+		private $version = '2.0.0';
+
+		/**
+		 * Core instance
+		 *
+		 * @since 1.3.0
+		 * @var object
+		 */
+		public $core;
+
+		/**
+		 * Admin instance
+		 *
+		 * @since 1.3.0
+		 * @var object
+		 */
+		public $admin;
+
+		/**
+		 * Front-end instance
+		 *
+		 * @since 1.3.0
+		 * @var object
+		 */
+		public $front;
+
+		/**
+		 * Share Count Instance.
+		 *
+		 * @since 1.0.0
+		 * @return EA_Share_Count
+		 */
+		public static function instance() {
+
+			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof EA_Share_Count ) ) {
+
+				self::$instance = new EA_Share_Count();
+				self::$instance->constants();
+				self::$instance->load_textdomain();
+				self::$instance->includes();
+
+				add_action( 'init', array( self::$instance, 'init' ) );
+			}
+			return self::$instance;
+		}
+
+		/**
+		 * Define some constants.
+		 *
+		 * @since 1.3.0
+		 */
+		public function constants() {
+
+			// Version.
+			define( 'EA_SHARE_COUNT_VERSION', $this->version );
+
+			// Directory path.
+			define( 'EA_SHARE_COUNT_DIR', plugin_dir_path( __FILE__ ) );
+
+			// Directory URL.
+			define( 'EA_SHARE_COUNT_URL', plugin_dir_url( __FILE__ ) );
+
+			// Base name.
+			define( 'EA_SHARE_COUNT_BASE', plugin_basename( __FILE__ ) );
+
+			// Plugin root file.
+			define( 'EA_SHARE_COUNT_FILE', __FILE__ );
+		}
+
+		/**
+		 * Loads the plugin language files.
+		 *
+		 * @since 2.0.0
+		 */
+		public function load_textdomain() {
+
+			 load_plugin_textdomain( 'ea-share-count', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		}
+
+		/**
+		 * Load includes.
+		 *
+		 * @since 1.3.0
+		 */
+		public function includes() {
+
+			require_once EA_SHARE_COUNT_DIR . 'includes/class-install.php';
+			require_once EA_SHARE_COUNT_DIR . 'includes/class-core.php';
+			require_once EA_SHARE_COUNT_DIR . 'includes/class-admin.php';
+			require_once EA_SHARE_COUNT_DIR . 'includes/class-front.php';
+			require_once EA_SHARE_COUNT_DIR . 'includes/github-updater.php';
+		}
+
+		/**
+		 * Bootstap.
+		 *
+		 * @since 1.3.0
+		 */
+		public function init() {
+
+			$this->core  = new EA_Share_Count_Core();
+			$this->admin = new EA_Share_Count_Admin();
+			$this->front = new EA_Share_Count_Front();
+		}
+
+		/**
+		 * Helper to access link method directly, for backwards compatibility.
+		 *
+		 * @since 1.3.0
+		 * @param array $types
+		 * @param int $id
+		 * @param bool $echo
+		 * @param string $style
+		 * @param int $round
+		 * @param mixed $show_empty
+		 * @return string
+		 */
+		public function link( $types = 'facebook', $id = false, $echo = true, $style = 'generic', $round = 2, $show_empty = '' ) {
+
+			return $this->front->link( $types, $id, $echo, $style, $round, $show_empty );
+		}
+
+		/**
+		 * Helper to access count method directly, for backwards compatibility.
+		 *
+		 * @since 1.3.0
+		 * @param int $id
+		 * @param string $type
+		 * @param bool $echo
+		 * @param int $round
+		 * @return string
+		 */
+		public function count( $id = false, $type = 'facebook', $echo = false, $round = 2 ) {
+
+			return $this->core->count( $id, $type, $echo, $round );
+		}
 	}
 
 	/**
-	 * Load includes.
+	 * The function provides access to the sharing methods.
 	 *
-	 * @since 1.3.0
-	 */
-	public function includes() {
-
-		require_once EA_SHARE_COUNT_DIR . 'includes/class-install.php';
-		require_once EA_SHARE_COUNT_DIR . 'includes/class-core.php';
-		require_once EA_SHARE_COUNT_DIR . 'includes/class-admin.php';
-		require_once EA_SHARE_COUNT_DIR . 'includes/class-front.php';
-		require_once EA_SHARE_COUNT_DIR . 'includes/github-updater.php';
-	}
-
-	/**
-	 * Bootstap.
+	 * Use this function like you would a global variable, except without needing
+	 * to declare the global.
 	 *
-	 * @since 1.3.0
+	 * @since 1.0.0
+	 * @return object
 	 */
-	public function init() {
+	function ea_share() {
 
-		$this->core  = new EA_Share_Count_Core();
-		$this->admin = new EA_Share_Count_Admin();
-		$this->front = new EA_Share_Count_Front();
+		return EA_Share_Count::instance();
 	}
-
-	/**
-	 * Helper to access link method directly, for backwards compatibility.
-	 *
-	 * @since 1.3.0
-	 * @param array $types
-	 * @param int $id
-	 * @param bool $echo
-	 * @param string $style
-	 * @param int $round
-	 * @param mixed $show_empty
-	 * @return string
-	 */
-	public function link( $types = 'facebook', $id = false, $echo = true, $style = 'generic', $round = 2, $show_empty = '' ) {
-
-		return $this->front->link( $types, $id, $echo, $style, $round, $show_empty );
-	}
-
-	/**
-	 * Helper to access count method directly, for backwards compatibility.
-	 *
-	 * @since 1.3.0
-	 * @param int $id
-	 * @param string $type
-	 * @param bool $echo
-	 * @param int $round
-	 * @return string
-	 */
-	public function count( $id = false, $type = 'facebook', $echo = false, $round = 2 ) {
-
-		return $this->core->count( $id, $type, $echo, $round );
-	}
+	ea_share();
 }
-
-/**
- * The function provides access to the sharing methods.
- *
- * Use this function like you would a global variable, except without needing
- * to declare the global.
- *
- * @since 1.0.0
- * @return object
- */
-function ea_share() {
-
-	return EA_Share_Count::instance();
-}
-ea_share();
