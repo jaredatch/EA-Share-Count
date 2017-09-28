@@ -329,7 +329,6 @@ class EA_Share_Count_Admin {
 								$opts = apply_filters( 'ea_share_count_styles', array(
 									'fancy'  => esc_html__( 'Fancy', 'ea-share-count' ),
 									'gss'    => esc_html__( 'Slim', 'ea-share-count' ),
-									'bubble' => esc_html__( 'Bubble', 'ea-share-count' ),
 								) );
 								foreach ( $opts as $key => $label ) {
 									printf(
