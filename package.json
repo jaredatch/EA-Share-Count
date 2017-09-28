@@ -1,0 +1,33 @@
+{
+  "name": "share-count-plugin",
+  "version": "2.0.0",
+  "description": "Share Count Plugin displays share count badges on your site, with just the right amount of options, in a manner that keeps your site fast.",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaredatch/share-count-plugin.git"
+  },
+  "author": "Jared Atchison and Bill Erickson <none@example.com>",
+  "license": "GPL-2.0+",
+  "bugs": {
+    "url": "https://github.com/jaredatch/share-count-plugin/issues"
+  },
+  "homepage": "https://github.com/jaredatch/share-count-plugin#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-cached": "^1.1.1",
+    "gulp-debug": "^3.1.0",
+    "gulp-include": "^2.3.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.8",
+    "gulp-watch": "^4.3.11",
+    "gulp-wp-pot": "^2.0.6",
+    "gulp-zip": "^4.0.0",
+    "inquirer": "^3.2.1",
+    "run-sequence": "^1.2.2"
+  },
+  "dependencies": {}
+}
