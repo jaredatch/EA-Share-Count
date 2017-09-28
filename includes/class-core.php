@@ -174,31 +174,31 @@ class EA_Share_Count_Core {
 		} else {
 			switch ( $type ) {
 				case 'facebook':
-					$share_count = $counts['Facebook']['total_count'];
+					$share_count = isset( $counts['Facebook']['total_count'] ) ? $counts['Facebook']['total_count'] : '0';
 					break;
 				case 'facebook_likes':
-					$share_count = $counts['Facebook']['like_count'];
+					$share_count = isset( $counts['like_count'] ) ? $counts['like_count'] : '0' ;
 					break;
 				case 'facebook_shares':
-					$share_count = $counts['Facebook']['share_count'];
+					$share_count = isset( $counts['share_count'] ) ? $counts['share_count'] : '0' ;
 					break;
 				case 'facebook_comments':
-					$share_count = $counts['Facebook']['comment_count'];
+					$share_count = isset( $counts['comment_count'] ) ? $counts['comment_count'] : '0' ;
 					break;
 				case 'twitter':
-					$share_count = $counts['Twitter'];
+					$share_count = isset( $counts['Twitter'] ) ? $counts['Twitter'] : '0' ;
 					break;
 				case 'pinterest':
-					$share_count = $counts['Pinterest'];
+					$share_count = isset( $counts['Pinterest'] ) ? $counts['Pinterest'] : '0' ;
 					break;
 				case 'linkedin':
-					$share_count = $counts['LinkedIn'];
+					$share_count = isset( $counts['LinkedIn'] ) ? $counts['LinkedIn'] : '0' ;
 					break;
 				case 'google':
-					$share_count = $counts['GooglePlusOne'];
+					$share_count = isset( $counts['GooglePlusOne'] ) ? $counts['GooglePlusOne'] : '0' ;
 					break;
 				case 'stumbleupon':
-					$share_count = $counts['StumbleUpon'];
+					$share_count = isset( $counts['StumbleUpon'] ) ? $counts['StumbleUpon'] : '0' ;
 					break;
 				case 'included_total':
 					$share_count = '0';
@@ -377,6 +377,10 @@ class EA_Share_Count_Core {
 			$share_count = $this->query_native_api( $url, $share_count );
 		}
 
+		$global_args = apply_filters( 'ea_share_count_api_params', array(
+			'url' => $url,
+		) );
+
 		// Modify API query results, or query additional APIs.
 		$share_count = apply_filters( 'ea_share_count_query_api', $share_count, $global_args, $url, $id );
 
@@ -404,13 +408,13 @@ class EA_Share_Count_Core {
 		}
 
 		// Fetch counts from SharedCount API.
-		$args = apply_filters( 'ea_share_count_api_params', array(
+		$global_args = apply_filters( 'ea_share_count_api_params', array(
 			'url' => $url,
 		) );
 
 		$api_query = add_query_arg(
 			array(
-				'url' => $args['url'],
+				'url' => $global_args['url'],
 				'apikey' => trim( $api_key ),
 			),
 			'https://api.sharedcount.com/v1.0/'
@@ -420,6 +424,8 @@ class EA_Share_Count_Core {
 			'sslverify'  => false,
 			'user-agent' => 'LC ShareCounts',
 		) );
+
+		error_log( print_r( $api_response, true ) );
 
 		if ( ! is_wp_error( $api_response ) && 200 == wp_remote_retrieve_response_code( $api_response ) ) {
 
@@ -440,7 +446,7 @@ class EA_Share_Count_Core {
 
 		// Fetch Twitter counts if needed.
 		if ( '1' === $twitter ) {
-			$twitter_count = $this->query_newsharecounts_api( $args['url'] );
+			$twitter_count = $this->query_newsharecounts_api( $global_args['url'] );
 			$share_count['Twitter'] = false !== $twitter_count ? $twitter_count : $share_count['Twitter'];
 		}
 
