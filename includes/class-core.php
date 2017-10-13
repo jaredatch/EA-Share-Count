@@ -117,7 +117,7 @@ class EA_Share_Count_Core{
 		}
 
 		// Rebuild and update meta if necessary
-		if ( ! $share_count || ! $last_updated || $this->needs_updating( $last_updated, $post_date ) || $force ) {
+		if ( ! $share_count || ! $last_updated || $this->needs_updating( $last_updated, $post_date, $id ) || $force ) {
 
 			$id = isset( $post_id ) ? $post_id : $id;
 			$this->update_queue[$id] = $post_url;
@@ -281,13 +281,16 @@ class EA_Share_Count_Core{
 	 * @since 1.0.0
 	 * @param int $last_updated, unix timestamp
 	 * @param int $post_date, unix timestamp
+	 * @param int/string $id, either post ID or 'site'
 	 * @return bool $needs_updating
 	 */
-	public function needs_updating( $last_updated = false, $post_date ) {
+	public function needs_updating( $last_updated = false, $post_date = false, $id = false ) {
 
 		if ( ! $last_updated ) {
 			return true;
 		}
+
+		$post_date = apply_filters( 'ea_share_count_needs_updating_post_date', $post_date, $id );
 
 		$update_increments = array(
 			array(
