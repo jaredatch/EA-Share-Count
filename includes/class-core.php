@@ -425,8 +425,6 @@ class EA_Share_Count_Core {
 			'user-agent' => 'LC ShareCounts',
 		) );
 
-		error_log( print_r( $api_response, true ) );
-
 		if ( ! is_wp_error( $api_response ) && 200 == wp_remote_retrieve_response_code( $api_response ) ) {
 
 			$results = json_decode( wp_remote_retrieve_body( $api_response ), true );
