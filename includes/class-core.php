@@ -422,7 +422,7 @@ class EA_Share_Count_Core {
 
 		$api_response = wp_remote_get( $api_query, array(
 			'sslverify'  => false,
-			'user-agent' => 'LC ShareCounts',
+			'user-agent' => 'EA Share Counts Plugin',
 		) );
 
 		if ( ! is_wp_error( $api_response ) && 200 == wp_remote_retrieve_response_code( $api_response ) ) {
@@ -430,6 +430,7 @@ class EA_Share_Count_Core {
 			$results = json_decode( wp_remote_retrieve_body( $api_response ), true );
 
 			// Update counts.
+			$share_count['Facebook']['like_count']    = isset( $results['Facebook']['like_count'] ) ? $results['Facebook']['like_count'] : $share_count['Facebook']['like_count'];
 			$share_count['Facebook']['comment_count'] = isset( $results['Facebook']['comment_count'] ) ? $results['Facebook']['comment_count'] : $share_count['Facebook']['comment_count'];
 			$share_count['Facebook']['share_count']   = isset( $results['Facebook']['share_count'] ) ? $results['Facebook']['share_count'] : $share_count['Facebook']['share_count'];
 			$share_count['Facebook']['total_count']   = isset( $results['Facebook']['total_count'] ) ? $results['Facebook']['total_count'] : $share_count['Facebook']['total_count'];
@@ -469,7 +470,7 @@ class EA_Share_Count_Core {
 
 		$api_response = wp_remote_get( $api_query, array(
 			'sslverify'  => false,
-			'user-agent' => 'EA Share Counts',
+			'user-agent' => 'EA Share Counts Plugin',
 		) );
 
 		if ( ! is_wp_error( $api_response ) && 200 == wp_remote_retrieve_response_code( $api_response ) ) {
@@ -528,7 +529,7 @@ class EA_Share_Count_Core {
 
 						$api_response = wp_remote_get( $api_query, array(
 							'sslverify'  => false,
-							'user-agent' => 'LC ShareCounts',
+							'user-agent' => 'EA Share Counts Plugin',
 						) );
 
 						if ( ! is_wp_error( $api_response ) && 200 == wp_remote_retrieve_response_code( $api_response ) ) {
@@ -562,7 +563,7 @@ class EA_Share_Count_Core {
 
 						$api_response = wp_remote_get( $api_query, array(
 							'sslverify'  => false,
-							'user-agent' => 'LC ShareCounts',
+							'user-agent' => 'EA Share Counts Plugin',
 						) );
 
 						if ( ! is_wp_error( $api_response ) && 200 == wp_remote_retrieve_response_code( $api_response ) ) {
@@ -586,7 +587,7 @@ class EA_Share_Count_Core {
 
 						$api_response = wp_remote_get( $api_query, array(
 							'sslverify'  => false,
-							'user-agent' => 'LC ShareCounts',
+							'user-agent' => 'EA Share Counts Plugin',
 						) );
 
 						if ( ! is_wp_error( $api_response ) && 200 == wp_remote_retrieve_response_code( $api_response ) ) {
@@ -613,7 +614,7 @@ class EA_Share_Count_Core {
 
 						$api_response = wp_remote_get( $api_query, array(
 							'sslverify'  => false,
-							'user-agent' => 'LC ShareCounts',
+							'user-agent' => 'EA Share Counts Plugin',
 						) );
 
 						if ( ! is_wp_error( $api_response ) && 200 == wp_remote_retrieve_response_code( $api_response ) ) {
