@@ -65,8 +65,8 @@ class EA_Share_Count_Core{
         }
 
 		$headers = array(
-			'From'     => "$site_name <noreply@$site_root>",
-			'Reply-To' => "$from_name <$from_email>"
+			sprintf( 'From: %s <noreply@%s>', $site_name, $site_root ),
+			sprintf( 'Reply-To: %s <%s>', $from_name, $from_email ),
 		);
 		$subject = "Your friend $from_name has shared an article with you";
 		$body    =  html_entity_decode( get_the_title( $post_id ), ENT_QUOTES ) . "\r\n";
