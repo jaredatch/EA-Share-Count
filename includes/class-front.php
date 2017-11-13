@@ -501,7 +501,7 @@ class EA_Share_Count_Front {
 					$link['icon']       = 'easc-icon-envelope';
 					$link['target']     = '';
 					$link['attr_title'] = 'Share via Email';
-					$link['class']      = 'no-scroll';
+					$link['class']      .= ' no-scroll';
 					break;
 			}
 
